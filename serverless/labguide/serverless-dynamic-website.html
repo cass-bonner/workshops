@@ -1,0 +1,765 @@
+<html>
+<meta>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
+<link rel="stylesheet" type="text/css" href="serverless.css" />
+<script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
+</meta>
+<body background="images/background.png">
+<script src="js/clipboard.js-master/dist/clipboard.min.js"></script>
+
+    <script>
+    var clipboard = new Clipboard('.btn');
+    clipboard.on('success', function(e) {
+        console.log(e);
+    });
+    clipboard.on('error', function(e) {
+        console.log(e);
+    });
+    </script>
+
+<table>
+  <tr>
+    <td align="left" width="700"><img src="images/aws_icon.png"/></td>
+    <td align="right" width="500"><img src="images/iag_icon.png"/></td>
+ </tr>
+</table>
+<br/>
+<br/>
+<p ="font-family:verdana">
+<h1 align="center">Serverless Dynamic Website on AWS</h1>
+<table cellpadding="20px"  align="center">
+<tr>
+<td width="12%"><img src="images/s3.png"/><br/><a href="http://docs.aws.amazon.com/AmazonS3/latest/gsg/GetStartedWithS3.html">Amazon S3</a></td>
+<td width="12%"><img src="images/apigateway.png"/><br/><a href="http://docs.aws.amazon.com/apigateway/latest/developerguide/welcome.html">Amazon Api Gateway</a></td>
+<td width="12%"><img src="images/lambda.png"/><br/><a href="http://docs.aws.amazon.com/lambda/latest/dg/welcome.html">AWS Lambda</a></td>
+<td width="12%"><img src="images/step-functions.png"/><br/><a href="http://docs.aws.amazon.com/step-functions/latest/dg/welcome.html">AWS Step Functions</a></td>
+<td width="12%"><img src="images/dynamodb.png"/><br/><a href="http://docs.aws.amazon.com/amazondynamodb/latest/gettingstartedguide/Welcome.html">Amazon DynamoDB</a></td>
+<td width="12%"><img src="images/cognito.png"/><br/><a href="http://docs.aws.amazon.com/cognito/latest/developerguide/what-is-amazon-cognito.html">Amazon Cgnito</a></td>
+<td width="12%"><img src="images/iam.png"/><br/><a href="http://docs.aws.amazon.com/IAM/latest/UserGuide/">AWS IAM</a></td>
+<td width="12%"><img src="images/vue.png"/><br/><a href="https://vuejs.org/">Vue.js</a></td>
+</tr>
+</table>
+<br/>
+<br/>
+So the first thing you might notice is we've added a few more service icons in for this lab. Take a minute to peruse the documentation on the services to familiarize yourselves.  S3 will continue to serve the static content, but now we're going to introduce APIs to our site so that we can POST and GET data to make the site interesting. Lambda will run any dynamic logic required, and Step Functions will be used to coordinate our logic and provide visual flows of our application. For our design, we will align one Step Function per Microservice. DynamoDB will store any required persisted state. Cognito and IAM provide temporary, scope credentials to the AWS Services.
+<br/>
+<br/>
+<br/>
+    <span align="center"><img src="images/serverless-arch.png" /></span>
+<br/>
+<br/>
+<br/>
+We minimally need:
+
+<ol>
+<br/>
+<br/>
+  OK, let's get started! But wait - what are we building. Well I'll put an idea out but if you're feeling ambitious you can change it to whatever you want.
+<br/>
+<br/>
+<br/>
+
+<h4>USE CASE: PetMatcher Service </h4>
+
+<br/>
+<br/>
+<li>Let's create a webapp that matches a user with the best type of pet for them , based on attributes about the user. In the future we want the ability to actually find a specific animal from an animal shelter but for now we'll just collect some attributes about the user and suggest which type is best. We also want to take a picture of the user and use that as a criterion but we will leave that out for now.
+<br/>
+<br/>
+
+We'll ask a series of questions that will be used to determine the best match. These will later integrated into Lex in the next lab so we will structure this similar to Intents & Slots (more on this later).
+<br/>
+<br/>
+
+Intent: To Find the best Pet Match
+<br/>
+<br/>
+
+Slot duress: Do you feel that you are under stress? <br/>
+Slot walks: Do you enjoy going for walks outside and in the park? <br/>
+Slot sass: Do you like to be around people that have an interesting, yet sassy character? <br/>
+Slot travel: How many days per month do you travel?<br/>
+Slot yap: Do you mind consistent yapping? <br/>
+Slot accommodation: Do you live in an apartment or house? <br/>
+Slot outside: If you have an Outdoors area, how large is it in sq m? Say 0 if you do not have one.<br/>
+<br/>
+<br/>
+
+
+So our model for the Matcher will look something like this:
+<br/>
+<br/>
+
+<pre>
+{ 
+  "duress" : "yes",
+  "walks" : "yes",
+  "sass" : "no",
+  "travel" : 9,
+  "yap" : "no",
+  "accommodation" : "apartment",
+  "outside" : "15"
+}
+</pre>
+<br/>
+<br/>
+
+
+So, we need
+<br/>
+<br/>
+* A Page to collect the required attributes to determine the match
+* An API to post the data from the website.
+* Backend logic to process the data and perform the match, returning the selected animal
+* Display the resulting match back to the page.
+<br/>
+<br/>
+
+<li> Let's take an API-driven approach and start with defining the API Gateway REST API. Navigate to the AWS Console and select API Gateway. Select 'Create API' and enter [your unique user id]-PetMatcherService and hit 'Create API' again.
+<br/>
+<br/>
+
+There are many great sources that provide best practices on API Design, but I'll highlight one called <a href="http://www.vinaysahni.com/best-practices-for-a-pragmatic-restful-api">Best Practices for Designing a Pragmatic RESTful API</a> that is agood reference. 
+<br/>
+<br/>
+
+<li>Select 'Actions' and then 'Create Resource'. Use 'petmatches' for the resource name.
+<li> Click 'Enable API Gatway CORS' checkbox and select 'Create Resource'.
+<br/>
+
+<img src="images/apig-createmethod.png"/>
+<li> Select on the /petmatches in the Resources column, and select 'Actions', 'Create Method' Select the drop down and select 'POST'. Click the arror button to confirm the changes. You should now see 
+<br/>
+<img src="images/apig-postmethod.png"/>
+<li>Select on the POST Method to get the setup. We are going to use Step Functions to coordinate our backend logic, and we can actually integrate directly to Step Functions from API Gateway. However, We are going to use the same logic from Lex in the next lab, and currently you can only integrate with Lambda from Lex so we will integrate to a Lambda Function which will in turn invoke Step Functions so that we can use that same lambda from k:w
+<li>So let's open another tab, and create the Step Function so that we can put in the details here. You should see 'Get Started' when you go to Step Functions - select that button.
+<li>For the name enter [your unique user id]-'Matcher'
+<br/>
+Step Functions is based on the concepts of <a href="http://docs.aws.amazon.com/step-functions/latest/dg/concepts-tasks.html">tasks</a> and <a href="http://docs.aws.amazon.com/step-functions/latest/dg/concepts-states.html">state machines</a>.
+<br/>
+* You define state machines using the JSON-based <a href="http://docs.aws.amazon.com/step-functions/latest/dg/concepts-amazon-states-language.html">Amazon States Language.</a>
+<br/>
+* The Step Functions console displays a graphical view of your state machine's structure, which provides you with a way to visually check your state machine's logic and monitor executions.
+<br/>
+* You will see that Step Functions comes with blueprints, which provide sample json templates (in Amazon States Language) for different state types. Now in the end state, our matching algorithm would likely take many more attributes and use a complex algorithm such as <a href="https://en.wikipedia.org/wiki/Singular_value_decomposition">SVD</a>. But for the MVP we're going to keep things simple, and still there's a large number of solutions we could use to perform the match.  So in the first instance we'll use the Choice within Step Functions to perform the match. Longer-term Step would coordinate with the fully implemented matcher but there will be no changes to the API. 
+<br/>
+
+<li>Select 'Choice State' and scroll down in the page.
+<br/>
+
+Our logic will be as follows:
+<br/>
+
+* We're going to use 'sass' as the first decision point, because for our MVP logic, if they don't like sass we're goign to steer them away from a cat.  
+* So the the divide is cat versus non-cat 
+<br/>
+<li>Let's start to implement this in Step Functions.
+
+In the code box, replace the json with this json:
+<br/>
+ 
+
+  <button class="btn btn-outline-secondary btn-sm" data-clipboard-target="#sasstest">Copy</button>
+<pre><span id="sasstest">
+{
+  "Comment": "An example of the Amazon States Language using a choice state.",
+  "StartAt": "SassTest",
+  "States": {
+    "SassTest": {
+      "Type" : "Choice",
+      "Choices": [
+        {
+          "Variable": "$.sass",
+          "Equals": "yes",
+          "Next": "Cat"
+        }
+      ],
+      "Default": "NonCat"
+    },
+
+    "Cat": {
+      "Type" : "Task",
+      "Resource": "arn:aws:lambda:REGION:ACCOUNT_ID:function:OnFirstMatch",
+      "Next": "NextState"
+    },
+
+    "NonCat": {
+      "Type" : "Task",
+      "Resource": "arn:aws:lambda:REGION:ACCOUNT_ID:function:OnSecondMatch",
+      "Next": "NextState"
+    },
+
+    "DefaultState": {
+      "Type": "Fail",
+      "Cause": "No Matches!"
+    },
+
+    "NextState": {
+      "Type": "Task",
+      "Resource": "arn:aws:lambda:REGION:ACCOUNT_ID:function:FUNCTION_NAME",
+      "End": true
+    }
+  }
+}
+
+</span></pre>
+
+<br/>
+Click the 'Preview' button above the diagramand you should see it refresh. Don't create it yet as we'll go through a few iterations.
+Now we immediately switch based on the value of sass.
+
+Let's finish off the Cat logic now.
+<br/>
+<br/>
+
+If it's a cat, we'll do a survivor test best on whether the user travels more than 10 days, let's choose a cat that can hold it's own (a survivor), otherwise, we'll peform a DuressTest and match the pet based that - friendly cat if they're under stress and sassy cat for those that aren't - someone has to love the sassy's after all.  
+
+ <button class="btn btn-outline-secondary btn-sm" data-clipboard-target="#completecat">Copy</button>
+<pre><span id="completecat">
+
+
+{
+  "Comment": "An example of the Amazon States Language using a choice state.",
+  "StartAt": "SassTest",
+  "States": {
+    "SassTest": {
+      "Type" : "Choice",
+      "Choices": [
+        {
+          "Variable": "$.sass",
+          "StringEquals": "yes",
+          "Next": "SurvivorTest"
+        }
+      ],
+      "Default": "NonCat"
+    },
+
+    "SurvivorTest": {
+      "Type" : "Choice",
+      "Choices": [
+        {
+          "Variable": "$.travel",
+          "NumericGreaterThan": 7,
+          "Next": "Survivor"
+        }
+      ],
+      "Default": "DuressTest"
+    },
+
+    "NonCat": {
+      "Type" : "Task",
+      "Resource": "arn:aws:lambda:REGION:ACCOUNT_ID:function:OnSecondMatch",
+      "Next": "RetrievePetMatchDetails"
+    },
+    "Survivor": {
+      "Type" : "Pass",
+      "Result" : {
+        "petmatch" : "cat-survivor"
+      },
+      "Next": "RetrievePetMatchDetails"
+    },
+    "FriendlyCat": {
+      "Type" : "Pass",
+      "Result" : {
+        "petmatch" : "cat-friedly"
+      },
+      "Next": "RetrievePetMatchDetails"
+    },
+    "SassyCat": {
+      "Type" : "Pass",
+      "Result" : {
+        "petmatch" : "cat-sassy"
+      },
+      "Next": "RetrievePetMatchDetails"
+    },
+    "DuressTest": {
+      "Type" : "Choice",
+      "Choices": [
+        {
+          "Variable": "$.duress",
+          "StringEquals": "yes",
+          "Next": "FriendlyCat"
+        }
+      ],
+      "Default": "SassyCat"
+    },
+
+
+    "RetrievePetMatchDetails": {
+      "Type": "Pass",
+      "End": true
+    }
+  }
+}
+
+
+
+</span></pre>
+<br/>
+<br/>
+If you hit 'Preview' button above the image it should look a bit like this:
+<br/>
+<br/>
+<img src="images/step-with-cat-logic.png"/>
+<br/>
+<br/>
+Ok time to add in the remaining logic for the non-cat matching!
+<br/>
+<br/>
+Let's start by testing the yap, as that's clear differentiator - we'll match all those who like the yip to the yappy dog. After that we'll see if they have enough outdoor room for the pet - those that do can have a big dog. The final match will be determined off what type of of accommodation they have, those don't live in a house or apartment will get an Amazon Echo at least to talk to!
+<br/>
+
+<br/>
+Select the test below and hit Preview.
+<br/>
+
+
+
+
+ <button class="btn btn-outline-secondary btn-sm" data-clipboard-target="#completealgo">Copy</button>
+<pre><span id="completealgo">
+
+{
+  "Comment": "An example of the Amazon States Language using a choice state.",
+  "StartAt": "SassTest",
+  "States": {
+    "SassTest": {
+      "Type" : "Choice",
+      "Choices": [
+        {
+          "Variable": "$.sass",
+          "StringEquals": "yes",
+          "Next": "SurvivorTest"
+        }
+      ],
+      "Default": "YapTest"
+    },
+
+    "SurvivorTest": {
+      "Type" : "Choice",
+      "Choices": [
+        {
+          "Variable": "$.travel",
+          "NumericGreaterThan": 7,
+          "Next": "SurvivorCat"
+        }
+      ],
+      "Default": "DuressTest"
+    },
+
+    "YapTest": {
+      "Type" : "Choice",
+      "Choices": [
+        {
+          "Variable": "$.yap",
+          "StringEquals": "yes",
+          "Next": "YippyDog"
+        }
+      ],
+      "Default": "OutsideTest"
+    },
+    "SurvivorCat": {
+      "Type" : "Pass",
+      "Result" : {
+        "petmatch" : "cat-survivor"
+      },
+      "Next": "RetrievePetMatchDetails"
+    },
+    "OutsideTest": {
+     "Type" : "Choice",
+      "Choices": [
+        {
+          "Variable": "$.outside",
+          "NumericGreaterThan": 15,
+          "Next": "BigOlDog"
+        }
+      ],
+      "Default": "AccommodationTest"
+    },
+    "YippyDog": {
+      "Type" : "Pass",
+      "Result" : {
+        "petmatch" : "dog-yippy"
+      },
+      "Next": "RetrievePetMatchDetails"
+    },
+     "BigOlDog": {
+      "Type" : "Pass",
+      "Result" : {
+        "petmatch" : "dog-bigboy"
+      },
+      "Next": "RetrievePetMatchDetails"
+    },
+     "AccommodationTest": {
+     "Type" : "Choice",
+      "Choices": [
+        {
+          "Variable": "$.accommodation",
+          "StringEquals":  "apartment",
+          "Next": "Goldfish"
+        },
+        {
+          "Variable": "$.accommodation",
+          "StringEquals": "house",
+          "Next": "MediumDog"
+        }
+      ],
+      "Default": "AmazonEcho"
+    },
+    "AmazonEcho": {
+      "Type" : "Pass",
+      "Result" : {
+        "petmatch" : "robot-echo"
+      },
+      "Next": "RetrievePetMatchDetails"
+    },
+    "FriendlyCat": {
+      "Type" : "Pass",
+      "Result" : {
+        "petmatch" : "cat-friedly"
+      },
+      "Next": "RetrievePetMatchDetails"
+    },
+    "MediumDog": {
+      "Type" : "Pass",
+      "Result" : {
+        "petmatch" : "dog-medium"
+      },
+      "Next": "RetrievePetMatchDetails"
+    },
+    "Goldfish": {
+      "Type" : "Pass",
+      "Result" : {
+        "petmatch" : "fish-goldfish"
+      },
+      "Next": "RetrievePetMatchDetails"
+    },
+    "SassyCat": {
+      "Type" : "Pass",
+      "Result" : {
+        "petmatch" : "cat-sassy"
+      },
+      "Next": "RetrievePetMatchDetails"
+    },
+    "DuressTest": {
+      "Type" : "Choice",
+      "Choices": [
+        {
+          "Variable": "$.duress",
+          "StringEquals": "yes",
+          "Next": "FriendlyCat"
+        }
+      ],
+      "Default": "SassyCat"
+    },
+
+
+    "RetrievePetMatchDetails": {
+      "Type": "Pass",
+      "End": true
+    }
+  }
+}
+
+</span></pre>
+<br/>
+<br/>
+You should see a diagram that looks a bit like this:
+<br/>
+<br/>
+
+<img src="images/step-full-algo.png"/>
+
+<br/>
+<br/>
+Let's create this State Machine, even though it's not done and we'll test out the logic this far. Note that at the moment, we're just returning a unique identifier for the match, but we need to return more details and an image of the pet but we'll leave that fornow.
+<br/>
+<br/>
+
+Ensure that you call the StateMachine:
+
+<br/>
+<br/>
+[your unique id]-PetMatcher
+
+<br/>
+<br/>
+Select 'Create State Machine' and Select ok for the policy.
+<br/>
+<br/>
+<li> Let's go execute our new state machine with some sample data to test the results. Create a new execution - but override the same json with this sample attributes:
+
+ <button class="btn btn-outline-secondary btn-sm" data-clipboard-target="#completealgo">Copy</button>
+<pre><span id="completealgo">
+{
+  "duress" : "yes",
+  "walks" : "yes",
+  "sass" : "no",
+  "travel" : 9,
+  "yap" : "no",
+ 
+  "accommodation" : "apartment",
+  "outside" : "15"
+}
+
+</span></pre>
+<br/>
+<br/>
+Select 'Start Execution' and watch it run. You should see that it selected a Goldfish.
+<br/>
+<br/>
+Start another execution, but this time change 'sass' to be equal to "yes". This time you should get a SurvivorCat because of your travel is > 7 days. Creat a few more executions and change the values so you can see how the different logic is formed. Look at the input and output state for each of the runs both at the overall level of the state machine and within each state. This makes it very handy for debugging issues.
+
+At the end result of the state machine, you'll see a response like 
+
+<pre>
+
+output: {"petmatch":"cat-survivor"}
+
+</pre>
+<br/>
+That is what will be sent back to the API Gateway once we finish that off so we need to provide a more friendly result.  We'll do this by having metadata in DynamoDB table that we can query for based on our unique identifier sent into RetrievePetMatchDetails state.  We'll write an AWS Lambda function to query the details for the PetMatch and return the results from DynamoDB. For now we will just return the PetType back but in the future we might want to actually have more metadata about the match such as the percent confidence of the match, etc. We also want to return the actual Pet matched rather than the Type but this works for now.
+
+Let's start by creating a Table in Dynamo to store our Pet details which we will return along with the match.
+<li> Select DynamoDB from the Service Menu, and then select CreateTable. For the table name use
+
+<pre>
+
+ [your unique id]-PetType
+ 
+</pre>
+<br/>
+<br/>
+For the partition key use:
+<pre>
+
+  petTypeId  
+ 
+</pre>
+<br/>
+<br/>
+Keep the key as a String - for the MVP we'll just create a simple set of data to load in use the string identifier. Leave everything else and click 'Create'.  
+
+<br/>
+
+<br/>
+In actual practice, we wouldn't be manually created most of the things we are in this lab via the console, we would use CloudFormation instead, but the console is easier for learning. If we did create DynamoDb via CloudFormation, we'd need to also load the into the tables. A common way to do that is to create a Lambda Function which loads the data. Let's do that now so we can become familiar with Lambda and also use the script we create long-term.
+
+<li>Select Services->AWS Lambda and then select 'Create a Lambda Function'. You can see that Lambda has many blueprints like Step Functions, but select 'Blank Function'. Hit 'Next' for 'Configure Triggers'.
+
+Use [your unique id]-LoadPetTypeData as the function name.
+
+Note that the images would normally be surved up by CloudFront, but we'll just assume the image has the same namem as the identifier and it will be available locally in the webapp.
+
+Copy the below code paste it into the method body for the Lambda Function. AWS Lambda is a compute service that lets you run code without provisioning or managing servers. 
+
+BE SURE TO CHANGE the '[your unique user id]' to your name so that it matches the table we just created.
+<br/>
+<br/>
+
+ <button class="btn btn-outline-secondary btn-sm" data-clipboard-target="#lambdaloadpettype">Copy</button>
+<pre><span id="lambdaloadpettype">
+
+console.log('Loading function');
+var doc = require('dynamodb-doc');
+var db = new doc.DynamoDB();
+var AWS = require('aws-sdk'); 
+var docClient = new AWS.DynamoDB.DocumentClient();
+var fun = function(event, context) 
+{
+ var params = {
+    RequestItems: {
+   "[your unique user id]-PetType": [ 
+            { 
+                PutRequest: {
+                    Item: {
+                        "petTypeId": "cat-survivor",
+			"breed": "Bombay",
+			"lifespan": "13-20 years",
+			"Classification": "Survival Cat"
+                    }
+                }
+            },
+            { 
+                PutRequest: {
+                    Item: {
+                        "petTypeId": "cat-friendly",
+			"breed": "Domestic Mix Breed",
+			"lifespan": "13-17 years",
+			"Classification": "Friendly Cat"
+                    }
+                }
+            },
+            {  
+                PutRequest: {
+                    Item: {
+                         "petTypeId": "cat-sassy",
+			 "breed": "Persian",
+			 "lifespan": "13-17 years",
+			 "Classification": "Sassy Cat"
+                    }
+                }
+            }, 
+            
+            {  
+                PutRequest: {
+                    Item: {
+                         "petTypeId": "dog-yippy",
+			 "breed": "Yorkshire Terrior",
+			 "lifespan": "13-20 years",
+			 "Classification": "Companion Breeds"
+                    }
+                }
+            }, 
+            {  
+                PutRequest: {
+                    Item: {
+                         "petTypeId": "dog-bigboy",
+			 "breed": "Newfoundland",
+			 "lifespan": "8-10 years",
+			 "Classification": "Guard Dog"
+                    }
+                }
+            }, 
+             {  
+                PutRequest: {
+                    Item: {
+                         "petTypeId": "dog-medium",
+			 "breed": "Border Collie",
+			 "lifespan": "10-14 years",
+			 "Classification": "Herding Dog"
+                    }
+                }
+            }, 
+             {  
+                PutRequest: {
+                    Item: {
+                         "petTypeId": "fish-goldfish",
+			 "breed": "Border Collie",
+			 "lifespan": "10-14 years",
+			 "Classification": "Herding Dog"
+                    }
+                }
+            }, 
+             {  
+                PutRequest: {
+                    Item: {
+                         "petTypeId": "robot-echo",
+			 "breed": "Amazon Echo",
+			 "lifespan": "65 years",
+			 "Classification": "Personal Assistant"
+                    }
+                }
+            }, 
+
+        ]
+    }
+}
+
+
+    docClient.batchWrite(params,function(err,data){
+        if (err) console.log(err);
+        else console.log(data);
+    });
+};
+exports.handler = fun;
+
+</span></pre>
+<br/>
+<br/>
+Now scroll down and select 'Choose an existing role'. Select 'iag-serverless-workshop-dataloader-lambda-role' which is an IAM role setup as a prerequisite for the lab which gives you permissions to write to CloudWatch and invoke APIS on DynamoDB. Open another tab and navigate to the IAM Role and check out the policies on the role.
+<br/>
+<br/>
+Select 'Next' and then review the function, and finally select 'Create Function'. Then select 'Test' Function, accepting the default payload for invocation as it won't be utilized in this particular function anyway.  Look at the logs and the function should say something like:
+
+ 
+<br/>
+<br/>
+<pre>
+START RequestId: abf30118-4e7c-11e7-b49d-7f1ca2b1d0aa Version: $LATEST
+2017-06-11T08:05:04.313Z	abf30118-4e7c-11e7-b49d-7f1ca2b1d0aa	{ UnprocessedItems: {} }
+END RequestId: abf30118-4e7c-11e7-b49d-7f1ca2b1d0aa
+REPORT RequestId: abf30118-4e7c-11e7-b49d-7f1ca2b1d0aa	Duration: 957.57 ms	Billed Duration: 1000 ms 
+</pre>
+<br/>
+<br/>
+Now navigate back to DynamoDB and select your PetType table - and select the Items tab. You should see all the data from the Lambda function populated into the table. Now we're going to create one more Lambda Function which will be used back in our Step Function. We will invoke the Lambda Function to give back all the details for their PetMatch.
+
+<li> Navigate to Lambda and select 'Create a Lambda Function'. Again select 'Blank Function' and hit 'Next' for Triggers. Name the function [your unique id]-getPetTypeForId and copy the following code for the method body. Have a look at the logic it's quite clear that it's querying your table. CHANGE the name of the table to your user id/table name.
+<br/>
+<br/>
+
+
+ <button class="btn btn-outline-secondary btn-sm" data-clipboard-target="#lambdaquerypettype">Copy</button>
+<pre><span id="lambdaquerypettype">
+var AWS = require("aws-sdk");
+
+var docClient = new AWS.DynamoDB.DocumentClient()
+
+var query = function(event, context, callback) {
+
+var tableName = "cass-PetType";
+
+var keyId = event.petmatch;
+console.log(keyId);
+
+
+var params = {
+    TableName : tableName,
+    KeyConditionExpression: "#petTypeId = :petTypeId",
+    ExpressionAttributeNames:{
+        "#petTypeId": "petTypeId"
+    },
+    ExpressionAttributeValues: {
+        ":petTypeId":keyId
+    }
+};
+
+console.log("Params: " + JSON.stringify(params));
+
+docClient.query(params, function(err, data) {
+    if (err) {
+        console.log("Unable to query. Error:", JSON.stringify(err, null, 2));
+    } else {
+        console.log("Query succeeded.");
+        data.Items.forEach(function(item) {
+            console.log(" -", item.petTypeId + ": " + item.Classification
+            + " ... " + item.breed
+            + " ... " + item.lifespan);
+        });
+    }
+});
+
+}
+
+exports.handler = query;
+
+</scan></pre>
+
+<br/>
+<br/>
+This time, select the other role iag-serverless-workshop-lambda-role. Select Next and Create the Lambda Function. Configure a test event and this time change the payload as follows:
+
+<pre>
+{
+  "petmatch": "cat-sassy"
+
+}
+</pre>
+
+You should see result such as:
+<br/>
+<br/>
+
+<img src="images/lambda-query-result.png"/>
+<br/>
+<br/>
+<li>Now we're going to call that Lambda function from Step Functions, but first grab the ARN for Lambda. Amazon Resource Names (ARNs) uniquely identify AWS resources if you're not familiar with it. The Lambda one can be found at the top of the screen of the function. Copy the whole value and save it in a Notepad.  Navigate back to Step Functions (perhaps in another tab). Currently you can not update an Existing State Machine, so we're going to copy the code from the previos version and create a new one. 
+
+Select your previously created State Machine and copy the code by going into one of the executions and clicking the 'Code' tab
+
+Cool? Well not really as it's not really doing much. So <a href="serverless-dynamic-website.html"/>&lt;Now let's create the dynamic components&gt;</a>
+</body>
+</html>

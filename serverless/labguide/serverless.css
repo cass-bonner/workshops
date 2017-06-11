@@ -1,0 +1,59 @@
+  html *
+  { 
+     #font-size: 1em !important;
+     color: white ;
+     font-family: Calibri, Candara, Segoe, "Segoe UI", Optima, Arial, sans-serif; !important;
+     line-height: 150%;
+  }
+  body {
+     margin:20px; padding:20px ;margin-top:20px;margin-left:20px;margin-right:20px;
+   }
+   p {
+    #padding: 2cm 4cm 3cm 4cm !important;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    margin-right: 10px;
+    margin-left: 20px;
+
+  }
+pre {
+  background-color: black;
+  margin:20px; padding:7px ;margin-top:5px;margin-left:20px;margin-right:20px;
+}
+
+button {
+    background-color: grey; 
+    border: 5ps;
+    color: white;
+    padding: 12px 12px;
+    text-align: center;
+    text-decoration: none;
+    font-size: 12px;
+    margin:0px; padding:1px ;margin-top:0px;margin-left:40px;margin-right:0px;
+    border-radius: 8px;
+}
+ 
+
+li {
+     margin-top:20px;margin-left:20px;margin-right:20px;
+}
+.image-blurred-edge {
+    background-image: url('images/aws-lex-web-ui-arch.png');
+    width: 700;
+    height: 431;
+    box-shadow: 0 0 8px 8px black inset;
+}
+
+.vue-image-blurred-edge {
+    background-image: url('images/vue-screenshot.png');
+    width: 700;
+    height: 700;
+    box-shadow: 0 0 8px 8px black inset;
+}
+a:link {
+    color: teal;
+}
+
+a:visited {
+    color: maroon;
+}

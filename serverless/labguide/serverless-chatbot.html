@@ -1,0 +1,81 @@
+<html>
+<meta>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
+<link rel="stylesheet" type="text/css" href="serverless.css" />
+<script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
+</meta>
+<body background="images/background.png">
+<script src="js/clipboard.js-master/dist/clipboard.min.js"></script>
+
+    <script>
+    var clipboard = new Clipboard('.btn');
+    clipboard.on('success', function(e) {
+        console.log(e);
+    });
+    clipboard.on('error', function(e) {
+        console.log(e);
+    });
+    </script>
+
+<table>
+  <tr>
+    <td align="left" width="700"><img src="images/aws_icon.png"/></td>
+    <td align="right" width="500"><img src="images/iag_icon.png"/></td>
+ </tr>
+</table>
+<br/>
+<br/>
+<p ="font-family:verdana">
+<h1 align="center">Serverless Chatbot on AWS</h1>
+<table cellpadding="20px"  align="center">
+<tr>
+<td width="20%"><img src="images/lex.png"/><br/><a href="http://docs.aws.amazon.com/lex/latest/dg/what-is.html">Amazon Lex</a>
+<td width="20%"><img src="images/polly.png"/><br/><a href="http://docs.aws.amazon.com/polly/latest/dg/what-is.html">Amazon Polly</a>
+<td width="20%"><img src="images/s3.png"/><br/><a href="http://docs.aws.amazon.com/AmazonS3/latest/gsg/GetStartedWithS3.html">Amazon S3</a>
+<td width="20%"><img src="images/cognito.png"/><br/><a href="http://docs.aws.amazon.com/cognito/latest/developerguide/what-is-amazon-cognito.html">Amazon Cgnito</a>
+<td width="20%"><img src="images/iam.png"/><br/><a href="http://docs.aws.amazon.com/IAM/latest/UserGuide/">AWS IAM</a>
+</tr>
+</table>
+
+
+Now let's add a chat bot into our application
+
+This time we're going to bootstrap our efforts by using a lab off <a href="https://github.com/awslabs">awslabs on github</a>.
+
+<br/
+Navigate to this url in your browser:
+<br/>
+
+<button class="btn btn-outline-secondary btn-sm" data-clipboard-target="#lexwebui">Copy</button>
+<pre><span id="lexwebui">https://github.com/awslabs/aws-lex-web-ui</span></pre>
+
+</p
+<br/>
+<div class="image-blurred-edge"></div>
+</div>
+<br/>
+<ol>
+<li>Have a quick read of the architecture and then navigate to the section called 'Lauching'. Select the 'Launch Stack' Icon and which will take you to <a href="http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/Welcome.html">CloudFormation</a> in the AWS Console.  Ensure you are in the us-east-1 region.
+<li>Copy the link where it says 'Specify an Amazon S3 template URL or click  <button class="btn btn-outline-secondary btn-sm" data-clipboard-text="https://s3.amazonaws.com/aws-bigdata-blog/artifacts/aws-lex-web-ui/artifacts/templates/master.yaml">Copy</button>
+<br/>
+<br/>
+
+Enter that url into another browser tab and have a quick look at the CloudFormation template that creates the lab and try to understand and find the Services that will be launched.
+<br/
+<li> Go back to the CloudFormation tab in your browser and click the Next button and be sure to <font color="red"CHANGE the STACKNAME</font>. Put your unique userId of your work login in front of the existing name so it looks something like this:
+
+<pre>bonnerca-lex-web-ui</pre> 
+
+Similarly with every paramter - preface it with your unique id. This will make it much easier to find your resources if we are all working in the same AWS account.
+<li> Hit Next until the last page and select the 'I acknowledge that AWS CloudFormation might create IAM resources with custom names.' and click 'Create'
+<li>This will take some time to build but in the meantime read through the rest of the awslabs write-up.
+</ol>
+
+
+<br/>
+<br/>
+  <a href="serverless-static-website"/>&lt;Now let's create the dynamic components&gt;</a>
+</body>
+</html>

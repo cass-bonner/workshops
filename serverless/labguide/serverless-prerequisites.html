@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<meta>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
+<link rel="stylesheet" type="text/css" href="serverless.css" />
+<script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
+</meta>
+<body background="images/background.png">
+<table>
+  <tr>
+    <td align="left" width="700"><img src="images/aws_icon.png"/></td>
+    <td align="right" width="500"><img src="images/iag_icon.png"/></td>
+  </tr>
+</table>
+<br/>
+<br/>
+<p ="font-family:verdana">
+<h1 align="center">IAG AWS Serverless Workshop - Prerequisites</h1>
+<font color="white">
+In order for the IAG AWS Workshop to be most productive, please ensure all participants come prepared with the following:
+<h2> Preparation for DevGuild </h2>
+<ul>
+<li>Create an iam user for every particpant, and give them a password as well as a set of AWS Access Keys and give these to the participants. Assign them a role with the appropriate permissions - please see email discussion for this. 
+<li>Create the following roles:
+<br><br>
+iag-serverless-workshop-lambda-role with policies CloudWatchLogsFullAccess and AWSLambdaInvocation-DynamoDB and the trust relationship lambda.amazonaws.com
+<br><br>
+iag-serverless-workshop-xxx
+<li> 
+</ul>
+<br>
+<h2> Preparation for Students</h2>
+<ol type="1">
+<li>A laptop with access to AWS console
+<li>The laptop must have the AWS Command Line Interface (CLI) set up on it. Instructions to <a href="http://docs.aws.amazon.com/cli/latest/userguide/installing.html">install the CLI are here</a>.
+<li>The laptop must be configured for the AWS Command Line Interface (CLI) . Instructions to <a href="http://docs.aws.amazon.com/cli/latest/userguide/cli-chap-getting-started.html">configure the CLI are here</a>. Each participant should use their own AWS Access Key Pairs provided by the Dev Guild.
+<li>npm must be installed as well as vue.js:
+
+<h3>npm</h3>
+    <button class="btn btn-outline-secondary btn-sm" data-clipboard-target="#setupnpm">Copy</button>
+<pre>
+<span id="setupnpm">
+npm install
+
+npm run dev
+
+npm run build
+
+npm run build --report
+
+npm run unit
+
+npm run e2e
+
+npm test
+
+</span></pre>
+
+
+
+<h3>vue.js</h3>
+
+    <button class="btn btn-outline-secondary btn-sm" data-clipboard-target="#setupvue">Copy</button>
+<pre>
+<span id="setupvue">
+
+ npm install vue
+ npm install --global vue-cli
+ vue init webpack aws-serverless-workshop 
+ cd aws-serverless-workshop 
+ npm install
+ npm run dev
+
+</span>
+</pre>
+
+<br/>
+* Hit return for project name taking the default aws-serverless-workshopi as well as all the other defaults.
+<br/>
+* Copy and pest the to get started commands or click copy here: 
+<br/>
+<br/>
+    <button class="btn btn-outline-secondary btn-sm" data-clipboard-target="#getstartvue">Copy</button>
+<pre>
+<span id="getstartvue">
+
+cd aws-serverless-workshop
+npm install
+npm run dev
+
+</span></pre>
+<br/>
+
+It should start the dev server, and open a page in your browser such as this:
+
+<br/>
+<br/>
+<div class="vue-image-blurred-edge"></div>
+<img src="images/vue-screenshot.png"/>
+<br/>
+
+You can kill the vue dev server now.
+
+<li>Every participant should test their command line access with this command:
+<br/>
+    <script src="js/clipboard.js-master/dist/clipboard.min.js"></script>
+
+    <script>
+    var clipboard = new Clipboard('.btn');
+    clipboard.on('success', function(e) {
+        console.log(e);
+    });
+    clipboard.on('error', function(e) {
+        console.log(e);
+    });
+    </script>
+    <button class="btn btn-outline-secondary btn-sm" data-clipboard-target="#role">Copy</button>
+<pre>
+<span id="role">aws iam get-role --role-name iag-serverless-workshop-lambda-role</span>
+</pre>
+You should see something such as:
+acbc32c9308f:labguide bonnerca$ aws iam get-role --role-name iag-serverless-workshop-lambda-role
+<div class="black-background"><pre class="black-background">
+{
+    "Role": {
+        "AssumeRolePolicyDocument": {
+            "Version": "2012-10-17", 
+            "Statement": [
+                {
+                    "Action": "sts:AssumeRole", 
+                    "Effect": "Allow", 
+                    "Principal": {
+                        "Service": "lambda.amazonaws.com"
+                    }
+                }
+            ]
+        }, 
+        "RoleId": "XXX", 
+        "CreateDate": "XXX", 
+        "RoleName": "iag-serverless-workshop-lambda-role", 
+        "Path": "/", 
+        "Arn": "arn:aws:iam::XXXX:role/iag-serverless-workshop-lambda-role"
+    }
+}
+<br>
+</pre>
+</ol>
+</div>
+<br>
+<br>
+
+ 
+<a href="serverless.html"/>&lt;Serverless Workshop&gt;</a>
+
+</font>
+</p
+</body>
+</html>

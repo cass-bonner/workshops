@@ -1,0 +1,54 @@
+
+{
+  "Comment": "An example of the Amazon States Language using a choice state.",
+  "StartAt": "SassTest",
+  "States": {
+    "SassTest": {
+      "Type" : "Choice",
+      "Choices": [
+        {
+          "Variable": "$.sass",
+          "Equals": "yes",
+          "Next": "Cat"
+        }
+      ],
+      "Default": "NonCat"
+    },
+
+    "Cat": {
+      "Type" : "Choice",
+      "Choices": [
+        {
+          "Variable": "$.travel",
+          "NumericGreaterThan": 7,
+          "Next": "Survivor"
+        }
+      ],
+      "Default": "NonSurvivor"
+    },
+
+    "NonCat": {
+      "Type" : "Task",
+      "Resource": "arn:aws:lambda:REGION:ACCOUNT_ID:function:OnSecondMatch",
+      "Next": "RetrievePetMatchDetails"
+    },
+    "Survivor": {
+      "Type" : "Task",
+      "Resource": "arn:aws:lambda:REGION:ACCOUNT_ID:function:OnSecondMatch",
+      "Next": "RetrievePetMatchDetails"
+    },
+    "NonSurvivor": {
+      "Type" : "Task",
+      "Resource": "arn:aws:lambda:REGION:ACCOUNT_ID:function:OnSecondMatch",
+      "Next": "RetrievePetMatchDetails"
+    },
+
+
+    "RetrievePetMatchDetails": {
+      "Type": "Task",
+      "Resource": "arn:aws:lambda:REGION:ACCOUNT_ID:function:FUNCTION_NAME",
+      "End": true
+    }
+  }
+}
+
