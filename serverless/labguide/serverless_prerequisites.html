@@ -24,8 +24,165 @@ In order for the IAG AWS Workshop to be most productive, please ensure all parti
 <ul>
 <li>Create an iam user for every particpant, and give them a password as well as a set of AWS Access Keys and give these to the participants. Assign them a role with the appropriate permissions - please see email discussion for this. 
 <li>Create the following roles:
+
+{
+  "Version": "2012-10-17",
+  "Statement": [{
+    "Principal": *,
+    "Effect": "Allow",
+    "Action": "sns:*",
+    "Condition": {"StringLike": {"sns:endpoint": "https://example.com/${aws:username}/*"}}
+  }]
+}
+
+<br>on": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": [
+        "cloudwatch:*",
+        "cognito-identity:ListIdentityPools",
+        "cognito-sync:GetCognitoEvents",
+        "cognito-sync:SetCognitoEvents",
+        "dynamodb:*",
+        "events:*",
+        "iam:ListAttachedRolePolicies",
+        "iam:ListRolePolicies",
+        "iam:ListRoles",
+        "iam:PassRole",
+        "kinesis:DescribeStream",
+        "kinesis:ListStreams",
+        "kinesis:PutRecord",
+        "lambda:*",
+        "logs:*",
+        "s3:*",
+        "sns:ListSubscriptions",
+        "sns:ListSubscriptionsByTopic",
+        "sns:ListTopics",
+        "sns:Subscribe",
+        "sns:Unsubscribe",
+        "sns:Publish",
+        "sqs:ListQueues",
+        "sqs:SendMessage",
+        "tag:GetResources",
+        "kms:ListAliases",
+        "ec2:DescribeVpcs",
+        "ec2:DescribeSubnets",
+        "ec2:DescribeSecurityGroups",
+        "iot:GetTopicRule",
+        "iot:ListTopicRules",
+        "iot:CreateTopicRule",
+        "iot:ReplaceTopicRule",
+        "iot:AttachPrincipalPolicy",
+        "iot:AttachThingPrincipal",
+        "iot:CreateKeysAndCertificate",
+        "iot:CreatePolicy",
+        "iot:CreateThing",
+        "iot:ListPolicies",
+        "iot:ListThings",
+        "iot:DescribeEndpoint",
+        "xray:PutTraceSegments", 
+        "xray:PutTelemetryRecords" 
+      ],
+      "Resource": "*"
+    }
+  ]
+}sbr>
+Policy to be applied to each user:
+<ul>
+<li>Create a Group called iag-hackathon
+
+
+
+<li> Policy to be applied to each user
+<li> Role: [userid]-iag-workshop-lambda-write-ddb
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "[userid]-iag-workshop-lambda-write-ddb",
+            "Effect": "Allow",
+            "Action": [
+                "dynamodb:GetItem",
+                "dynamodb:BatchGetItem",
+                "dynamodb:Query",
+                "dynamodb:PutItem",
+                "dynamodb:UpdateItem",
+                "dynamodb:DeleteItem",
+                "dynamodb:BatchWriteItem"
+            ],
+            "Resource": [
+                "arn:aws:dynamodb:us-west-2:123456789012:table/GameScores"
+            ],
+            "Condition": {
+                "ForAllValues:StringEquals": {
+                    "dynamodb:LeadingKeys": [
+                        "${www.amazon.com:user_id}"
+                    ],
+                    "dynamodb:Attributes": [
+                        "UserId",
+                        "GameTitle",
+                        "Wins",
+                        "Losses",
+                        "TopScore",
+                        "TopScoreDateTime"
+                    ]
+                },
+                "StringEqualsIfExists": {
+                    "dynamodb:Select": "SPECIFIC_ATTRIBUTES"
+                }
+            }
+        }
+    ]
+}
+<li> Role: [userid]-iag-workshop-lambda-read-ddb
+</ul>
+
 <br><br>
 iag-serverless-workshop-lambda-role with policies CloudWatchLogsFullAccess and AWSLambdaInvocation-DynamoDB and the trust relationship lambda.amazonaws.com
+
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "AllowAccessToOnlyItemsMatchingUserID",
+            "Effect": "Allow",
+            "Action": [
+                "dynamodb:GetItem",
+                "dynamodb:BatchGetItem",
+                "dynamodb:Query",
+                "dynamodb:PutItem",
+                "dynamodb:UpdateItem",
+                "dynamodb:DeleteItem",
+                "dynamodb:BatchWriteItem"
+            ],
+            "Resource": [
+                "arn:aws:dynamodb:us-west-2:123456789012:table/GameScores"
+            ],
+            "Condition": {
+                "ForAllValues:StringEquals": {
+                    "dynamodb:LeadingKeys": [
+                        "${www.amazon.com:user_id}"
+                    ],
+                    "dynamodb:Attributes": [
+                        "UserId",
+                        "GameTitle",
+                        "Wins",
+                        "Losses",
+                        "TopScore",
+                        "TopScoreDateTime"
+                    ]
+                },
+                "StringEqualsIfExists": {
+                    "dynamodb:Select": "SPECIFIC_ATTRIBUTES"
+                }
+            }
+        }
+    ]
+}
+
+
+
 <br><br>
 iag-serverless-workshop-xxx
 <li> 
@@ -34,6 +191,7 @@ iag-serverless-workshop-xxx
 <h2> Preparation for Students</h2>
 <ol type="1">
 <li>A laptop with access to AWS console
+<li>If using windows, ideally  have Cygwin installed.
 <li>The laptop must have the AWS Command Line Interface (CLI) set up on it. Instructions to <a href="http://docs.aws.amazon.com/cli/latest/userguide/installing.html">install the CLI are here</a>.
 <li>The laptop must be configured for the AWS Command Line Interface (CLI) . Instructions to <a href="http://docs.aws.amazon.com/cli/latest/userguide/cli-chap-getting-started.html">configure the CLI are here</a>. Each participant should use their own AWS Access Key Pairs provided by the Dev Guild.
 <li>npm must be installed as well as vue.js:

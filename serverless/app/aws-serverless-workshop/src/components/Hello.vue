@@ -4,8 +4,8 @@
     <h4>Service & Framework Utilized</h4>
     <table cellpadding="10px"  align="center">
       <tr>
-        <td width="50%"><img src="../assets/s3.png"/><br/><a href="http://docs.aws.amazon.com/AmazonS3/latest/gsg/GetStartedWithS3.html">Amazon S3</a></td>
-<td width="50"><img src="../assets/logo.png"/><br/><a href="https://vuejs.org/">Vue.js</a></td>
+        <td width="50%"><img src="static/images/s3.png"/><br/><a href="http://docs.aws.amazon.com/AmazonS3/latest/gsg/GetStartedWithS3.html">Amazon S3</a></td>
+<td width="50"><img src="static/images/logo.png"/><br/><a href="https://vuejs.org/">Vue.js</a></td>
       </tr>
     </table>
   </div>

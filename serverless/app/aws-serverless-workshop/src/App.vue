@@ -1,6 +1,5 @@
 <template>
   <div id="app">
-    <img src="./assets/aws_icon.png">
     <router-view></router-view>
   </div>
 </template>

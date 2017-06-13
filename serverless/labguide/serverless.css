@@ -19,6 +19,12 @@
 pre {
   background-color: black;
   margin:20px; padding:7px ;margin-top:5px;margin-left:20px;margin-right:20px;
+    max-height: 300px;
+    overflow: auto;
+    background-color: #484848;
+    word-break: normal !important;
+    word-wrap: normal !important;
+    white-space: pre !important;
 }
 
 button {
@@ -51,9 +57,9 @@ li {
     box-shadow: 0 0 8px 8px black inset;
 }
 a:link {
-    color: teal;
+    color: #00e7e7;
 }
 
 a:visited {
-    color: maroon;
+    color: grey;
 }

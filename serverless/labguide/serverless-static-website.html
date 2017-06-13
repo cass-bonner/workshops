@@ -121,10 +121,10 @@ aws s3 website s3://[your unique id]-aws-serverless-workshop/ --index-document i
 
 You may remember that we are running Vue.js in dev mode at this point. We need to convert it to prod mode before we deploy it. Back up out of the src directory into the 'aws-serverless-workshop'. With the next command we use 'npm run build' to build our Vue app in prod mode, and then we push it to our S3 bucket. Be sure to change [your unique id] to your actual unique id.
 <br/>
- <button class="btn btn-outline-secondary btn-sm" data-clipboard-target="#mkbucket">Copy</button>
-<pre><span id="mkbucket">
+ <button class="btn btn-outline-secondary btn-sm" data-clipboard-target="#prd">Copy</button>
+<pre><span id="prd">
 
-npm run build && aws s3 sync dist/ s3://[your unique id]-aws-serverless-workshop/dist --acl public-read
+npm run build && aws s3 sync dist s3://[your unique id]-aws-serverless-workshop --acl public-read
 
 </span></pre>
 

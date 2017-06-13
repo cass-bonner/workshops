@@ -3,7 +3,9 @@
 import Vue from 'vue'
 import App from './App'
 import router from './router'
-
+import VueValidator from 'vue-form-validator'
+import ApiG from 'aws-api-gateway-client'
+Vue.use(VueValidator)
 Vue.config.productionTip = false
 
 /* eslint-disable no-new */
