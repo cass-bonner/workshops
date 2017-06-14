@@ -21,10 +21,31 @@
 
 <table>
   <tr>
-    <td align="left" width="700"><img src="images/aws_icon.png"/></td>
-    <td align="right" width="500"><img src="images/iag_icon.png"/></td>
+    <td align="left" width="25%"><img src="images/aws_icon.png"/></td>
+    <td align = "center" width = "60%">
+<font size="2">
+  <table>
+<tr>
+<td width="100%"><a href="serverless_prerequisites.html">Serverless Workshop Prerequisites</a></td>
+</tr>
+<tr>
+<td width="100%"><a href="serverless.html">Serverless Overview</a><br/></td>
+</tr>
+<tr>
+<td width="100%"><a href="serverless-static-website.html">Serverless Static Webabb</a><br/></td>
+</tr>
+<tr>
+<td width="100%"><a href="serverless-dynamic-website.html">Serverless Dynamic Webapp</a><br/></td>
+</tr>
+<tr>
+<td width="100%"><a href="serverless-chatbot.html">Serverless Lex Chatbot</a><br/></td>
+</tr></table>
+</font size="2">
+    </td>
+    <td align="right" width="25%"><img src="images/iag_icon.png"/></td>
  </tr>
 </table>
+
 <br/>
 <br/>
 <p ="font-family:verdana">
@@ -35,7 +56,10 @@
 <td width="50%"><img src="images/vue.png"/><br/><a href="https://vuejs.org/">Vue.js</a></td>
 </tr>
 </table>
-Serverless is a great fit for building a webite. After all what do you need:
+<br/>
+<br/>
+<br/>
+Serverless has many use cases as we have discussed, but is a great fit for building a webite. After all what do you need:
 
 <br/>
 <br/>
@@ -70,26 +94,33 @@ npm run dev
 
 This should start the Vue server and launch a Hello World Vue webapp that you saw when you performed the pre-requisites.  But let's brand our site and bring in some css that's more in line with what we want our website to look like. 
 
-<li>From a command prompt or terminal shell, navigate to the 'src' subdirectory. Let's first back up some files that we are about to overwrite so that we can understand what's changed:
+<li>From a command prompt or terminal shell, Ensure you are in the aws-serverless-workshop directory. Let's first back up some files that we are about to overwrite so that we can understand what's changed:
 <br/>
   <button class="btn btn-outline-secondary btn-sm" data-clipboard-target="#backup">Copy</button>
 <pre><span id="backup">
-cp App.vue App.vue.bak
-cp components/Hello.vue components/Hello.vue.bak
+cp index.html index.html.bak
+cp src/App.vue src/App.vue.bak
+cp src/components/Hello.vue src/components/Hello.vue.bak
 </span></pre>
 
 <li>Now, run the following commands which will copy some updates to those two files as well as bring in some additional resources.
 <br/>
 
 NB: do we need to use wget/curl and the http endpoint instead? To be tested!
+PLEASE ensure you are inside the aws-serverless-workshop when you run this command!!
+<br/>
 <br/>
 
   <button class="btn btn-outline-secondary btn-sm" data-clipboard-target="#awscp">Copy</button>
 <pre><span id="awscp">
 
-aws s3 cp s3://iag-serverless-workshop-resources/resources/App.vue App.vue
-aws s3 cp s3://iag-serverless-workshop-resources/resources/Hello.vue components/Hello.vue
-aws s3 cp --recursive s3://iag-serverless-workshop-resources/resources/assets/* assets
+aws s3 cp s3://aws-serverless-workshop/PetMatch/resources/index.html index.html 
+aws s3 cp s3://aws-serverless-workshop/PetMatch/resources/App.vue src/App.vue
+aws s3 cp s3://aws-serverless-workshop/PetMatch/resources/components/Hello.vue src/components/Hello.vue
+aws s3 cp s3://aws-serverless-workshop/PetMatch/resources/router/index.js src/router/index.js
+aws s3 cp s3://aws-serverless-workshop/PetMatch/resources/components/PetMatch.vue src/components/PetMatch.vue
+aws s3 cp s3://aws-serverless-workshop/PetMatch/resources/assets/app.css src/assets
+aws s3 cp --recursive s3://aws-serverless-workshop/PetMatch/resources/static static 
 
 </span></pre>
 Optional: Now let's diff the files to see what's changed. (if on Windows try FC instead of diff and DEL instead of rm) 
@@ -97,10 +128,13 @@ Optional: Now let's diff the files to see what's changed. (if on Windows try FC 
  <button class="btn btn-outline-secondary btn-sm" data-clipboard-target="#diff">Copy</button>
 <pre><span id="diff">
 
-diff App.vue App.vue.bak
-diff components/Hello.vue components/Hello.vue.bak
-rm App.vue.bak 
-rm components/Hello.vue.bak
+diff index.html index.html.bak
+diff src/App.vue src/App.vue.bak
+diff src/components/Hello.vue src/components/Hello.vue.bak
+diff src/router/index.js src/router/index.js
+rm index.html.bak
+rm src/App.vue.bak 
+rm src/components/Hello.vue.bak
 
 </span></pre>
 
@@ -108,7 +142,7 @@ Now we have a simple static webapp utilizing a progressive framework that will h
 
 First we create an S3 bucket called [your unique id]-aws-serverless-workshop. You can do this via the AWS console or with the following CLI commands - but be sure to change [your unique id] with your login id at work (or other unique identifier). If you do it via the console be sure to configure it as a website with the index document as index.html and the error document as error.html.
 
-NB: The command below will work on mac or linux variants but not windows.  In windows take that bit off and make up a random set of numbers such as 83745089375 (but don't use that exactly). This is because S2 bucket names need to be globally unique as they can be served up and need to be propogated to DNS, so this ensures other users with your same id will not conflict in future.
+<br/><br/>NB: The command below will work on mac or linux variants but not windows.  In windows take that bit off and make up a random set of numbers such as 83745089375 (but don't use that exactly). This is because S3 bucket names need to be globally unique, so this ensures other users with your same id will not conflict in future.
 
 <br/>
  <button class="btn btn-outline-secondary btn-sm" data-clipboard-target="#mkbucket">Copy</button>
@@ -135,6 +169,9 @@ Now navigate to the console and find your S3 bucket. Select  your bucket and cli
 <br/>
 <img src="images/vue-app-screenshot.png"/>
 
+<br/>
+<br/>
+Note that this technique of deploying via cli is handy for POCs and isolated development but in practice you would commit your changes to source control repository and utilize CI/CD tooling to drive your full build pipeline.
 
 <br/>
 <br/>

@@ -21,8 +21,28 @@
 
 <table>
   <tr>
-    <td align="left" width="700"><img src="images/aws_icon.png"/></td>
-    <td align="right" width="500"><img src="images/iag_icon.png"/></td>
+    <td align="left" width="25%"><img src="images/aws_icon.png"/></td>
+    <td align = "center" width = "60%">
+<font size="2">
+  <table>
+<tr>
+<td width="100%"><a href="serverless_prerequisites.html">Serverless Workshop Prerequisites</a></td>
+</tr>
+<tr>
+<td width="100%"><a href="serverless.html">Serverless Overview</a><br/></td>
+</tr>
+<tr>
+<td width="100%"><a href="serverless-static-website.html">Serverless Static Webabb</a><br/></td>
+</tr>
+<tr>
+<td width="100%"><a href="serverless-dynamic-website.html">Serverless Dynamic Webapp</a><br/></td>
+</tr>
+<tr>
+<td width="100%"><a href="serverless-chatbot.html">Serverless Lex Chatbot</a><br/></td>
+</tr></table>
+</font size="2">
+    </td>
+    <td align="right" width="25%"><img src="images/iag_icon.png"/></td>
  </tr>
 </table>
 <br/>
@@ -121,6 +141,16 @@ So, we need
 <br/>
 
 <h4>Amazon API Gateway</h4>
+Amazon API Gateway is an AWS service that enables developers to create, publish, maintain, monitor, and secure APIs at any scale. You can create APIs that access AWS or other web services, as well as data stored in the AWS Cloud.
+
+API Gateway can be considered a backplane in the cloud to connect AWS services and other public or private web sites. It provides consistent RESTful application programming interfaces (APIs) for mobile and web applications to access AWS services.
+
+
+<br/><br/>
+The following diagram shows API Gateway architecture and you can read more about it <a href="http://docs.aws.amazon.com/apigateway/latest/developerguide/welcome.html">here</a>.
+<br/><br/>
+
+<img src="images/apig-backplane.png"/>
 <li> Let's take an API-driven approach and start with defining the API Gateway REST API. Navigate to the AWS Console and select API Gateway. Select 'Create API' and enter [your unique user id]-PetMatchService and hit 'Create API' again.
 <br/>
 <br/>
@@ -240,7 +270,7 @@ There are quite a few ways to <a href="http://docs.aws.amazon.com/apigateway/lat
 
 <img src="images/apig-postmethod.png"/>
 <br/>
-<li>Select on the POST Method to get the setup. We are going to use Lambda to call Step Functions which will in turn coordinate our backend logic. You can actually integrate directly to Step Functions from API Gateway, and in actual implementation that is exactly what you would likely do beause you do not want your user waiting for it to complete processing just do an ajax call to update the resultant match basesd on the execution id once it's received. However, for the purposed of this workhop/our MVP, we'll just code one request to keep it simple and have lambda both submit the execution and then wait for it to complete and return the response. This will also be useful for our next lab where we plan to integrate a Lex Bot into our app which currently only support Lambda integration.
+<li>Select on the POST Method to get the setup. We are going to use Lambda to call Step Functions which will in turn coordinate our backend logic, as well as implement a somplistic decision tree for our MVP. You can actually integrate directly to Step Functions from API Gateway, and in actual implementation that is exactly what you would likely do beause you do not want your user waiting for it to complete processing just do an ajax call to update the resultant match basesd on the execution id once it's received. However, for the purposed of this workhop/our MVP, we'll just code one request to keep it simple and have lambda both submit the execution and then wait for it to complete and return the response. This will also be useful for our next lab where we plan to integrate a Lex Bot into our app which currently only support Lambda integration.
 
 So let's take pause on the API Gateway now and open another tab to finish off all the backend components.
 <br/></br>
@@ -257,6 +287,9 @@ Step Functions is based on the concepts of <a href="http://docs.aws.amazon.com/s
 * The Step Functions console displays a graphical view of your state machine's structure, which provides you with a way to visually check your state machine's logic and monitor executions.
 <br/>
 * You will see that Step Functions comes with blueprints, which provide sample json templates (in Amazon States Language) for different state types. Now in the end state, our matching algorithm would likely take many more attributes and use a complex algorithm such as <a href="https://en.wikipedia.org/wiki/Singular_value_decomposition">SVD</a>. But for the MVP we're going to keep things simple, and still there's a large number of solutions we could use to perform the match.  So in the first instance we'll use the Choice within Step Functions to perform the match. Longer-term Step would coordinate with the fully implemented matcher but there will be no changes to the API. 
+
+<li>To be clear, the State Machine we will build in this lab does not leverage the full functionality of Step Functions, as there are many other state types to provide retry, wait, and branching (parallel) functionality. But imho, Step Functions is a great for POCs because you can define and visualise your logic which is very useful for both development and operational support. Further, the ability to visualise each execution and the path it took, as well as the state sent in to the various states is quite appealing, but you can make a decision for yourself. :) 
+
 <br/>
 
 <li>Select 'Choice State' and scroll down in the page.
@@ -634,7 +667,10 @@ At the end result of the state machine, you'll see a response like
 
 output: {"petmatch":"cat-survivor"}
 </pre>
+</li>
 <h4>Amazon DynamoDB</h4>
+Amazon DynamoDB is a fully managed NoSQL database service that provides fast and predictable performance with seamless scalability. You can use Amazon DynamoDB to create a database table that can store and retrieve any amount of data, and serve any level of request traffic. Amazon DynamoDB automatically spreads the data and traffic for the table over a sufficient number of servers to handle the request capacity specified by the customer and the amount of data stored, while maintaining consistent and fast performance.
+
 <br/>
 <li>Even with our MVP we'd like to provide a more friendly result with some details about the pet type matched and a nice picture to provide a visual image.  So we will invoke AWS Lambda in the last step of our State Machine to lookup the additional details of the Pet Type Matched based on the petTypeId, and return back to the API Gateway once we finish that off so we need to provide a more friendly result.  We'll do this by having metadata in DynamoDB table that we can query for based on our unique identifier sent into RetrievePetMatchDetails state.  We'll write an AWS Lambda function to query the details for the PetMatch and return the results from DynamoDB. For now we will just return the PetType back but in the future we might want to actually have more metadata about the match such as the percent confidence of the match, etc. We also want to return the actual Pet matched rather than the Type but this works for now.
 
@@ -654,6 +690,7 @@ For the partition key use:
   petTypeId  
  
 </pre>
+You can read more about DynamoDB partitions and Data Distribution <a href="http://docs.aws.amazon.com/amazondynamodb/latest/developerguide/HowItWorks.Partitions.html">here</a>.
 <br/>
 <br/>
 
@@ -661,8 +698,11 @@ For the partition key use:
 <br/>
 
 <h4>AWS Lambda</h4>
+AWS Lambda is a compute service that lets you run code without provisioning or managing servers. AWS Lambda executes your code only when needed and scales automatically, from a few requests per day to thousands per second. You pay only for the compute time you consume - there is no charge when your code is not running. With AWS Lambda, you can run code for virtually any type of application or backend service - all with zero administration. AWS Lambda runs your code on a high-availability compute infrastructure and performs all of the administration of the compute resources, including server and operating system maintenance, capacity provisioning and automatic scaling, code monitoring and logging. All you need to do is supply your code in one of the languages that AWS Lambda supports (currently Node.js, Java, C# and Python).
+
 <br/>
-In actual practice, we wouldn't be manually created most of the things we are in this lab via the console, we would use CloudFormation instead, but the console is easier for learning. If we did create DynamoDb via CloudFormation, we'd need to also load data into the table (aka 'Priming'). A common way to do that is to create a Lambda Function which loads the data. Let's do that now so we can become familiar with Lambda and also use the script we create long-term.
+<br/>
+Navigate to the console to AWS Lambda. In actual practice, we wouldn't be manually created most of the things we are in this lab via the console, we would use CloudFormation instead, but the console is easier for learning. If we did create DynamoDb via CloudFormation, we'd need to also load data into the table (aka 'Priming'). A common way to do that is to create a Lambda Function which loads the data. Let's do that now so we can become familiar with Lambda and also use the script we create long-term.
 
 <li>Select Services->AWS Lambda and then select 'Create a Lambda Function'. You can see that Lambda has many blueprints like Step Functions, but select 'Blank Function'. Hit 'Next' for 'Configure Triggers'.
 
@@ -805,11 +845,11 @@ REPORT RequestId: abf30118-4e7c-11e7-b49d-7f1ca2b1d0aa	Duration: 957.57 ms	Bille
 </pre>
 <br/>
 <br/>
-<h4>DynamoDB</h4>
+<h4>Amazon DynamoDB</h4>
 Now navigate back to DynamoDB and select your PetType table - and select the Items tab. You should see all the data from the Lambda function populated into the table. Now we're going to create one more Lambda Function which will be used back in our Step Function. We will invoke the Lambda Function to give back all the details for their PetMatch.
 <br/>
 <br/>
-<h4>Lambda</h4>
+<h4>AWS Lambda</h4>
 
 <li> Navigate to Lambda and select 'Create a Lambda Function'. Again select 'Blank Function' and hit 'Next' for Triggers. Name the function [your unique id]-getPetTypeForId and copy the following code for the method body. Have a look at the logic it's quite clear that it's querying your table. CHANGE the name of the table to your user id/table name.
 <br/>
@@ -886,6 +926,7 @@ You should see result such as:
 <br/>
 
 <h4>AWS Step Functions</h4>
+AWS Step Functions is a web service that enables you to coordinate the components of distributed applications and microservices using visual workflows. You build applications from individual components that each perform a discrete function, or task, allowing you to scale and change applications quickly. Step Functions provides a reliable way to coordinate components and step through the functions of your application. Step Functions provides a graphical console to visualize the components of your application as a series of steps. It automatically triggers and tracks each step, and retries when there are errors, so your application executes in order and as expected, every time. Step Functions logs the state of each step, so when things do go wrong, you can diagnose and debug problems quickly.
 <li> Navigate to AWS Step Functions, and  select your previously created State Machine and copy the code by going into one of the executions and clicking the 'Code' tab. Copy the code and then go back to the Dashboard and create a new State Machine. Call it [your unique id]-PetMatcherDynamoDB.  Paste the code into the Code Section.
 <li>We need to change the RetrievePetMatchDetails Task in two ways: 1) Change the Type to 'Task'. 2) Add an attribute to the state (at the same level as Task) called Resource. Set the value to the ARN of your Lambda Function. Now create the state machine and select 'OK' about the role. Hit new execution. Put in the same state as earlier:
 <br/>
@@ -913,25 +954,36 @@ Change some of the values to obtain a different result with additional execution
 <br/><br/>
  <img src="images/step-result-ddb.png"/> </li>
 <br/><br/>
-<h4>API Gateway</h4>
+<h4>Amazon API Gateway</h4>
+
 <li>Now We are going to take the ARN from the state machine and invoke it from the API Gateway API Method.  Go back to your tab with API Gateway or open it again and navigate to the POST method of our /petmaches Resource.
 <br/><br/>
-For the Integration type, leave Lambda Function selected. Select the Region your Lambda function is in. 
+<li>For the Integration type, leave Lambda Function selected. Select the Region your Lambda function is in. 
 <br/><br/>
-Select or enter the name of your Lambda function and press save.
-<br/><br/>
-Select OK when it asks to give permissions. 
-<br/><br/>
+<li>Select or enter the name of your Lambda function and press save.
+<li>Select OK when it asks to give permissions. 
 
 <br/><br/>
-Select 'New Stage' and call it Dev - then save.
+<li>Select 'New Stage' and call it Dev - then save.
 <br/><br/>
-Navigate tothe POST method in the Stages, and select it. Copy the Invoke URL. We're going to go back to our website now and integrate invoking our API Gateway invocation into our website.  With Amazon API Gateway, you can optionally set your API methods to require authorization. When setting up a method to require authorization you can leverage AWS Signature Version 4 or custom authorizers to support your own bearer token auth strategy.
+<li>Navigate tothe POST method in the Stages of the petmatcher API, and select it. Copy the URL - it should end with [yourstage]/petmatcher. 
+
+<li>Select your stage resource and select the 'SDK Generation' tab. For platform select Javascript and then select 'Generate SDK'
+<img src="images/apig-stage.png"/>
+We're going to go back to our website now and integrate invoking our API Gateway invocation into our website.  With Amazon API Gateway, you can optionally set your API methods to require authorization. When setting up a method to require authorization you can leverage AWS Signature Version 4 or custom authorizers to support your own bearer token auth strategy.
 <br/><br/>
 With Amazon API Gateway, you can optionally set your API methods to require authorization. When setting up a method to require authorization you can leverage AWS Signature Version 4 or custom authorizers to support your own bearer token auth strategy.
 <br/><br/>
 You can use AWS credentials -- access and secret keys – to sign requests to your service and authorize access like other AWS services. The signing of an Amazon API Gateway API request is managed by the custom API Gateway SDK generated for your service. You can retrieve temporary credentials associated with a role in your AWS account using Amazon Cognito. The requests are then signed with what is called sigv4 (a href="http://docs.aws.amazon.com/general/latest/gr/signature-version-4.html">Signature Version 4 Signing</a>. Fornow our API does not require Authentication, but later we will utilize Amazon Cognito (which in turn uses AWS IAM and other services) to provide scoped authentication details. We will not require our users to login, but for now we will use <a href="http://docs.aws.amazon.com/cognito/latest/developerguide/identity-pools.html">unauthenticated identities.</a>
 <br/><br/>
+<li>Navigate to the directory that you downloaded SDK was placed, and unzip it. Move it to your aws-serverless-workshop directory into the 'static' directory, something like this if you are one level up from the aws-serverless-workshp:
+
+ <button class="btn btn-outline-secondary btn-sm" data-clipboard-target="#mvandcp">Copy</button>
+<pre><span id="mvandcp">
+ mv apiGateway-js-sdk aws-serverless-workshop/static/apiGateway-js-sdk-petmatcher
+</pre></span>
+
+
 
 ====
 setup lambda to deploy invoke synch

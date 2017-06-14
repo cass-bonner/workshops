@@ -6,96 +6,61 @@
 <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
+<script src="https://www.w3schools.com/lib/w3.js"></script>
 </meta>
 <body background="images/background.png">
+</script>
 <table>
   <tr>
-    <td align="left" width="700"><img src="images/aws_icon.png"/></td>
-    <td align="right" width="500"><img src="images/iag_icon.png"/></td>
-  </tr>
+    <td align="left" width="25%"><img src="images/aws_icon.png"/></td>
+    <td align = "center" width = "60%">
+<font size="2">
+  <table>
+<tr>
+<td width="100%"><a href="serverless_prerequisites.html">Serverless Workshop Prerequisites</a></td>
+</tr>
+<tr>
+<td width="100%"><a href="serverless.html">Serverless Overview</a><br/></td>
+</tr>
+<tr>
+<td width="100%"><a href="serverless-static-website.html">Serverless Static Webabb</a><br/></td>
+</tr>
+<tr>
+<td width="100%"><a href="serverless-dynamic-website.html">Serverless Dynamic Webapp</a><br/></td>
+</tr>
+<tr>
+<td width="100%"><a href="serverless-chatbot.html">Serverless Lex Chatbot</a><br/></td>
+</tr></table>
+</font size="2">
+    </td>
+    <td align="right" width="25%"><img src="images/iag_icon.png"/></td>
+ </tr>
 </table>
+
 <br/>
 <br/>
 <p ="font-family:verdana">
 <h1 align="center">IAG AWS Serverless Workshop - Prerequisites</h1>
-<font color="white">
+<br/><br/>
+<div w3-include-html="toc.html"></div>
 In order for the IAG AWS Workshop to be most productive, please ensure all participants come prepared with the following:
 <h2> Preparation for DevGuild </h2>
 <ul>
 <li>Create an iam user for every particpant, and give them a password as well as a set of AWS Access Keys and give these to the participants. Assign them a role with the appropriate permissions - please see email discussion for this. 
 <li>Create the following roles:
 
-{
-  "Version": "2012-10-17",
-  "Statement": [{
-    "Principal": *,
-    "Effect": "Allow",
-    "Action": "sns:*",
-    "Condition": {"StringLike": {"sns:endpoint": "https://example.com/${aws:username}/*"}}
-  }]
-}
-
-<br>on": "2012-10-17",
-  "Statement": [
-    {
-      "Effect": "Allow",
-      "Action": [
-        "cloudwatch:*",
-        "cognito-identity:ListIdentityPools",
-        "cognito-sync:GetCognitoEvents",
-        "cognito-sync:SetCognitoEvents",
-        "dynamodb:*",
-        "events:*",
-        "iam:ListAttachedRolePolicies",
-        "iam:ListRolePolicies",
-        "iam:ListRoles",
-        "iam:PassRole",
-        "kinesis:DescribeStream",
-        "kinesis:ListStreams",
-        "kinesis:PutRecord",
-        "lambda:*",
-        "logs:*",
-        "s3:*",
-        "sns:ListSubscriptions",
-        "sns:ListSubscriptionsByTopic",
-        "sns:ListTopics",
-        "sns:Subscribe",
-        "sns:Unsubscribe",
-        "sns:Publish",
-        "sqs:ListQueues",
-        "sqs:SendMessage",
-        "tag:GetResources",
-        "kms:ListAliases",
-        "ec2:DescribeVpcs",
-        "ec2:DescribeSubnets",
-        "ec2:DescribeSecurityGroups",
-        "iot:GetTopicRule",
-        "iot:ListTopicRules",
-        "iot:CreateTopicRule",
-        "iot:ReplaceTopicRule",
-        "iot:AttachPrincipalPolicy",
-        "iot:AttachThingPrincipal",
-        "iot:CreateKeysAndCertificate",
-        "iot:CreatePolicy",
-        "iot:CreateThing",
-        "iot:ListPolicies",
-        "iot:ListThings",
-        "iot:DescribeEndpoint",
-        "xray:PutTraceSegments", 
-        "xray:PutTelemetryRecords" 
-      ],
-      "Resource": "*"
-    }
-  ]
-}sbr>
-Policy to be applied to each user:
 <ul>
-<li>Create a Group called iag-hackathon
+<li>Create a Group called iag-hackathon (and assign each user to the group)
 
 
 
 <li> Policy to be applied to each user
 <li> Role: [userid]-iag-workshop-lambda-write-ddb
+    <button class="btn btn-outline-secondary btn-sm" data-clipboard-target="#Lambda-policy-write">Copy</button>
+
+NB: This is a work in progess do not use this yet. thanks - clb
+<pre>
+<span id="Lambda-policy-write">
 {
     "Version": "2012-10-17",
     "Statement": [
@@ -112,75 +77,19 @@ Policy to be applied to each user:
                 "dynamodb:BatchWriteItem"
             ],
             "Resource": [
-                "arn:aws:dynamodb:us-west-2:123456789012:table/GameScores"
-            ],
-            "Condition": {
-                "ForAllValues:StringEquals": {
-                    "dynamodb:LeadingKeys": [
-                        "${www.amazon.com:user_id}"
-                    ],
-                    "dynamodb:Attributes": [
-                        "UserId",
-                        "GameTitle",
-                        "Wins",
-                        "Losses",
-                        "TopScore",
-                        "TopScoreDateTime"
-                    ]
-                },
-                "StringEqualsIfExists": {
-                    "dynamodb:Select": "SPECIFIC_ATTRIBUTES"
-                }
-            }
+                "arn:aws:dynamodb::XXXXXaccountnoXX:table/*user*"
+            ]
         }
     ]
 }
+</pre></span>
 <li> Role: [userid]-iag-workshop-lambda-read-ddb
 </ul>
 
 <br><br>
 iag-serverless-workshop-lambda-role with policies CloudWatchLogsFullAccess and AWSLambdaInvocation-DynamoDB and the trust relationship lambda.amazonaws.com
 
-{
-    "Version": "2012-10-17",
-    "Statement": [
-        {
-            "Sid": "AllowAccessToOnlyItemsMatchingUserID",
-            "Effect": "Allow",
-            "Action": [
-                "dynamodb:GetItem",
-                "dynamodb:BatchGetItem",
-                "dynamodb:Query",
-                "dynamodb:PutItem",
-                "dynamodb:UpdateItem",
-                "dynamodb:DeleteItem",
-                "dynamodb:BatchWriteItem"
-            ],
-            "Resource": [
-                "arn:aws:dynamodb:us-west-2:123456789012:table/GameScores"
-            ],
-            "Condition": {
-                "ForAllValues:StringEquals": {
-                    "dynamodb:LeadingKeys": [
-                        "${www.amazon.com:user_id}"
-                    ],
-                    "dynamodb:Attributes": [
-                        "UserId",
-                        "GameTitle",
-                        "Wins",
-                        "Losses",
-                        "TopScore",
-                        "TopScoreDateTime"
-                    ]
-                },
-                "StringEqualsIfExists": {
-                    "dynamodb:Select": "SPECIFIC_ATTRIBUTES"
-                }
-            }
-        }
-    ]
-}
-
+TODO: Complete this
 
 
 <br><br>
@@ -194,25 +103,28 @@ iag-serverless-workshop-xxx
 <li>If using windows, ideally  have Cygwin installed.
 <li>The laptop must have the AWS Command Line Interface (CLI) set up on it. Instructions to <a href="http://docs.aws.amazon.com/cli/latest/userguide/installing.html">install the CLI are here</a>.
 <li>The laptop must be configured for the AWS Command Line Interface (CLI) . Instructions to <a href="http://docs.aws.amazon.com/cli/latest/userguide/cli-chap-getting-started.html">configure the CLI are here</a>. Each participant should use their own AWS Access Key Pairs provided by the Dev Guild.
-<li>npm must be installed as well as vue.js:
+<li>You can either make a directory called aws-workspace (or whatever you'd like to call it) - or you are welcome to work in an existing npm package if that is what you would like. Either way, you need to start working in a directory where npm has been initialized. If you want to start fresh please run the following and except all the defaults for initialization (or fill them in if you prefer):<br/><br/>
 
-<h3>npm</h3>
-    <button class="btn btn-outline-secondary btn-sm" data-clipboard-target="#setupnpm">Copy</button>
+    <button class="btn btn-outline-secondary btn-sm" data-clipboard-target="#bild">Copy</button>
 <pre>
-<span id="setupnpm">
-npm install
+<span id="bild">
 
-npm run dev
+mkdir aws-workspace
+cd  aws-workspace
+npm init
 
-npm run build
+</span></pre>
 
-npm run build --report
+<li>Node must be installed. If you do not have it please download from the <a href="https://nodejs.org/en/download/">Node.js</a> site. 
 
-npm run unit
+<li>npm is included with node, but you should be on a recent version.You can update npm with 'npm install npm@latest -g'
 
-npm run e2e
-
-npm test
+<h3>Node.js & npm</h3>
+    <button class="btn btn-outline-secondary btn-sm" data-clipboard-target="#testnpm">Copy</button>
+<pre>
+<span id="testnpm">
+node -v
+npm -v
 
 </span></pre>
 
@@ -234,10 +146,30 @@ npm test
 </span>
 </pre>
 
+
+
 <br/>
-* Hit return for project name taking the default aws-serverless-workshopi as well as all the other defaults.
+* Hit return for project name taking the default aws-serverless-workshop as well as all the other defaults.
 <br/>
 * Copy and pest the to get started commands or click copy here: 
+<br/>
+<br/>
+<li>Navigate to the base of aws-serverless-workshop (cd aws-serverless-workshop) and edit the file build/webpack.base.conf.js. Remove this json node which will turn off eslint (or if you know a better way to disable it do that).  Since this is just a PoC we won't worry about all the syntax and the solution we utilize in the labs will not confirm so it will not compile with this.
+
+<pre>
+
+# REMOVE THIS FROM build/webpack.base.conf.js
+      {
+        test: /\.(js|vue)$/,
+        loader: 'eslint-loader',
+        enforce: 'pre',
+        include: [resolve('src'), resolve('test')],
+        options: {
+          formatter: require('eslint-friendly-formatter')
+        }
+      },
+
+</pre>
 <br/>
 <br/>
     <button class="btn btn-outline-secondary btn-sm" data-clipboard-target="#getstartvue">Copy</button>
