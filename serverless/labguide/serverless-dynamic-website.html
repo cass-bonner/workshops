@@ -70,9 +70,6 @@ So the first thing you might notice is we've added a few more service icons in f
     <span align="center"><img src="images/serverless-arch.png" /></span>
 <br/>
 <br/>
-<br/>
-We minimally need:
-
 <ol>
 <br/>
 <br/>
@@ -85,7 +82,7 @@ We minimally need:
 
 <br/>
 <br/>
-<li>Let's create a webapp that matches a user with the best type of pet for them , based on attributes about the user. In the future we want the ability to actually find a specific animal from an animal shelter but for now we'll just collect some attributes about the user and suggest which type is best. We also want to take a picture of the user and use that as a criterion but we will leave that out for now.
+<li>Let's create a webapp that matches a user with the best type of pet for them , based on attributes about the user. In the future we want the ability to actually find a specific animal from an animal shelter but for now we'll just collect some attributes about the user and suggest which type is best. 
 <br/>
 <br/>
 
@@ -141,7 +138,7 @@ So, we need
 <br/>
 
 <h4>Amazon API Gateway</h4>
-Amazon API Gateway is an AWS service that enables developers to create, publish, maintain, monitor, and secure APIs at any scale. You can create APIs that access AWS or other web services, as well as data stored in the AWS Cloud.
+Let's take an API-driven approach and start with defining the REST API. Amazon API Gateway is an AWS service that enables developers to create, publish, maintain, monitor, and secure APIs at any scale. You can create APIs that access AWS or other web services, as well as data stored in the AWS Cloud.
 
 API Gateway can be considered a backplane in the cloud to connect AWS services and other public or private web sites. It provides consistent RESTful application programming interfaces (APIs) for mobile and web applications to access AWS services.
 
@@ -151,7 +148,7 @@ The following diagram shows API Gateway architecture and you can read more about
 <br/><br/>
 
 <img src="images/apig-backplane.png"/>
-<li> Let's take an API-driven approach and start with defining the API Gateway REST API. Navigate to the AWS Console and select API Gateway. Select 'Create API' and enter [your unique user id]-PetMatchService and hit 'Create API' again.
+<li> Navigate to the AWS Console and select API Gateway. Select 'Create API' and enter [your unique user id]-PetMatchService and hit 'Create API' again.
 <br/>
 <br/>
 
@@ -259,14 +256,10 @@ Let's create another model for the response:
 
 <li> Type application/json for the Content Type and PetTypeMatchResponse for the ModelName. Click the check image to save the changes.
 
-AUTHENTICATION - add in if time
-<li>For our MVP, we are going to to leave our APIs open but it is worth highlighting that
+<li>For this lab, we are going leave our APIs unauthenticated, but it is worth highlighting that there are quite a few ways to <a href="http://docs.aws.amazon.com/apigateway/latest/developerguide/apigateway-control-access-to-api.html">control access to APIs with API Gateway</a>. We will be adding that in with the next lab.
+
 <br/>
 <br/>
-
-There are quite a few ways to <a href="http://docs.aws.amazon.com/apigateway/latest/developerguide/apigateway-control-access-to-api.html">control access to APIs with API Gateway</a>, but <a href="https://forums.aws.amazon.com/thread.jspa?threadID=230067&tstart=0">this AWS forum post</a> that explains that summarizes two of the primary ones from a webapp fairly well, and considering our intended usage the second option discussed would probably make most sense at least for our MVP.
-
-
 
 <img src="images/apig-postmethod.png"/>
 <br/>
@@ -974,8 +967,10 @@ We're going to go back to our website now and integrate invoking our API Gateway
 <br/><br/>
 With Amazon API Gateway, you can optionally set your API methods to require authorization. When setting up a method to require authorization you can leverage AWS Signature Version 4 or custom authorizers to support your own bearer token auth strategy.
 <br/><br/>
-You can use AWS credentials -- access and secret keys – to sign requests to your service and authorize access like other AWS services. The signing of an Amazon API Gateway API request is managed by the custom API Gateway SDK generated for your service. You can retrieve temporary credentials associated with a role in your AWS account using Amazon Cognito. The requests are then signed with what is called sigv4 (a href="http://docs.aws.amazon.com/general/latest/gr/signature-version-4.html">Signature Version 4 Signing</a>. Fornow our API does not require Authentication, but later we will utilize Amazon Cognito (which in turn uses AWS IAM and other services) to provide scoped authentication details. We will not require our users to login, but for now we will use <a href="http://docs.aws.amazon.com/cognito/latest/developerguide/identity-pools.html">unauthenticated identities.</a>
+You can use AWS credentials -- access and secret keys – to sign requests to your service and authorize access like other AWS services. The signing of an Amazon API Gateway API request is managed by the custom API Gateway SDK generated for your service. You can retrieve temporary credentials associated with a role in your AWS account using Amazon Cognito. The requests are then signed with what is called sigv4 <a href="http://docs.aws.amazon.com/general/latest/gr/signature-version-4.html">Signature Version 4 Signing</a>. Fornow our API does not require Authentication, but later we will utilize Amazon Cognito (which in turn uses AWS IAM and other services) to provide scoped token to the user. We will not require our users to login, but for now we will use <a href="http://docs.aws.amazon.com/cognito/latest/developerguide/identity-pools.html">unauthenticated identities.</a>
 <br/><br/>
+
+
 <li>Navigate to the directory that you downloaded SDK was placed, and unzip it. Move it to your aws-serverless-workshop directory into the 'static' directory, something like this if you are one level up from the aws-serverless-workshp:
 
  <button class="btn btn-outline-secondary btn-sm" data-clipboard-target="#mvandcp">Copy</button>
@@ -988,6 +983,55 @@ You can use AWS credentials -- access and secret keys – to sign requests to yo
 ====
 setup lambda to deploy invoke synch
 ====
+
+
+ <button class="btn btn-outline-secondary btn-sm" data-clipboard-target="#polllam">Copy</button>
+<pre><span id="polllam">
+
+import json
+import boto3
+import time
+import os
+ 
+ 
+print('Loading function')
+ 
+ 
+def lambda_handler(event, context):
+    #print("Received event: " + json.dumps(event, indent=2))
+    #print("input = " + event)
+ 
+    client = boto3.client('stepfunctions')
+   
+    response = client.start_execution(
+        stateMachineArn=os.environ['stateMachineArn'],
+        input=json.dumps(event)
+       
+    )
+   
+    print(response);
+ 
+   
+    # now let's loop every 300ms andlook for the results - bail
+    
+    for i in range(1,100):
+        descResponse = client.describe_execution(
+            executionArn=response['executionArn']
+        );
+       
+ 
+        print("attempt: " + str(i) + " : " + descResponse['status'])
+        if descResponse['status']=='SUCCEEDED':
+            op = json.loads(descResponse['output'])
+            return op;
+            break;
+        else:
+            time.sleep (300.0 / 1000.0);
+
+</pre></span>
+
+
+
 <li>navigate to one directory up - parallel to your aws-serverless-workshop demo and make a directory called 'lambda'. We are going to work on our files locally and deploy them to our environments as that's better practice and we can introduce unit testing, etc. Run these commands - note that the mkdir -p won't work on windows just manually create the two directories.
 
 <br/><br/>

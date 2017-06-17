@@ -14,7 +14,6 @@
   <tr>
     <td align="left" width="25%"><img src="images/aws_icon.png"/></td>
     <td align = "center" width = "60%">
-<font size="2">
   <table>
 <tr>
 <td width="100%"><a href="serverless_prerequisites.html">Serverless Workshop Prerequisites</a></td>
@@ -31,7 +30,6 @@
 <tr>
 <td width="100%"><a href="serverless-chatbot.html">Serverless Lex Chatbot</a><br/></td>
 </tr></table>
-</font size="2">
     </td>
     <td align="right" width="25%"><img src="images/iag_icon.png"/></td>
  </tr>
@@ -44,57 +42,187 @@
 <br/><br/>
 <div w3-include-html="toc.html"></div>
 In order for the IAG AWS Workshop to be most productive, please ensure all participants come prepared with the following:
-<h2> Preparation for DevGuild </h2>
+<h2> Preparation for DevGuild Team Leads/Cloud Team</h2>
 <ul>
 <li>Create an iam user for every particpant, and give them a password as well as a set of AWS Access Keys and give these to the participants. Assign them a role with the appropriate permissions - please see email discussion for this. 
 <li>Create the following roles:
 
 <ul>
-<li>Create a Group called iag-hackathon (and assign each user to the group)
+
+<li>  IAM Users should be assigned to a group, and ideally the group (and and any user if applicable) policies should apply least privileges policy (only grant access as required). In a hackathon account, one way to do this would be to constrain access to required services for policies where the user can only write(in addition to read actions) for resources named with ther username. For example the below policy could be added for DynamoDB (along with the provided AWS  AmazonDynamoDBReadOnlyAccess policy - or even easier just attach the 'ReadOnlyAccess' managed policy to the group) 
+
+<br/>
+<br/>
+This is recommended practice and would need permutated for every service because the "resource vendor" such as s3 versus dynamodb has to be fully qualified.  
+<br/>
+<br/>
+Create a Custom Policy which provides admin permissions, but only for resources with the user's name in it.
+<br/>
+<br/>
+
+This can be performed via acommand line or via console. Here's the console instructions.
+
+<li>In the console, navigate to IAM -> Groups -> Create New Group. Use adminForUsername as the group name. Click 'Next Step'
+<li>In the 'Attach Policy' screen, enter 'ReadOnlyAccess' and then tick the the button.
+<li>Select 'Next Step' and then 'Create Group'.
+<li>Select on the adminForUser group , and expand the 'Inline Policies' section at the bottom of the page. 	
+<li>Select 'click here' to set permissions. Select the 'Custom Policy' 	in Set Permissions and then select 'Select'
+<li>Enter 'adminForUsername' in the name and past the below for the policy - substituting the 'XXX's for the AWS account number.
 
 
 
-<li> Policy to be applied to each user
-<li> Role: [userid]-iag-workshop-lambda-write-ddb
+    <button class="btn btn-outline-secondary btn-sm" data-clipboard-target="#username-policies">Copy</button>
+<pre>
+<span id="username-policies">
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "adminForUsername",
+            "Effect": "Allow",
+            "Action": [
+                "*"
+            ],
+            "Resource": [
+                "arn:aws:s3:::*${aws:username}*",
+                "arn:aws:dynamodb:*:XXXXXXX:table/*${aws:username}*",
+                "arn:aws:iam:::user/*${aws:username}*",
+                "arn:aws:rds:*:XXXX:db:*${aws:username}*",
+                "arn:aws:elasticbeanstalk:*:XXX:environment/*${aws:username}*/*",
+                "arn:aws:artifact:::report-package/document-type/report-type"
+ 
+            ]
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "logs:CreateLogGroup",
+                "logs:CreateLogStream",
+                "logs:PutLogEvents"
+            ],
+            "Resource": "*"
+        }
+    ]
+}
+<li> Save the policy- you should now see two policies on the group - ReadOnlyAcess and adminForUsername 
+<li> Add all required users to this group.
+</pre>
+
+
+
+<li> There are three service roles required for the Serverless Workshop that either can be created manually (via script or console) or we can supply a <a href="http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/Welcome.html">CloudFormation template</a>. We recommend the team or users create them as a learning experience. For context, the roles include:
+
+<br/><br/>
+
+a) Role to provide trust to lambda to invoke Amazon DynamoDB APIs that support querying a table which includes the user's name <br/><br/>
+b) Role to provide trust to lambda to invoke Amazon DynamoDB APIs that support writing (batch) to a table which includes the user's name <br/><br/>
+c) Role to provide trust to lambda to invoke AWS Step Functions APIs for start-execution & describe-execution which are named as a particular user.<br/><br/>
+<br/><br/>
+
+Because the service roles are not running as a particular user, we can not use the IAM policy variable as we can for the policies created for the users, so the username will need to be static if we go with this approach. You can also grant less granular policies but it is not recommended. 
+<br/><br/>
+If you use the below samples please be sure to change the userid to the static name of the userid. This can be done via a script or we can ask each participant to defines the roles. Create a customer policy with the below definition and then Create a role and attach it as a custom policy.
+
+<ul>
+<li>Lamda Trust Role (+policies): [userid]-lambda-write-ddb
     <button class="btn btn-outline-secondary btn-sm" data-clipboard-target="#Lambda-policy-write">Copy</button>
-
-NB: This is a work in progess do not use this yet. thanks - clb
 <pre>
 <span id="Lambda-policy-write">
 {
     "Version": "2012-10-17",
     "Statement": [
         {
-            "Sid": "[userid]-iag-workshop-lambda-write-ddb",
+            "Sid": "[userid]LambdaWriteDdb",
             "Effect": "Allow",
             "Action": [
-                "dynamodb:GetItem",
-                "dynamodb:BatchGetItem",
-                "dynamodb:Query",
                 "dynamodb:PutItem",
                 "dynamodb:UpdateItem",
                 "dynamodb:DeleteItem",
                 "dynamodb:BatchWriteItem"
             ],
             "Resource": [
-                "arn:aws:dynamodb::XXXXXaccountnoXX:table/*user*"
+                "arn:aws:dynamodb:*:XXXXX:table/*INSERT_STATIC_USERNAME_HERE*"
             ]
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "logs:CreateLogGroup",
+                "logs:CreateLogStream",
+                "logs:PutLogEvents"
+            ],
+            "Resource": "*"
+        }
+    ]
+}
+
+</pre></span>
+
+
+<li> Lambda Trust Role (+DynamoDB Read): [userid]-lambda-read-ddb
+    <button class="btn btn-outline-secondary btn-sm" data-clipboard-target="#Lambda-policy-read">Copy</button>
+<pre><span id="Lambda-policy-read">
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "[insert-userid]LambdaWriteDdb",
+            "Effect": "Allow",
+            "Action": [
+                "dynamodb:GetItem",
+                "dynamodb:BatchGetItem",
+                "dynamodb:Query"
+            ],
+            "Resource": [
+                "arn:aws:dynamodb:*:*:table/*INSERT_STATIC_USERNAME_HERE*"
+            ]
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "logs:CreateLogGroup",
+                "logs:CreateLogStream",
+                "logs:PutLogEvents"
+            ],
+            "Resource": "*"
         }
     ]
 }
 </pre></span>
-<li> Role: [userid]-iag-workshop-lambda-read-ddb
+<li>Lamda Trust Role (+policies for StepFunctions APIs): [userid]-lambda-sfn-start-desc-exec
+    <button class="btn btn-outline-secondary btn-sm" data-clipboard-target="#lam-sfn">Copy</button>
+<pre>
+<span id="lam-sfn">
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "usernameSfnStartDescExec",
+            "Effect": "Allow",
+            "Action": [
+                "states:StartExecution",
+                "states:DescribeExecution"
+            ],
+            "Resource": [
+                "arn:aws:states:ap-southeast-2:970386504547:execution:*[userid]*:*",
+                "arn:aws:states:ap-southeast-2:970386504547:stateMachine:*[userid]*"
+            ]
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "logs:CreateLogGroup",
+                "logs:CreateLogStream",
+                "logs:PutLogEvents"
+            ],
+            "Resource": "*"
+        }
+    ]
+}
+</pre></span>
+</ul>
 </ul>
 
-<br><br>
-iag-serverless-workshop-lambda-role with policies CloudWatchLogsFullAccess and AWSLambdaInvocation-DynamoDB and the trust relationship lambda.amazonaws.com
-
-TODO: Complete this
-
-
-<br><br>
-iag-serverless-workshop-xxx
-<li> 
 </ul>
 <br>
 <h2> Preparation for Students</h2>
@@ -131,7 +259,16 @@ npm -v
 
 
 <h3>vue.js</h3>
+<<a href="https://en.wikipedia.org/wiki/Vue.js">From Wikipedia</a>>
+<br/><br/>
+<i>Vue.js (commonly referred to as Vue; pronounced /vjuː/, like view) is an open-source progressive JavaScript framework for building user interfaces. Integration into projects that use other JavaScript libraries is made easy with Vue because it is designed to be incrementally adoptable. Vue can also function as a web application framework capable of powering advanced single-page applications.
+<br/><br/>
 
+According to a 2016 JavaScript survey, Vue has an 89% developer satisfaction rating. It accumulates around 95 GitHub stars per day, and is the 10th most starred project on GitHub of all time.</i>
+
+<br/><br/>
+There's not enough javascript frameworks around :) so let's check it out! The process for most modern js frameworks will be similiar to thi.
+<br/><br/>
     <button class="btn btn-outline-secondary btn-sm" data-clipboard-target="#setupvue">Copy</button>
 <pre>
 <span id="setupvue">
@@ -208,12 +345,13 @@ You can kill the vue dev server now.
     </script>
     <button class="btn btn-outline-secondary btn-sm" data-clipboard-target="#role">Copy</button>
 <pre>
-<span id="role">aws iam get-role --role-name iag-serverless-workshop-lambda-role</span>
+<span id="role">aws iam get-role --role-name [userid]-lambda-read-ddb</span>
 </pre>
 You should see something such as:
-acbc32c9308f:labguide bonnerca$ aws iam get-role --role-name iag-serverless-workshop-lambda-role
+
+labguide: bonnerca$ aws iam get-role --role-name -lambda-read-ddb 
 <div class="black-background"><pre class="black-background">
-{
+   {
     "Role": {
         "AssumeRolePolicyDocument": {
             "Version": "2012-10-17", 
@@ -227,15 +365,100 @@ acbc32c9308f:labguide bonnerca$ aws iam get-role --role-name iag-serverless-work
                 }
             ]
         }, 
-        "RoleId": "XXX", 
-        "CreateDate": "XXX", 
-        "RoleName": "iag-serverless-workshop-lambda-role", 
+        "RoleId": "XXXXX", 
+        "CreateDate": "2017-06-16T05:51:15Z", 
+        "RoleName": "userid-lambda-read-ddb", 
         "Path": "/", 
-        "Arn": "arn:aws:iam::XXXX:role/iag-serverless-workshop-lambda-role"
+        "Arn": "arn:aws:iam::XXXXXXXX:role/userid-lambda-read-ddb"
     }
 }
+
 <br>
 </pre>
+<br/>
+An IAM role is similar to a user, in that it is an AWS identity with permission policies that determine what the identity can and cannot do in AWS. However, instead of being uniquely associated with one person, a role is intended to be assumable by anyone who needs it. Also, a role does not have any credentials (password or access keys) associated with it. Instead, if a user is assigned to a role, access keys are created dynamically and provided to the user.
+<br/>
+<br/>
+
+You can use roles to delegate access to users, applications, or services that don't normally have access to your AWS resources. For example, you might want to grant users in your AWS account access to resources they don't usually have, or grant users in one AWS account access to resources in another account. Or you might want to allow a mobile app to use AWS resources, but not want to embed AWS keys within the app (where they can be difficult to rotate and where users can potentially extract them). Sometimes you want to give AWS access to users who already have identities defined outside of AWS, such as in your corporate directory. Or, you might want to grant access to your account to third parties so that they can perform an audit on your resources.
+<br/>
+<br/>
+
+For these scenarios, you can delegate access to AWS resources using an IAM role. This section introduces roles and the different ways you can use them, when and how to choose among approaches, and how to create, manage, switch to (or assume), and delete roles.
+<br/>
+<br/>
+
+This role was created as part of the setup to the lab. It allows AWS Lambda (you'll learn more about that in the lab) to assume a role and when it is invoked. The role has an inline policy which looks like this:
+
+<pre><span id="Lambda-policy-read">
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "[userid]LambdaWriteDdb",
+            "Effect": "Allow",
+            "Action": [
+                "dynamodb:GetItem",
+                "dynamodb:BatchGetItem",
+                "dynamodb:Query"
+            ],
+            "Resource": [
+                "arn:aws:dynamodb:*:*:table/*userid*"
+            ]
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "logs:CreateLogGroup",
+                "logs:CreateLogStream",
+                "logs:PutLogEvents"
+            ],
+            "Resource": "*"
+        }
+    ]
+}
+</pre></span>
+
+<br/>
+This policy statement says to allow the ability to invoke three APIs to DynamoDB: getItem, BatchGetItem, and Query.  And the resource on which they are allows to invoke those APIs is for a table that contains the user's id (yours should display your id).  Therefore, it only allows the running Lambda function to query only tables with your user id.  The second statement allows the Lambda Function to write to AWS CloudWatch Logs,  which allows you to monitor, store, and access your log files from Amazon Elastic Compute Cloud (Amazon EC2) instances, AWS CloudTrail, and other sources. You can then retrieve the associated log data from CloudWatch Logs.
+<br/>
+<br/>
+
+This is in line with the AWS IAM Best Practices as you only want to give access to the resources required. We will be defining a Lambda function that only needs to read from Amazon DynamoDB (a fully managed NoSQL database service - more on this in the Labs), as well as another Lambda function that can write to DynamoDB. The write policy for the Lambda that needs to write looks like this:
+<br/><br/>
+<pre>
+<span id="Lambda-policy-write">
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "[userid]LambdaWriteDdb",
+            "Effect": "Allow",
+            "Action": [
+                "dynamodb:PutItem",
+                "dynamodb:UpdateItem",
+                "dynamodb:DeleteItem",
+                "dynamodb:BatchWriteItem"
+            ],
+            "Resource": [
+                "arn:aws:dynamodb:*:XXXXX:table/*userid*"
+            ]
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "logs:CreateLogGroup",
+                "logs:CreateLogStream",
+                "logs:PutLogEvents"
+            ],
+            "Resource": "*"
+        }
+    ]
+}
+</span></pre>
+<br/>
+<br/>
+This role ensures that your Lambda function can only write to tables that have your name in it. Note how it grants additional API Invocations for PutItem, BatchWriteItem, etc. This role would only be provided to a Lambda that needs to write. Dynamo DB actually supports fine-grained controls which you can read about <a href="https://aws.amazon.com/blogs/aws/fine-grained-access-control-for-amazon-dynamodb/">here</a>. 
 </ol>
 </div>
 <br>

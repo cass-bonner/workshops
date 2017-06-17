@@ -60,12 +60,42 @@
 </tr>
 </table>
 
+<h4>Amazon Lex</h4>
 
-Now let's add a chat bot into our application
+<ol>
+<li><listing class="pretext">Now let's add a chat bot into our application.  AWS has a number of services in the AI space, one of which is Amazon Lex, an AWS service for building conversational interfaces for any applications using voice and text. With Amazon Lex, the same conversational engine that powers Amazon Alexa is now available to any developer, enabling you to build sophisticated, natural language chatbots into your new and existing applications. Amazon Lex provides the deep functionality and flexibility of natural language understanding (NLU) and automatic speech recognition (ASR) so you can build highly engaging user experiences with lifelike, conversational interactions, and create new categories of products. Lex uses specific terminolog - it identifies 'Intents' by analyzing 'Utterances', and then collects the required 'slot' values, and once all required slots are provided it 'Fulfills' the intent as shown in this diagram:
+
+<a href="https://aws.amazon.com/lex/details/"><img src="images/lex-desc.png"/></a>
+
+We're going to create a Lex Bot that invokes our same polling PetMatch Lambda Function for fullment and then include it on our site. Note that there are powerful use cases for Lex that allow you users to in a much more conversational style, and the value prop for Lex definitely includes allowing users to "navigate" to their desired "Intent" (all the different actions or insights they would like to perform on the website).  Lex can be used to help reduce the "friction" of navigating traditional websites. The use case here is a simple collection of data and is transactional in nature, but it is still useful to demonstrate Lex. Also, imagine that our PetMatch page was nested in our site about 4 "navigations" (clicks,nav bar navigation, etc), Lex could more directly identify and pre-populate data for an Intent. 
+ 
+
+</listing>
+</li>
+<li><listing class="pretext">Navigate to the the 'Lex' Service in the AWS console. Lex is currently available in us-east-1 only so you will have to select that region.</listing></li>
+<li><listing class="pretext">Select 'Create', and then 'Custom Bot'</listing></li>
+<li><listing class="pretext">Use [yourid]PetMatcher for the Bot name and Select a voice of your liking. Then select 'Create'</listing></li>
+<li><listing class="pretext">Select 'Create an intent', and then 'Create a new intent'.  Call it [yourid]pettypematch, and then select 'Add'.</listing></li>
+<li><listing class="pretext">
+In the Sample Utterances box, type 'Match My Pet Type'.
+
+Select the + icon to add  the utterance as shown here:
+
+<img src="images/lex-ui-create.png"/>
+
+Repeat this process for the following phrases so that you have three utterances listed:
+I want to match my pet type
+Can you match my pet type
+</listing></li>
+<li><listing class="pretext">For the Slots, we're going to replicate the questions we asked on our PetMatch website because those are the values that weneed to collect to be able to perform a match.</listing></li>
+<li><listing class="pretext"></listing></li>
+<li><listing class="pretext"></listing></li>
+<li><listing class="pretext"></listing></li>
+<li><listing class="pretext"></listing></li>
+<li><listing class="pretext"></listing></li>
+
 
 This time we're going to bootstrap our efforts by using a lab off <a href="https://github.com/awslabs">awslabs on github</a>.
-
-<br/
 Navigate to this url in your browser:
 <br/>
 
@@ -97,6 +127,6 @@ Similarly with every paramter - preface it with your unique id. This will make i
 
 <br/>
 <br/>
-  <a href="serverless-static-website"/>&lt;Now let's create the dynamic components&gt;</a>
+  <a href="spark-backend"/>&lt;Now let's change our algorithm for the match&gt;</a>
 </body>
 </html>

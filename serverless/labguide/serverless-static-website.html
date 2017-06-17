@@ -71,7 +71,7 @@ Serverless has many use cases as we have discussed, but is a great fit for build
 We minimally need:
 
 <ul>
-<li> A User Interface (UI). Of course the solution will be different whether you want to build a traditional website intended for a browser, a native app for mobile phones, etc. For this workshop we'll just build basic html/javascript for a traditional website but the design would not vary significantly.  We will use <a href="http://docs.aws.amazon.com/AmazonS3/latest/dev/Welcome.html">S3 (Simple Storage Service)</a> to serve our static file requests. In practice you'd likely want to include a <a href="http://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/Introduction.html">Content Delivery Network (CDN)</a> such as AWS Cloud Front to serve the static files from Edge locations to provide better performance for the users. We could create a simple html file but that's boring :) and we want to build on this with dynamic ajax REST APIs in the next lesson so we are going to leverage Vue.js Framework. Vue is a progressive and lightweight javascript framework that takes the best features of some other frameworks and makes it easy to build websites. Further, later in this workshop we will layer on a Amazon Lex ChatBox and we will utilize an AWS Github awslabs project that also uses Vue so it will be good to get familiar with it if you're not already.
+<li> A User Interface (UI). Of course the solution will be different whether you want to build a traditional website intended for a browser, a native app for mobile phones, etc. For this workshop we'll just build basic html/javascript for a traditional website but the design would not vary significantly.  We will use <a href="http://docs.aws.amazon.com/AmazonS3/latest/dev/Welcome.html">S3 (Simple Storage Service)</a> to serve our static file requests. In practice you'd likely want to include a <a href="http://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/Introduction.html">Content Delivery Network (CDN)</a> such as AWS Cloud Front to serve the static files from Edge locations to provide better performance for the users. We will use  and we want to build on this with dynamic ajax REST APIs in the next lesson so we are going to leverage Vue.js Framework. Vue is a progressive and lightweight javascript framework that takes the best features of some other frameworks and makes it easy to build websites. Further, later in this workshop we will layer on a Amazon Lex ChatBox and we will utilize an AWS Github awslabs project that also uses Vue so it will be good to get familiar with it if you're not already.
 <li> Dynamic Components. The static files come from S3, but few websites only need static content. We might need to post data to our backend, or query data specific to a given user, or their particular request. We will use <a href="http://docs.aws.amazon.com/apigateway/latest/developerguide/welcome.html">Amazon API Gateway</a> to define the various dynamic use cases (APIs) for which we need to serve our pages in the next section of this workshop. We will use <a href="http://docs.aws.amazon.com/lambda/latest/dg/welcome.html">AWS Lambda</a> to run the dynamic logic/code to fulfill our requests, which does not require you to provision or manage servers, and manages resiliency and scale on your behalf.  We use <a href="http://docs.aws.amazon.com/step-functions/latest/dg/welcome.html">AWS Step Functions</a> to coordinate the components of distributed applications and microservices using visual workflows. 
 <br/>
 <br/>
@@ -101,6 +101,7 @@ This should start the Vue server and launch a Hello World Vue webapp that you sa
 cp index.html index.html.bak
 cp src/App.vue src/App.vue.bak
 cp src/components/Hello.vue src/components/Hello.vue.bak
+cp src/router/index.js src/router/index.js.bak
 </span></pre>
 
 <li>Now, run the following commands which will copy some updates to those two files as well as bring in some additional resources.
@@ -131,10 +132,11 @@ Optional: Now let's diff the files to see what's changed. (if on Windows try FC 
 diff index.html index.html.bak
 diff src/App.vue src/App.vue.bak
 diff src/components/Hello.vue src/components/Hello.vue.bak
-diff src/router/index.js src/router/index.js
+diff src/router/index.js src/router/index.js.bak
 rm index.html.bak
 rm src/App.vue.bak 
 rm src/components/Hello.vue.bak
+rm src/router/index.js.bak
 
 </span></pre>
 

@@ -27,6 +27,17 @@ pre {
     white-space: pre !important;
 }
 
+.pretext {
+    margin:20px; padding:7px ;margin-top:5px;margin-left:20px;margin-right:20px;
+    background-color: #1b1d20;
+    word-break: normal !important;
+    white-space: pre-wrap;       /* Since CSS 2.1 */
+    white-space: -moz-pre-wrap;  /* Mozilla, since 1999 */
+    white-space: -pre-wrap;      /* Opera 4-6 */
+    white-space: -o-pre-wrap;    /* Opera 7 */
+    word-wrap: break-word;       /* Internet Explorer 5.5+ */
+}
+
 button {
     background-color: grey; 
     border: 5ps;
