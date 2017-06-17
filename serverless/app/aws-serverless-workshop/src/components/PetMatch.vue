@@ -109,10 +109,10 @@ Answer a few basic questions and we'll match the pet for you!
 Your Match Results:
 <br/>
 <br/>
-Breed: <span id="breed"></span><br/>
-Classification:  <span id="Classification"></span><br/>
-Lifespan: <span id="lifespan"></span><br/></br>
-<img id="matchimg" src=""/><br/>
+Breed: {{ questions.matchResults.breed }}<br/>
+Classification:  {{ questions.matchResults.Classification }}<br/>
+Lifespan: {{ questions.matchResults.lifespan }}<br/></br>
+<img v-bind:src="questions.matchResults.image" /><br/>
 <font size="1">All images courtesy of icanhascheesburger or Wikipedia</font>
 </span>
 </td>
@@ -123,6 +123,7 @@ Lifespan: <span id="lifespan"></span><br/></br>
 
 <script>
 export default {
+  /* eslint-disable space-infix-ops, quotes, no-undef   */
   name: 'PetMatch',
   data () {
     return {
@@ -159,7 +160,8 @@ export default {
           Classification: '',
           breed: '',
           lifespan: '',
-          petTypeId: ''
+          petTypeId: '',
+          image: ''
         }
       }
     }
@@ -177,35 +179,26 @@ export default {
         accommodation: this.questions.question6.accommodation,
         outside: this.questions.question7.outside
       }
-      var matchResults=this.questions.matchResults;
-      console.log("matchRults"+ JSON.stringify(matchResults));
-      console.log("payload"+ JSON.stringify(payload));
+      console.log("payload"+ JSON.stringify(payload))
+
+      var self=this
       client.petmatchesPost({}, payload, {})
       .then(function (result) {
         console.log('Communication with API via API SDK a success.')
         console.log(result)
-        var response = result.data
-        console.log('response...', response)
-        //set the match results
+        // set the match results
+        self.questions.matchResults=result.data
+        console.log("self: " +JSON.stringify(self.questions.matchResults))
 
-        matchResults=response;
-        //this.data.questions.matchResults=response;
-        console.log("matchRults"+ JSON.stringify(matchResults));
-        //console.log('matchr.classification..', this.matchResults.Classification)
-        //console.log("images: " + this.matchResults.petTypeId);
-
-        var span = document.getElementById("hidden_div");
-        console.log("breed: " + matchResults.breed);
-        document.getElementById("breed").textContent=matchResults.breed;
-        document.getElementById("Classification").textContent=matchResults.Classification;
-        document.getElementById("lifespan").textContent=matchResults.lifespan;
-        document.getElementById("matchimg").src="static/images/" + matchResults.petTypeId+ ".jpg";
-         span.style.display = '';
+        // unhide the div
+        var span = document.getElementById("hidden_div")
+        span.style.display = ''
+        self.questions.matchResults.image="static/images/" + result.data.petTypeId + ".jpg"
+        console.log("self: " +JSON.stringify(self.questions.matchResults))
       }).catch(function (result) {
         console.log('Communication with API via API SDK a Failure.')
         console.log(result)
       })
-
     }
   }
 }

@@ -73,24 +73,25 @@ This can be performed via acommand line or via console. Here's the console instr
 
     <button class="btn btn-outline-secondary btn-sm" data-clipboard-target="#username-policies">Copy</button>
 <pre>
-<span id="username-policies">
 {
     "Version": "2012-10-17",
     "Statement": [
         {
-            "Sid": "adminForUsername",
+            "Sid": "usernamesAll",
             "Effect": "Allow",
             "Action": [
                 "*"
             ],
             "Resource": [
                 "arn:aws:s3:::*${aws:username}*",
-                "arn:aws:dynamodb:*:XXXXXXX:table/*${aws:username}*",
+                "arn:aws:dynamodb:us-east-1::table/*${aws:username}*",
                 "arn:aws:iam:::user/*${aws:username}*",
-                "arn:aws:rds:*:XXXX:db:*${aws:username}*",
-                "arn:aws:elasticbeanstalk:*:XXX:environment/*${aws:username}*/*",
-                "arn:aws:artifact:::report-package/document-type/report-type"
- 
+                "arn:aws:rds:eu-east-1::db:*${aws:username}*",
+                "arn:aws:elasticbeanstalk:us-east-1::environment/*${aws:username}*/*",
+                "arn:aws:artifact:::report-package/document-type/report-type",
+                "arn:aws:lex:us-east-1::bot:*${aws:username}*:*",
+                "arn:aws:lex:us-east-1::intent:*${aws:username}*:*",
+                "arn:aws:lex:us-east-1::slottype:*${aws:username}*:*"
             ]
         },
         {
@@ -101,12 +102,110 @@ This can be performed via acommand line or via console. Here's the console instr
                 "logs:PutLogEvents"
             ],
             "Resource": "*"
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "cloudwatch:GetMetricStatistics",
+                "cloudwatch:DescribeAlarms",
+                "cloudwatch:DescribeAlarmsForMetric",
+                "kms:DescribeKey",
+                "kms:ListAliases",
+                "lambda:GetPolicy",
+                "lambda:ListFunctions",
+                "lex:*",
+                "polly:DescribeVoices",
+                "polly:SynthesizeSpeech"
+            ],
+            "Resource": [
+                "*"
+            ]
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "lambda:AddPermission",
+                "lambda:RemovePermission"
+            ],
+            "Resource": "*",
+            "Condition": {
+                "StringLike": {
+                    "lambda:Principal": "lex.amazonaws.com"
+                }
+            }
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "iam:GetRole",
+                "iam:DeleteRole"
+            ],
+            "Resource": [
+                "arn:aws:iam::*:role/aws-service-role/lex.amazonaws.com/AWSServiceRoleForLexBots",
+                "arn:aws:iam::*:role/aws-service-role/channels.lex.amazonaws.com/AWSServiceRoleForLexChannels"
+            ]
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "iam:CreateServiceLinkedRole"
+            ],
+            "Resource": [
+                "arn:aws:iam::*:role/aws-service-role/lex.amazonaws.com/AWSServiceRoleForLexBots"
+            ],
+            "Condition": {
+                "StringLike": {
+                    "iam:AWSServiceName": "lex.amazonaws.com"
+                }
+            }
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "iam:DetachRolePolicy"
+            ],
+            "Resource": [
+                "arn:aws:iam::*:role/aws-service-role/lex.amazonaws.com/AWSServiceRoleForLexBots"
+            ],
+            "Condition": {
+                "StringLike": {
+                    "iam:PolicyArn": "arn:aws:iam::aws:policy/aws-service-role/AmazonLexBotPolicy"
+                }
+            }
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "iam:CreateServiceLinkedRole"
+            ],
+            "Resource": [
+                "arn:aws:iam::*:role/aws-service-role/channels.lex.amazonaws.com/AWSServiceRoleForLexChannels"
+            ],
+            "Condition": {
+                "StringLike": {
+                    "iam:AWSServiceName": "channels.lex.amazonaws.com"
+                }
+            }
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "iam:DetachRolePolicy"
+            ],
+            "Resource": [
+                "arn:aws:iam::*:role/aws-service-role/channels.lex.amazonaws.com/AWSServiceRoleForLexChannels"
+            ],
+            "Condition": {
+                "StringLike": {
+                    "iam:PolicyArn": "arn:aws:iam::aws:policy/aws-service-role/LexChannelPolicy"
+                }
+            }
         }
     ]
 }
+</pre>
 <li> Save the policy- you should now see two policies on the group - ReadOnlyAcess and adminForUsername 
 <li> Add all required users to this group.
-</pre>
 
 
 
@@ -290,23 +389,6 @@ There's not enough javascript frameworks around :) so let's check it out! The pr
 <br/>
 * Copy and pest the to get started commands or click copy here: 
 <br/>
-<br/>
-<li>Navigate to the base of aws-serverless-workshop (cd aws-serverless-workshop) and edit the file build/webpack.base.conf.js. Remove this json node which will turn off eslint (or if you know a better way to disable it do that).  Since this is just a PoC we won't worry about all the syntax and the solution we utilize in the labs will not confirm so it will not compile with this.
-
-<pre>
-
-# REMOVE THIS FROM build/webpack.base.conf.js
-      {
-        test: /\.(js|vue)$/,
-        loader: 'eslint-loader',
-        enforce: 'pre',
-        include: [resolve('src'), resolve('test')],
-        options: {
-          formatter: require('eslint-friendly-formatter')
-        }
-      },
-
-</pre>
 <br/>
 <br/>
     <button class="btn btn-outline-secondary btn-sm" data-clipboard-target="#getstartvue">Copy</button>

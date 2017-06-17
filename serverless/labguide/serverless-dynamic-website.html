@@ -703,6 +703,12 @@ Navigate to the console to AWS Lambda. In actual practice, we wouldn't be manual
 
 Note that the images would normally be surved up by <a href="http://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/Introduction.html">Amazon CloudFront</a> or another CDN to cache the static assets, but we'll just assume the image has the same namem as the identifier and it will be available locally in the webapp.
 
+<li>Scroll down to the textarea where you can enter code just after Code Entry Type. It should default to 'Edit Code Inline' but if not select that option. Then select on the settings icon (which looks like a typical settings icon as below) and then change the editor to another them such as Monokai. This will change the editor them which may make it easier to read. Select the one that works best for you. You can also expand to ful screen with the other icon:
+<br/>
+<br/>
+<img src="images/lambda-editor.png"/>
+<br/>
+<br/>
 <li>Copy the below code paste it into the method body for the Lambda Function. AWS Lambda is a compute service that lets you run code without provisioning or managing servers. 
 
 BE SURE TO CHANGE the '[your unique user id]' to your name so that it matches the table we just created.
@@ -964,11 +970,29 @@ Change some of the values to obtain a different result with additional execution
 <li>Select your stage resource and select the 'SDK Generation' tab. For platform select Javascript and then select 'Generate SDK'
 <img src="images/apig-stage.png"/>
 We're going to go back to our website now and integrate invoking our API Gateway invocation into our website.  With Amazon API Gateway, you can optionally set your API methods to require authorization. When setting up a method to require authorization you can leverage AWS Signature Version 4 or custom authorizers to support your own bearer token auth strategy.
+
 <br/><br/>
+
+<h4>Amazon Cognito</h4>
 With Amazon API Gateway, you can optionally set your API methods to require authorization. When setting up a method to require authorization you can leverage AWS Signature Version 4 or custom authorizers to support your own bearer token auth strategy.
 <br/><br/>
-You can use AWS credentials -- access and secret keys – to sign requests to your service and authorize access like other AWS services. The signing of an Amazon API Gateway API request is managed by the custom API Gateway SDK generated for your service. You can retrieve temporary credentials associated with a role in your AWS account using Amazon Cognito. The requests are then signed with what is called sigv4 <a href="http://docs.aws.amazon.com/general/latest/gr/signature-version-4.html">Signature Version 4 Signing</a>. Fornow our API does not require Authentication, but later we will utilize Amazon Cognito (which in turn uses AWS IAM and other services) to provide scoped token to the user. We will not require our users to login, but for now we will use <a href="http://docs.aws.amazon.com/cognito/latest/developerguide/identity-pools.html">unauthenticated identities.</a>
+You can use AWS credentials -- access and secret keys – to sign requests to your service and authorize access like other AWS services. The signing of an Amazon API Gateway API request is managed by the custom API Gateway SDK generated for your service. You can retrieve temporary credentials associated with a role in your AWS account using Amazon Cognito. The requests are then signed with what is called sigv4 <a href="http://docs.aws.amazon.com/general/latest/gr/signature-version-4.html">Signature Version 4 Signing</a>. We will use Cognito User Pools to tighten our APIs still use Authentication, utilizing Amazon Cognito to provide us with a JWT token. We will not require our users to login, but for now we will use <a href="http://docs.aws.amazon.com/cognito/latest/developerguide/identity-pools.html">unauthenticated identities.</a>
 <br/><br/>
+
+There are three three main auth types with API Gateway: 
+<br/><br/>
+<img src="images/apig-auth-types.png"/>
+<br/><br/>
+We are going to use the first type, using the 
+
+<br/><br/>
+There's a great <a href="https://youtu.be/n4hsWVXCuVI">YouTube Reinvent 2016 Video - Serverless Authentication and Authorisation</a> that explains these well.
+<br/><br/>
+Check out this <a href="https://github.com/awslabs/aws-cognito-apigw-angular-auth">aws-cognito-apigw-angular-auth AWS Lab</a> or the <a href="https://github.com/awslabs/aws-serverless-auth-reference-app">aws-serverless-auth-reference-app AWS Lab</a> for some sample code. In the great diagram put together by the aws-cognito-apigw-angular-auth lab, we are going to start the bottom path where we will only use User Pools. This path supports unauthenticated users, but also supports authenticated users if you just requre a "yes/no" as to whether or not a user in your pool perform a task. 
+<br/><br/>
+<img src="images/cognito-auth-lab.png"/>
+<li>Open a new tab in your browers and navigate to Amazon Cognito.  Cognito has two main areas, User Pools and Federated Identies. We're only going to use the former for now.
+
 
 
 <li>Navigate to the directory that you downloaded SDK was placed, and unzip it. Move it to your aws-serverless-workshop directory into the 'static' directory, something like this if you are one level up from the aws-serverless-workshp:
