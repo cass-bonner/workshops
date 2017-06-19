@@ -5,7 +5,6 @@ import App from './App'
 import router from './router'
 import VueValidator from 'vue-form-validator'
 /* eslint-disable no-unused-vars  */
-import ApiG from 'aws-api-gateway-client'
 Vue.use(VueValidator)
 Vue.config.productionTip = false
 

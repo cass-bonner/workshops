@@ -122,11 +122,13 @@ Lifespan: {{ questions.matchResults.lifespan }}<br/></br>
 </template>
 
 <script>
+/* eslint-disable space-infix-ops, quotes, no-undef   */
+/* eslint-disable */
+import ApiG from 'aws-api-gateway-client'
+var CONFIG = require('./config.json')
 export default {
-  /* eslint-disable space-infix-ops, quotes, no-undef   */
-  import ApiG from 'aws-api-gateway-client'
   name: 'PetMatch',
-  data () {
+  data() {
     return {
       questions: {
         question1: {
@@ -168,44 +170,77 @@ export default {
     }
   },
   methods: {
-    submit () {
-      var client = apigClientFactory.newClient({region: 'us-east-1'})
-
-      var payload = {
-        duress: this.questions.question1.duress,
-        walks: this.questions.question2.walks,
-        sass: this.questions.question3.sass,
-        travel: this.questions.question4.travel,
-        yap: this.questions.question5.yap,
-        accommodation: this.questions.question6.accommodation,
-        outside: this.questions.question7.outside
-      }
-      console.log("payload"+ JSON.stringify(payload))
-
-      var self=this
-      client.petmatchesPost({}, payload, {})
-      .then(function (result) {
-        console.log('Communication with API via API SDK a success.')
-        console.log(result)
-        // set the match results
-        self.questions.matchResults=result.data
-        console.log("self: " +JSON.stringify(self.questions.matchResults))
-
-        // unhide the div
-        var span = document.getElementById("hidden_div")
-        span.style.display = ''
-        self.questions.matchResults.image="static/images/" + result.data.petTypeId + ".jpg"
-        console.log("self: " +JSON.stringify(self.questions.matchResults))
-      }).catch(function (result) {
-        console.log('Communication with API via API SDK a Failure.')
-        console.log(result)
-      })
+    submit() {
+      // set the Amazon Cognito region
+      console.log("region: " + CONFIG.region);
+      AWS.config.region = CONFIG.region
+      // initialize the Credentials object with our parameters
+      var cognitoidentity = new AWS.CognitoIdentity({
+        apiVersion: '2014-06-30'
+      });
+      console.log("affter cogn identity")
+      console.log("id from config file: " + CONFIG.identityPoolId);
+      var identityId
+      var params = {
+        IdentityPoolId: CONFIG.identityPoolId,
+        /* required */
+      };
+      console.log("before getId");
+              var payload = {
+                duress: this.questions.question1.duress,
+                walks: this.questions.question2.walks,
+                sass: this.questions.question3.sass,
+                travel: this.questions.question4.travel,
+                yap: this.questions.question5.yap,
+                accommodation: this.questions.question6.accommodation,
+                outside: this.questions.question7.outside
+              }
+              var self = this
+      cognitoidentity.getId(params, function(err, data) {
+        if (err) console.log(err, err.stack); // an error occurred
+        else {
+          console.log("getId response: " + JSON.stringify(data)); // successful response
+          identityId = data.IdentityId;
+          console.log("after get id" + identityId);
+          var params = {
+            IdentityId: identityId
+          };
+          var creds;
+          cognitoidentity.getCredentialsForIdentity(params, function(err, data) {
+            if (err) console.log(err, err.stack); // an error occurred
+            else {
+              creds = data;
+              console.log("result from getCredentialsForIdentity: " + JSON.stringify(data)); // successful response
+              console.log("instantiating apig: ");
+              // This creds are temporary they will expire in 1h
+              var apigClient = apigClientFactory.newClient({
+                accessKey: creds.Credentials.AccessKeyId,
+                secretKey: creds.Credentials.SecretAccessKey,
+                sessionToken: creds.Credentials.Token, //OPTIONAL: If you are using temporary credentials you must include the session token
+                region: AWS.config.region // OPTIONAL: The region where the API is deployed, by default this parameter is set to us-east-1
+              });
+              console.log("payload" + JSON.stringify(payload))
+              apigClient.petmatchesPost({}, payload, {})
+                .then(function(result) {
+                  console.log('Communication with API via API SDK a success.')
+                  console.log(result)
+                  // set the match results
+                  self.questions.matchResults = result.data
+                  console.log("self: " + JSON.stringify(self.questions.matchResults))
+                  // unhide the div
+                  var span = document.getElementById("hidden_div")
+                  span.style.display = ''
+                  self.questions.matchResults.image = "static/images/" + result.data.petTypeId + ".jpg"
+                  console.log("self: " + JSON.stringify(self.questions.matchResults))
+                }).catch(function(result) {
+                  console.log('Communication with API via API SDK a Failure.')
+                  console.log(result)
+                })
+            }
+          });
+        }
+      });
     }
   }
 }
 </script>
-
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-@import '../assets/app.css';
-</style>

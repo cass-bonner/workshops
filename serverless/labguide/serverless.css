@@ -25,6 +25,8 @@ pre {
     word-break: normal !important;
     word-wrap: normal !important;
     white-space: pre !important;
+    outline-style: solid;
+    outline-color: #0e1012;
 }
 
 .pretext {
@@ -36,6 +38,18 @@ pre {
     white-space: -pre-wrap;      /* Opera 4-6 */
     white-space: -o-pre-wrap;    /* Opera 7 */
     word-wrap: break-word;       /* Internet Explorer 5.5+ */
+    outline-style: solid;
+    outline-color: #0e1012;
+}
+.redoutline {
+    outline-style: solid; !important
+    outline-color: #0e1012; !important
+}
+.fade {
+    box-shadow: 0px 0px 8px #ffffff; 
+   -webkit-box-shadow: 0px 0px 8px #808080; 
+   -ms-box-shadow: 0px 0px 8px #0e1012;
+   -o-box-shadow: 0px 0px 8px #0e1012; 
 }
 
 button {
@@ -73,4 +87,8 @@ a:link {
 
 a:visited {
     color: grey;
+}
+.redc
+{  
+  font-color: red !important; 
 }

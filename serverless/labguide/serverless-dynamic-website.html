@@ -23,6 +23,7 @@
   <tr>
     <td align="left" width="25%"><img src="images/aws_icon.png"/></td>
     <td align = "center" width = "60%">
+<listing class="pretext">
 <font size="2">
   <table>
 <tr>
@@ -41,6 +42,7 @@
 <td width="100%"><a href="serverless-chatbot.html">Serverless Lex Chatbot</a><br/></td>
 </tr></table>
 </font size="2">
+</listing>
     </td>
     <td align="right" width="25%"><img src="images/iag_icon.png"/></td>
  </tr>
@@ -48,8 +50,8 @@
 <br/>
 <br/>
 <p ="font-family:verdana">
-<h1 align="center">Serverless Dynamic Website on AWS</h1>
-<table cellpadding="20px"  align="center">
+<listing class="pretext"><h1 align="center">Serverless Dynamic Website on AWS</h1></listing>
+<listing class="pretext"><table cellpadding="20px"  align="center">
 <tr>
 <td width="12%"><img src="images/s3.png"/><br/><a href="http://docs.aws.amazon.com/AmazonS3/latest/gsg/GetStartedWithS3.html">Amazon S3</a></td>
 <td width="12%"><img src="images/apigateway.png"/><br/><a href="http://docs.aws.amazon.com/apigateway/latest/developerguide/welcome.html">Amazon Api Gateway</a></td>
@@ -60,54 +62,50 @@
 <td width="12%"><img src="images/iam.png"/><br/><a href="http://docs.aws.amazon.com/IAM/latest/UserGuide/">AWS IAM</a></td>
 <td width="12%"><img src="images/vue.png"/><br/><a href="https://vuejs.org/">Vue.js</a></td>
 </tr>
-</table>
+</table></listing>
+<listing class="pretext">
+Lab Contents
+<font size="2">
+<img src="images/bullet.png"> <a href="#usecase">Use Case Scenario: PetMatch</></a>
+<img src="images/bullet.png"> <a href="#apigsetup">Amazon API Gateway - Define API</></a>
+<img src="images/bullet.png"> <a href="#steplogic">AWS Step Functions - Coordinate Logic</></a>
+<img src="images/bullet.png"> <a href="#ddbcreate">Amazon DynamoDB - Create PetMatchType Table</></a>
+<img src="images/bullet.png"> <a href="#lamprime">AWS Lambda - Prime PetMatchType Table</></a>
+<img src="images/bullet.png"> <a href="#ddbverify">Amazon DynamoDB - Verify Table</></a>
+<img src="images/bullet.png"> <a href="#ddbquery">AWS Lambda - Query PetMatchType Table</></a>
+<img src="images/bullet.png"> <a href="#sfnupd">AWS Step Functions - Update State Machine w/ Lambda</></a>
+<img src="images/bullet.png"> <a href="#invstate">AWS Lambda - Step Functions: Start & Describe Execution</></a>
+<img src="images/bullet.png"> <a href="#apiginteg">Amazon API Gateway - Integrate API to Lambda</></a>
+<img src="images/bullet.png"> <a href="#cognito">Amazon Cognito - Establish Identity Pool</></a>
+<img src="images/bullet.png"> <a href="#updwebcog">webapp - Update with Cognito</></a>
+<img src="images/bullet.png"> <a href="#apigunauth">Amazon API Gateway - Activate IAM (unauthenticated identity)</></a>
+</font>
+</listing>
 <br/>
 <br/>
-So the first thing you might notice is we've added a few more service icons in for this lab. Take a minute to peruse the documentation on the services to familiarize yourselves.  S3 will continue to serve the static content, but now we're going to introduce APIs to our site so that we can POST and GET data to make the site interesting. Lambda will run any dynamic logic required, and Step Functions will be used to coordinate our logic and provide visual flows of our application. For our design, we will align one Step Function per Microservice. DynamoDB will store any required persisted state. Cognito and IAM provide temporary, scope credentials to the AWS Services.
-<br/>
-<br/>
-<br/>
+<listing class="pretext">So the first thing you might notice is we've added a few more service icons in for this lab. Take a minute to peruse the documentation on the services to familiarize yourselves.  S3 will continue to serve the static content, but now we're going to introduce APIs to our site so that we can POST and GET data to make the site interesting. Lambda will run any dynamic logic required, and Step Functions will be used to coordinate our logic and provide visual flows of our application. For our design, we will align one Step Function per Microservice. DynamoDB will store any required persisted state. Cognito and IAM provide temporary, scope credentials to the AWS Services.
+
     <span align="center"><img src="images/serverless-arch.png" /></span>
-<br/>
-<br/>
-<ol>
-<br/>
-<br/>
+
   OK, let's get started! But wait - what are we building. Well I'll put an idea out but if you're feeling ambitious you can change it to whatever you want.
-<br/>
-<br/>
-<br/>
-
-<h4>USE CASE: PetMatcher Service </h4>
-
-<br/>
-<br/>
+</listing>
+<listing class="pretext">
+<h4 id="usecase">USE CASE: PetMatcher Service </h4>
 <li>Let's create a webapp that matches a user with the best type of pet for them , based on attributes about the user. In the future we want the ability to actually find a specific animal from an animal shelter but for now we'll just collect some attributes about the user and suggest which type is best. 
-<br/>
-<br/>
 
 We'll ask a series of questions that will be used to determine the best match. These will later integrated into Lex in the next lab so we will structure this similar to Intents & Slots (more on this later).
-<br/>
-<br/>
 
 Intent: To Find the best Pet Match
-<br/>
-<br/>
 
-Slot duress: Do you feel that you are under stress? <br/>
-Slot walks: Do you enjoy going for walks outside and in the park? <br/>
-Slot sass: Do you like to be around people that have an interesting, yet sassy character? <br/>
-Slot travel: How many days per month do you travel?<br/>
-Slot yap: Do you mind consistent yapping? <br/>
-Slot accommodation: Do you live in an apartment or house? <br/>
-Slot outside: If you have an Outdoors area, how large is it in sq m? Say 0 if you do not have one.<br/>
-<br/>
-<br/>
-
+<img src="images/bullet.png"> duress: Do you feel that you are under stress? <br/>
+<img src="images/bullet.png"> walks: Do you enjoy going for walks outside and in the park? <br/>
+<img src="images/bullet.png"> sass: Do you like to be around people that have an interesting, yet sassy character? <br/>
+<img src="images/bullet.png"> travel: How many days per month do you travel?<br/>
+<img src="images/bullet.png"> yap: Do you mind consistent yapping? <br/>
+<img src="images/bullet.png"> accommodation: Do you live in an apartment or house? <br/>
+<img src="images/bullet.png"> outside: If you have an Outdoors area, how large is it in sq m? Say 0 if you do not have one.<br/>
 
 So our model for the Matcher will look something like this:
-<br/>
-<br/>
 
 <pre>
 { 
@@ -120,48 +118,37 @@ So our model for the Matcher will look something like this:
   "outside" : 15
 }
 </pre>
-<br/>
-<br/>
-
-
 So, we need
-<br/>
-<br/>
-* A Page to collect the required attributes to determine the match
-<br/>
-* An API to post the data from the website.
-<br/>
-* Backend logic to process the data and perform the match, returning the selected animal
-<br/>
-* Display the resulting match back to the page.
-<br/>
-<br/>
 
-<h4>Amazon API Gateway</h4>
+<img src="images/bullet.png"> A Page to collect the required attributes to determine the match
+<img src="images/bullet.png"> An API to post the data from the website.
+<img src="images/bullet.png"> Backend logic to process the data and perform the match, returning the selected animal
+<img src="images/bullet.png"> Display the resulting match back to the page.
+</listing>
+
+<listing class="pretext"><h4 id="apigsetup">Amazon API Gateway</h4>
 Let's take an API-driven approach and start with defining the REST API. Amazon API Gateway is an AWS service that enables developers to create, publish, maintain, monitor, and secure APIs at any scale. You can create APIs that access AWS or other web services, as well as data stored in the AWS Cloud.
 
 API Gateway can be considered a backplane in the cloud to connect AWS services and other public or private web sites. It provides consistent RESTful application programming interfaces (APIs) for mobile and web applications to access AWS services.
 
-
-<br/><br/>
 The following diagram shows API Gateway architecture and you can read more about it <a href="http://docs.aws.amazon.com/apigateway/latest/developerguide/welcome.html">here</a>.
-<br/><br/>
 
 <img src="images/apig-backplane.png"/>
-<li> Navigate to the AWS Console and select API Gateway. Select 'Create API' and enter [your unique user id]-PetMatchService and hit 'Create API' again.
-<br/>
-<br/>
+</listing>
+
+<ol>
+<li> <listing class="pretext">Navigate to the AWS Console and select API Gateway. Select 'Create API' and enter [your unique user id]-PetMatchService and hit 'Create API' again.
 
 There are many great sources that provide best practices on API Design, but I'll highlight one called <a href="http://www.vinaysahni.com/best-practices-for-a-pragmatic-restful-api">Best Practices for Designing a Pragmatic RESTful API</a> that is agood reference. 
-<br/>
-<br/
+</listing>
 
-<li>Select 'Actions' and then 'Create Resource'. Use 'petmatches' for the resource name.
-<li> Click 'Enable API Gatway CORS' checkbox and select 'Create Resource'.
-<br/>
+<li><listing class="pretext">Select 'Actions' and then 'Create Resource'. Use 'petmatches' for the resource name.</listing></li>
+<li><listing class="pretext"> Click 'Enable API Gatway CORS' and select 'Create Resource'.</listing></li>
+<li> <listing class="pretext">Select 'Actions'-enable CORS and  stick the boxes to enable for 4XX and 5XX codes as well and save.
 
 <img src="images/apig-createmethod.png"/>
-<li> Select on the /petmatches in the Resources column, and select 'Actions', 'Create Method' Select the drop down and select 'POST'. Click the arror button to confirm the changes. You should now see 
+</listing></li>
+<li> Select on the /petmatches in the Resources column, and select 'Actions', 'Create Method' Select the drop down and select 'POST'. Click the arror button to confirm the changes.  
 <br/>
 
 <li>Now, let's define the model for our API. The model is not required, but it can help <a href="https://aws.amazon.com/blogs/compute/how-to-remove-boilerplate-validation-logic-in-your-rest-apis-with-amazon-api-gateway-request-validation/">remove boilerplate validation logic</a>, and is also used in the generation of the SDK (more on that later). In practice you would define these in swagger or the like but we'll do it via the console so you can get an understanding of the concepts. Select the 'Models' link from the options in your left pane here:
@@ -169,11 +156,11 @@ There are many great sources that provide best practices on API Design, but I'll
 <img src="images/apig-models.png"/>
 
 <br/><br/>
-* For the ModelName use PetTypeMatchRequest
+<li> For the ModelName use PetTypeMatchRequest
 <br/><br/>
-* For the content type use application/json 
+<li> For the content type use application/json 
 <br/><br/>
-* Copy the below for the schema and then choose 'Create Model'. We've only made the sass required for now.
+<li> Copy the below for the schema and then choose 'Create Model'. We've only made the sass required for now.
 <br/><br/>
 
 
@@ -204,19 +191,17 @@ There are many great sources that provide best practices on API Design, but I'll
   }
 }
 </pre></span>
-<br/><br/>
-<br/><br/>
 
 <br/><br/>
 
 Let's create another model for the response:
 
 <br/><br/>
-* For the ModelName use PetTypeMatchResponse
+<li> For the ModelName use PetTypeMatchResponse
 <br/><br/>
-* For the content type use application/json 
+<li> For the content type use application/json 
 <br/><br/>
-* Copy the below for the schema and then choose 'Create Model'. This will make more sense as we build out the backend but that is what we will return. we'll use a standards-based approach and just use the petTypeId to get an image of the relevant pet type.
+<li> Copy the below for the schema and then choose 'Create Model'. This will make more sense as we build out the backend but that is what we will return. we'll use a standards-based approach and just use the petTypeId to get an image of the relevant pet type.
 <br/><br/>
 
 
@@ -256,7 +241,7 @@ Let's create another model for the response:
 
 <li> Type application/json for the Content Type and PetTypeMatchResponse for the ModelName. Click the check image to save the changes.
 
-<li>For this lab, we are going leave our APIs unauthenticated, but it is worth highlighting that there are quite a few ways to <a href="http://docs.aws.amazon.com/apigateway/latest/developerguide/apigateway-control-access-to-api.html">control access to APIs with API Gateway</a>. We will be adding that in with the next lab.
+<li>There are quite a few ways to <a href="http://docs.aws.amazon.com/apigateway/latest/developerguide/apigateway-control-access-to-api.html">control access to APIs with API Gateway</a>. We will be disucussing this later.
 
 <br/>
 <br/>
@@ -265,21 +250,34 @@ Let's create another model for the response:
 <br/>
 <li>Select on the POST Method to get the setup. We are going to use Lambda to call Step Functions which will in turn coordinate our backend logic, as well as implement a somplistic decision tree for our MVP. You can actually integrate directly to Step Functions from API Gateway, and in actual implementation that is exactly what you would likely do beause you do not want your user waiting for it to complete processing just do an ajax call to update the resultant match basesd on the execution id once it's received. However, for the purposed of this workhop/our MVP, we'll just code one request to keep it simple and have lambda both submit the execution and then wait for it to complete and return the response. This will also be useful for our next lab where we plan to integrate a Lex Bot into our app which currently only support Lambda integration.
 
-So let's take pause on the API Gateway now and open another tab to finish off all the backend components.
+So let's take pause on the API Gateway now and open another tab to finish off all the backend components. Our flow is going to look a bit like the sequence diagram below. We are going to:
+
+<ul>
+<li> Implement State Machine (with Step Functions) to handle a basic matching policy and query detailed results for the match.
+<li> Create and populate a Dynamo DB table with PetMatchType details
+<li> Create Lambda functions to  populate and query the Dynamo DB table. 
+<li> And finally, we'll implement a Lambda function that will poll our stat machine as below. Note that this is not ideal as above for a website, but we'll keep it simple for now with a synchronous invocation (by way of poll).
+<li> After that we'll come back to API Gateway and finish off our backend implementation.  In practice you could implement a mock API so that front end developers could continue to work, but we'll skip that for our purposes here.
+</ul>
+
 <br/></br>
-<h4>AWS Step Functions</h4>
-<li>Let's define the 
+<img src="images/seq-flow.png"/>
+
+<br/></br>
+</li>
+<h4 id="steplogic">AWS Step Functions</h4>
+AWS Step Functions is a web service that enables you to coordinate the components of distributed applications and microservices using visual workflows. You build applications from individual components that each perform a discrete function, or task, allowing you to scale and change applications quickly. Step Functions provides a reliable way to coordinate components and step through the functions of your application. Step Functions provides a graphical console to visualize the components of your application as a series of steps. It automatically triggers and tracks each step, and retries when there are errors, so your application executes in order and as expected, every time. Step Functions logs the state of each step, so when things do go wrong, you can diagnose and debug problems quickly.
 
 <li>So let's open another tab, and create the Step Function so that we can put in the details here. You should see 'Get Started' when you go to Step Functions - select that button.
 <li>For the name enter [your unique user id]-'Matcher'
 <br/>
 Step Functions is based on the concepts of <a href="http://docs.aws.amazon.com/step-functions/latest/dg/concepts-tasks.html">tasks</a> and <a href="http://docs.aws.amazon.com/step-functions/latest/dg/concepts-states.html">state machines</a>.
 <br/>
-* You define state machines using the JSON-based <a href="http://docs.aws.amazon.com/step-functions/latest/dg/concepts-amazon-states-language.html">Amazon States Language.</a>
-<br/>
-* The Step Functions console displays a graphical view of your state machine's structure, which provides you with a way to visually check your state machine's logic and monitor executions.
-<br/>
-* You will see that Step Functions comes with blueprints, which provide sample json templates (in Amazon States Language) for different state types. Now in the end state, our matching algorithm would likely take many more attributes and use a complex algorithm such as <a href="https://en.wikipedia.org/wiki/Singular_value_decomposition">SVD</a>. But for the MVP we're going to keep things simple, and still there's a large number of solutions we could use to perform the match.  So in the first instance we'll use the Choice within Step Functions to perform the match. Longer-term Step would coordinate with the fully implemented matcher but there will be no changes to the API. 
+<ul>
+<li> You define state machines using the JSON-based <a href="http://docs.aws.amazon.com/step-functions/latest/dg/concepts-amazon-states-language.html">Amazon States Language.</a>
+<li> The Step Functions console displays a graphical view of your state machine's structure, which provides you with a way to visually check your state machine's logic and monitor executions.
+<li> You will see that Step Functions comes with blueprints, which provide sample json templates (in Amazon States Language) for different state types. Now in the end state, our matching algorithm would likely take many more attributes and use a complex algorithm such as <a href="https://en.wikipedia.org/wiki/Singular_value_decomposition">SVD</a>. But for the MVP we're going to keep things simple, and still there's a large number of solutions we could use to perform the match.  So in the first instance we'll use the Choice within Step Functions to perform the match. Longer-term Step would coordinate with the fully implemented matcher but there will be no changes to the API. 
+</ul>
 
 <li>To be clear, the State Machine we will build in this lab does not leverage the full functionality of Step Functions, as there are many other state types to provide retry, wait, and branching (parallel) functionality. But imho, Step Functions is a great for POCs because you can define and visualise your logic which is very useful for both development and operational support. Further, the ability to visualise each execution and the path it took, as well as the state sent in to the various states is quite appealing, but you can make a decision for yourself. :) 
 
@@ -290,9 +288,10 @@ Step Functions is based on the concepts of <a href="http://docs.aws.amazon.com/s
 
 Our logic will be as follows:
 <br/>
-
-* We're going to use 'sass' as the first decision point, because for our MVP logic, if they don't like sass we're goign to steer them away from a cat.  
-* So the the divide is cat versus non-cat 
+<ul>
+<li> We're going to use 'sass' as the first decision point, because for our MVP logic, if they don't like sass we're goign to steer them away from a cat.  
+<li> So the the divide is cat versus non-cat 
+</li>
 <br/>
 <li>Let's start to implement this in Step Functions.
 
@@ -344,24 +343,28 @@ In the code box, replace the json with this json:
 }
 
 </span></pre>
-
+</ul>
 <br/>
-Click the 'Preview' button above the diagramand you should see it refresh. Don't create it yet as we'll go through a few iterations.
+<li>Click the 'Preview' button above the diagram and you should see it refresh. Don't create it yet as we'll go through a few iterations.
 Now we immediately switch based on the value of sass.
 
-Let's finish off the Cat logic now.
 <br/>
 <br/>
+<li>Let's finish off the Cat logic now, hwere's some pseudo-code for our logic.
+<br/>
+<br/>
+<listing class="pretext">
+If (Survivor Cat) 
+  => Perform a survivor test best on whether the user travels more than 10 days, let's choose a cat that can hold it's own (a survivor) 
 
-If it's a cat, we'll do a survivor test best on whether the user travels more than 10 days, let's choose a cat that can hold it's own (a survivor), otherwise, we'll peform a DuressTest and match the pet based that - friendly cat if they're under stress and sassy cat for those that aren't - someone has to love the sassy's after all.  
+Else
+  => Peform an additional 'DuressTest' and match the pet based on the stress level  - friendly cat if they're under stress and sassy cat for those that aren't - someone has to love the sassy's after all. :)
+</listing>
 <br/>
 <br/>
-
+Copy the Amazon States Language that continues to build out our logic.
  <button class="btn btn-outline-secondary btn-sm" data-clipboard-target="#completecat">Copy</button>
-<pre><span id="completecat">
-
-
-{
+<pre><span id="completecat">{
   "Comment": "An example of the Amazon States Language using a choice state.",
   "StartAt": "SassTest",
   "States": {
@@ -449,12 +452,10 @@ If you hit 'Preview' button above the image it should look a bit like this:
 Ok time to add in the remaining logic for the non-cat matching!
 <br/>
 <br/>
-Let's start by testing the yap, as that's c lear differentiator - we'll match all those who like the yip to the yappy dog. After that we'll see if they have enough outdoor room for the pet - those that do can have a big dog. The final match will be determined off what type of of accommodation they have, those don't live in a house or apartment will get an Amazon Echo at least to talk to!
-<br/>
+<li><listing class="pretext">Let's start by testing the yap, as that's clear differentiator - we'll match all those who like the yip to the yappy dog. After that we'll see if they have enough outdoor room for the pet - those that do can have a big dog. The final match will be determined off what type of of accommodation they have, those don't live in a house or apartment will get an Amazon Echo at least to talk to!
 
-<br/>
 Select the test below and hit Preview.
-<br/>
+</listing></li>
 <button class="btn btn-outline-secondary btn-sm" data-clipboard-target="#fullsfn">Copy</button>
 <pre><span id="fullsfn">
 
@@ -614,23 +615,19 @@ You should see a diagram that looks a bit like this:
 
 <br/>
 <br/>
-Let's create this State Machine, even though it's not done and we'll test out the logic this far. Note that at the moment, we're just returning a unique identifier for the match, but we need to return more details and an image of the pet but we'll leave that fornow.
-<br/>
-<br/>
+<li><listing class="pretext">Let's create this State Machine, even though it's not done and we'll test out the logic thus far. Note that at the moment, we're just returning a unique identifier for the match, but we need to return more details and an image of the pet but we'll leave that fornow.
 
-Ensure that you call the StateMachine:
+Scroll to the top of the page, and ensure that you call the StateMachine:
 
-<br/>
-<br/>
-[your unique id]-PetMatcher
+[your unique id]PetMatcher
+
+</listing></li>
 
 <br/>
+<li><listing class="pretext">Scroll to the bottom of the page and select 'Create State Machine' and Select ok for the policy. </listing></li>
+
 <br/>
-Select 'Create State Machine' and Select ok for the policy.
-<br/>
-<br/>
-<li> Let's go execute our new state machine with some sample data to test the results. Create a new execution - but override the same json with this sample attributes:
-<br/>
+<li><listing class="pretext"> Let's execute our new state machine with some sample data to test the results. Create a new execution - but override the same json with this sample attributes:</listing></li>
 <br/>
 
  <button class="btn btn-outline-secondary btn-sm" data-clipboard-target="#completealgo">Copy</button>
@@ -638,10 +635,9 @@ Select 'Create State Machine' and Select ok for the policy.
 {
   "duress" : "yes",
   "walks" : "yes",
-  "sass" : "yes",
+  "sass" : "no",
   "travel" : 9,
   "yap" : "no",
- 
   "accommodation" : "apartment",
   "outside" : 15
 }
@@ -649,30 +645,30 @@ Select 'Create State Machine' and Select ok for the policy.
 </span></pre>
 <br/>
 <br/>
-Select 'Start Execution' and watch it run. You should see that it selected a Goldfish.
-<br/>
-<br/>
-Start another execution, but this time change 'sass' to be equal to "yes". This time you should get a SurvivorCat because of your travel is > 7 days. Creat a few more executions and change the values so you can see how the different logic is formed. Look at the input and output state for each of the runs both at the overall level of the state machine and within each state. This makes it very handy for debugging issues.
+<li><listing class="pretext">Select 'Start Execution' and watch it run. You should see that it selected a Goldfish.</listing></li>
+<li><listing class="pretext">Start another execution, but this time change 'sass' to be equal to "yes". This time you should get a SurvivorCat because of your travel is > 7 days. Creat a few more executions and change the values so you can see how the different logic is formed. Look at the input and output state for each of the runs both at the overall level of the state machine and within each state. This makes it very handy for debugging issues.
 
-At the end result of the state machine, you'll see a response like 
+At the end result of the state machine - in the Output tab, you'll see a response like:
+</listing></li>
 
 <pre>
-
 output: {"petmatch":"cat-survivor"}
 </pre>
+Although that might be slightly indicative of the match, not too many users would be impressed. :) Let's create more data about the PetMatchType in Amazon DynamoDB and then query back the results to display to the user.
 </li>
-<h4>Amazon DynamoDB</h4>
+<br/><br/>
+<h4 id="ddbcreate">Amazon DynamoDB</h4>
 Amazon DynamoDB is a fully managed NoSQL database service that provides fast and predictable performance with seamless scalability. You can use Amazon DynamoDB to create a database table that can store and retrieve any amount of data, and serve any level of request traffic. Amazon DynamoDB automatically spreads the data and traffic for the table over a sufficient number of servers to handle the request capacity specified by the customer and the amount of data stored, while maintaining consistent and fast performance.
 
 <br/>
-<li>Even with our MVP we'd like to provide a more friendly result with some details about the pet type matched and a nice picture to provide a visual image.  So we will invoke AWS Lambda in the last step of our State Machine to lookup the additional details of the Pet Type Matched based on the petTypeId, and return back to the API Gateway once we finish that off so we need to provide a more friendly result.  We'll do this by having metadata in DynamoDB table that we can query for based on our unique identifier sent into RetrievePetMatchDetails state.  We'll write an AWS Lambda function to query the details for the PetMatch and return the results from DynamoDB. For now we will just return the PetType back but in the future we might want to actually have more metadata about the match such as the percent confidence of the match, etc. We also want to return the actual Pet matched rather than the Type but this works for now.
+<li>As above, we'd like to provide a more friendly result with some details about the pet type matched and a nice picture to provide a visual image.  So we will invoke AWS Lambda in the last step of our State Machine to lookup the additional details of the Pet Type Matched based on the petTypeId, and return back to the API Gateway once we finish that off so we need to provide a more friendly result.  We'll do this by having metadata in DynamoDB table that we can query for based on our unique identifier sent into RetrievePetMatchDetails state.  We'll write an AWS Lambda function to query the details for the PetMatch and return the results from DynamoDB. For now we will just return the PetType back but in the future we might want to actually have more metadata about the match such as the percent confidence of the match, etc. We also want to return the actual Pet matched rather than the Type but this works for now.
 
-Let's start by creating a Table in Dynamo to store our Pet details which we will return along with the match.
+Let's start by creating a Table in Dynamo to store our PetType details which we will return along with the match. We call this table PetType because we are not storing specific pets at this point, but samples of Pet Types that match.
 <li> Select DynamoDB from the Service Menu, and then select CreateTable. For the table name use
 
 <pre>
 
- [your unique id]-PetType
+ [your unique id]PetType
  
 </pre>
 <br/>
@@ -689,17 +685,21 @@ You can read more about DynamoDB partitions and Data Distribution <a href="http:
 
 <li>Keep the key as a String - for the MVP we'll just create a simple set of data to load in using the petTypeId string identifier. Leave everything else and click 'Create'.  </li>
 <br/>
+<br/>
+<li><listing class="pretext">Navigate around the console to checkout Dynamoc DB - notice that there's an items tab and that it currently has no data. There's a few ways to populate our DynamoDB data, but we're goingto use AWS Lambda.  </li></listing>
 
-<h4>AWS Lambda</h4>
+<h4 id="lamprime">AWS Lambda</h4>
 AWS Lambda is a compute service that lets you run code without provisioning or managing servers. AWS Lambda executes your code only when needed and scales automatically, from a few requests per day to thousands per second. You pay only for the compute time you consume - there is no charge when your code is not running. With AWS Lambda, you can run code for virtually any type of application or backend service - all with zero administration. AWS Lambda runs your code on a high-availability compute infrastructure and performs all of the administration of the compute resources, including server and operating system maintenance, capacity provisioning and automatic scaling, code monitoring and logging. All you need to do is supply your code in one of the languages that AWS Lambda supports (currently Node.js, Java, C# and Python).
 
 <br/>
 <br/>
-Navigate to the console to AWS Lambda. In actual practice, we wouldn't be manually created most of the things we are in this lab via the console, we would use CloudFormation instead, but the console is easier for learning. If we did create DynamoDb via CloudFormation, we'd need to also load data into the table (aka 'Priming'). A common way to do that is to create a Lambda Function which loads the data. Let's do that now so we can become familiar with Lambda and also use the script we create long-term.
+<li><listing class="pretext">Navigate to the console to AWS Lambda. In actual practice, we wouldn't be manually created most of the things we are in this lab via the console, we would use CloudFormation instead, but the console is easier for learning. If we did create DynamoDb via CloudFormation, we'd need to also load data into the table (aka 'Priming'). A common way to do that is to create a Lambda Function which loads the data. Let's do that now so we can become familiar with Lambda and also use the script we create long-term.</li></listing>
 
-<li>Select Services->AWS Lambda and then select 'Create a Lambda Function'. You can see that Lambda has many blueprints like Step Functions, but select 'Blank Function'. Hit 'Next' for 'Configure Triggers'.
+<li><listing class="pretext">Select Services->AWS Lambda and then select 'Create a Lambda Function'. You can see that Lambda has many blueprints like Step Functions, but select 'Blank Function'. Hit 'Next' for 'Configure Triggers'.
 
-<li>Use [your unique id]-LoadPetTypeData as the function name.
+Use [your unique id]LoadPetTypeData as the function name.
+
+</li></listing>
 
 Note that the images would normally be surved up by <a href="http://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/Introduction.html">Amazon CloudFront</a> or another CDN to cache the static assets, but we'll just assume the image has the same namem as the identifier and it will be available locally in the webapp.
 
@@ -711,7 +711,7 @@ Note that the images would normally be surved up by <a href="http://docs.aws.ama
 <br/>
 <li>Copy the below code paste it into the method body for the Lambda Function. AWS Lambda is a compute service that lets you run code without provisioning or managing servers. 
 
-BE SURE TO CHANGE the '[your unique user id]' to your name so that it matches the table we just created.
+<font class="redc"><u><b>BE SURE TO CHANGE</b></u></font> the '[your unique user id]' to your name so that it matches the table we just created. Look atthe logic in the Lambda Function. It is written in Node.js and very easy to read. It simply stores the items in the json to our table. Look at some of the values in the json and check out the Dynamo DB table after.
 <br/>
 <br/>
 
@@ -825,14 +825,20 @@ exports.handler = fun;
 </span></pre>
 <br/>
 <br/>
-TODO
-Now scroll down and select 'Choose an existing role'. Select 'TODO' which is an IAM role setup as a prerequisite for the lab which gives you permissions to write to CloudWatch and invoke APIS on DynamoDB. Open another tab and navigate to the IAM Role and check out the policies on the role.
+<li><listing class="pretext">Now scroll down and select 'Choose an existing role'. 
+
+Then for the role, select the role named '[yourid]--lambda-write-ddb'
+
+This roles is an IAM role setup as a prerequisite for the lab which gives you permissions to write to CloudWatch and invoke APIS on DynamoDB. Open another tab and navigate to the IAM Service. Select 'Roles' and then search for this role.  Check out the policies on the role by selectign 'Show Policy'.</listing></li>
+
 <br/>
+<li><listing class="pretext">In advanced properties, increase the time out for the function to be 1 minutes. You should do this on every function we create today so that we don't have uncessary errors. In practice you'd want it to be a healthy number based on the estimated time for compute.</listing></li>
 <br/>
-Set the time out for the function to be 1 minutes.
-<br/>
-<br/>
-Select 'Next' and then review the function, and finally select 'Create Function'. Then select 'Test' Function, accepting the default payload for invocation as it won't be utilized in this particular function anyway.  Look at the logs and the function should say something like:
+<li><listing class="pretext">Select 'Next' and then review the function, and finally select 'Create Function'. Then select 'Test' Function, accepting the default payload for invocation as it won't be utilized in this particular function anyway.  Scroll down in the Lambda function and look at the logs and they should say something like the below.
+
+See where is says '{ UnprocessedItems: {} }'- that means it processed all our PutRequests.
+
+</listing></li>
  
 <br/>
 <br/>
@@ -844,13 +850,17 @@ REPORT RequestId: abf30118-4e7c-11e7-b49d-7f1ca2b1d0aa	Duration: 957.57 ms	Bille
 </pre>
 <br/>
 <br/>
-<h4>Amazon DynamoDB</h4>
-Now navigate back to DynamoDB and select your PetType table - and select the Items tab. You should see all the data from the Lambda function populated into the table. Now we're going to create one more Lambda Function which will be used back in our Step Function. We will invoke the Lambda Function to give back all the details for their PetMatch.
-<br/>
-<br/>
-<h4>AWS Lambda</h4>
+<h4 id="ddbverify">Amazon DynamoDB</h4>
+<li><listing class="pretext">Now navigate back to DynamoDB and select your PetType table - and select the Items tab. You should see all the data from the Lambda function populated into the table. Now we're going to create one more Lambda Function which will be used back in our Step Function. We will invoke the Lambda Function to give back all the details for their PetMatch.
 
-<li> Navigate to Lambda and select 'Create a Lambda Function'. Again select 'Blank Function' and hit 'Next' for Triggers. Name the function [your unique id]-getPetTypeForId and copy the following code for the method body. Have a look at the logic it's quite clear that it's querying your table. CHANGE the name of the table to your user id/table name.
+<img src="images/ddb-load.png"/>
+
+</listing></li>
+<br/>
+<br/>
+<h4 id="ddbquery">AWS Lambda</h4>
+
+<li> Navigate back to the tab with AWS Lambda and select 'Create a Lambda Function'. We're going to create another function to query our table. Again select 'Blank Function' and hit 'Next' for Triggers. Name the function [your unique id]-getPetTypeForId and copy the following code for the method body. Have a look at the logic it's quite clear that it's querying your table. <b><u>CHANGE</b></u> the name of the table to your user id/table name.
 <br/>
 <br/>
 
@@ -902,7 +912,9 @@ exports.handler = query;
 
 <br/>
 <br/>
-This time, select the other role TODO role name..-serverless-workshop-lambda-role. Set the time out for the function to be 1 minutes. Select Next and Create the Lambda Function. Configure a test event and this time change the payload as follows:
+<li>This time, select the role [yourid]--lambda-read-ddb. If your tab where IAM is still open, navigate there and query for this role. Look at the policy and note how thistime the 'Action' has a different set allowed APIs. It's only allowing read permissions. Such fine-graine, least-privilege controls are bes practices in AWS as discussed in the Pre Requisites. </listing></li>
+
+<li>Set the time out for the function to be 1 minutes. Select Next and Create the Lambda Function. Configure a test event and this time change the payload as follows, which is the output from the step function you might recall:
 <br/>
 <br/>
 
@@ -924,12 +936,30 @@ You should see result such as:
 <br/>
 <br/>
 
-<h4>AWS Step Functions</h4>
-AWS Step Functions is a web service that enables you to coordinate the components of distributed applications and microservices using visual workflows. You build applications from individual components that each perform a discrete function, or task, allowing you to scale and change applications quickly. Step Functions provides a reliable way to coordinate components and step through the functions of your application. Step Functions provides a graphical console to visualize the components of your application as a series of steps. It automatically triggers and tracks each step, and retries when there are errors, so your application executes in order and as expected, every time. Step Functions logs the state of each step, so when things do go wrong, you can diagnose and debug problems quickly.
-<li> Navigate to AWS Step Functions, and  select your previously created State Machine and copy the code by going into one of the executions and clicking the 'Code' tab. Copy the code and then go back to the Dashboard and create a new State Machine. Call it [your unique id]-PetMatcherDynamoDB.  Paste the code into the Code Section.
-<li>We need to change the RetrievePetMatchDetails Task in two ways: 1) Change the Type to 'Task'. 2) Add an attribute to the state (at the same level as Task) called Resource. Set the value to the ARN of your Lambda Function. Now create the state machine and select 'OK' about the role. Hit new execution. Put in the same state as earlier:
+<h4 id="sfnupd">AWS Step Functions</h4>
+<li> Navigate to AWS Step Functions, and  select your previously created State Machine and copy the code by going into one of the executions and clicking the 'Code' tab. 
+<li><listing class="pretext">Copy the code and then go back to the Dashboard and create a new State Machine. Call it [your unique id]-PetMatcherDynamoDB.  Paste the code into the Code Section.</li></listing>
+<li><listing class="pretext">Search for the 'RetrievePetMatchDetails' State in teh code. We need to change the RetrievePetMatchDetails state in two ways: 
+
+1) Change the Type to 'Task'. 
+
+2) Add an attribute to the state (at the same level as Task) called Resource. 
+
+Set the value to the ARN of your Lambda Function. Now create the state machine and select 'OK' about the role. Hit new execution. Put in the same state as earlier:
+
+At the end it should look like this:
+</li></listing>
 <br/>
 <br/>
+<pre>
+    "RetrievePetMatchDetails": {
+      "Type": "Task",
+      "Resource":"arn:aws:lambda:[region of your Lambda function]:XXXXXXX:function:cass-getPetTypeForId",
+      "End": true
+    }
+</pre>
+
+<li><listing class="pretext">Copy the below:</li></listing>
 
  <button class="btn btn-outline-secondary btn-sm" data-clipboard-target="#payload">Copy</button>
 <pre><span id="payload">
@@ -942,57 +972,186 @@ AWS Step Functions is a web service that enables you to coordinate the component
   "accommodation" : "apartment",
   "outside" : "15"
 }
-
 </span></pre>
-<br/><br/>
-Run the execution, navigate to the result of the output for the entire state machine and you can see our result with our data from DynamoDB. 
-<br/><br/>
+
+<li><listing class="pretext">Run the execution, navigate to the result of the output for the entire state machine and you can see our result with our data from DynamoDB. 
+
  <img src="images/step-result-ddb.png"/> 
-<br/><br/>
-Change some of the values to obtain a different result with additional executions.
-<br/><br/>
- <img src="images/step-result-ddb.png"/> </li>
-<br/><br/>
-<h4>Amazon API Gateway</h4>
 
-<li>Now We are going to take the ARN from the state machine and invoke it from the API Gateway API Method.  Go back to your tab with API Gateway or open it again and navigate to the POST method of our /petmaches Resource.
-<br/><br/>
-<li>For the Integration type, leave Lambda Function selected. Select the Region your Lambda function is in. 
-<br/><br/>
-<li>Select or enter the name of your Lambda function and press save.
-<li>Select OK when it asks to give permissions. 
 
-<br/><br/>
-<li>Select 'New Stage' and call it Dev - then save.
-<br/><br/>
+</listing></li>
+<li><listing class="pretext">Change some of the values to obtain a different result with additional executions.
+<img src="images/states-surv-cat.png"/> </listing></li>
+
+
+<h4 id="invstate">AWS Lambda</h4>
+Yee haw! Our backend logic is in place. :) All we have to do now is write a Lambda function to invoke our State Machine, and then integrate that Lambda back into API Gateway. Let's start with writing the Lambda Function. 
+<li><listing class="pretext">Navigate to AWS Lambda in the console and select 'Create a Lambda function'.</listing></li>
+<li><listing class="pretext">Select 'Blank Function', and then 'Next' to Configure Triggers</listing></li>
+<li><listing class="pretext">In the function Name: type [yourid]InvokeStateMachineWithResults</listing></li>
+<li><listing class="pretext">In the description, type 'Start the execution of a state machine and poll until the describe-execute succeeds and return the output.
+
+Note that polling Lambda's is not a common use case, but when there is an asynchronous delay, such as from the time we start the execution until it succeeds, it is a pattern that can be used. We will use Python for this sample:
+
+</listing></li>
+<li><listing class="pretext">Select the runtime as Python 3.6</listing></li>
+<li><listing class="pretext">Copy the code below and paste it into the code section of Lambda.</listing></li>
+
+
+ <button class="btn btn-outline-secondary btn-sm" data-clipboard-target="#polllam">Copy</button>
+<pre><span id="polllam">import json
+import boto3
+import time
+import os
+
+
+print('Loading function')
+
+
+def lambda_handler(event, context):
+    #print("Received event: " + json.dumps(event, indent=2))
+    #print("input = " + event)
+
+    client = boto3.client('stepfunctions')
+    
+    response = client.start_execution(
+        stateMachineArn=os.environ['stateMachineArn'],
+        input=json.dumps(event)
+        
+    )
+    
+    print(response);
+
+    
+    # now let's loop every 300ms andlook for the results - bail 
+    
+    for i in range(1,100):
+        descResponse = client.describe_execution(
+            executionArn=response['executionArn']
+        );
+        
+
+        print("attempt: " + str(i) + " : " + descResponse['status'])
+        if descResponse['status']=='SUCCEEDED':
+            print('succeeded: ' + descResponse['output']);
+            op = json.loads(descResponse['output'])
+            time.sleep (1.0 / 1000.0);
+            return op;
+        else:
+            time.sleep (300.0 / 1000.0);
+</pre></span>
+
+<li><listing class="prextext">Scroll down and select 'Choose an existing role', and then [yourid]-]-lambda-sfn-start-desc-exec.  This role only gives the Lambda function the ability to start and describe the execution of your state machine. More specifically any statemachine with your id in it.</li></listing>
+
+<li><listing class="prextext">Just after the code box, enter the Environment Variable as follows:
+
+Key: stateMachineArn
+Value: [the ARN of your State Machine]
+
+It will look something like this:
+
+arn:aws:states:ap-southeast-2:XXXXXXX:stateMachine:userIdPetMatcher
+
+You can find this by navigating to AWS Step Functions, and then selecting one of your executions. You want the State Machine ARN - not the execution ARN
+
+<img src="images/state-arn.png"/>
+
+</li></listing>
+
+<li><listing class="prextext">In Advanced Settings, set the timeout to 1 minute.</li></listing>
+<li><listing class="prextext">Select 'Next', and then review your then review your function.</li></listing>
+<li><listing class="prextext">Select 'Create function' conce it looks correct.</li></listing>
+<li><listing class="prextext">Select Actions, 'Configure test event'. Select the json below and override the sample json:</li></listing>
+
+ <button class="btn btn-outline-secondary btn-sm" data-clipboard-target="#payloadt">Copy</button>
+<pre><span id="payloadt">
+{
+  "duress" : "yes",
+  "walks" : "yes",
+  "sass" : "no",
+  "travel" : 9,
+  "yap" : "no",
+  "accommodation" : "apartment",
+  "outside" : "15"
+}
+</span></pre>
+
+<li><listing class="pretext">The test should be successful and look something like this:
+
+
+<img src="images/lam-suc.png"/>
+</li></listing>
+
+
+<h4 id="apiginteg">Amazon API Gateway</h4>
+
+<li><listing class="pretext">So now we are going to integrate our Lambda function into our API Gateway REST API.  Go back to your tab with API Gateway or open it again and navigate to the POST method of our /petmaches Resource.</li></listing>
+<li><listing class="pretext">For the Integration type, leave Lambda Function selected. Select the Region your Lambda function is in. </li></listing>
+<li><listing class="pretext">Select or enter the name of your Lambda function and press save.</li></listing>
+<li><listing class="pretext">Select OK when it asks to give permissions. </li></listing>
+
+<li><listing class="pretext">Select 'New Stage' and call it Dev - then save.</li></listing>
 <li>Navigate tothe POST method in the Stages of the petmatcher API, and select it. Copy the URL - it should end with [yourstage]/petmatcher. 
 
-<li>Select your stage resource and select the 'SDK Generation' tab. For platform select Javascript and then select 'Generate SDK'
+<li><listing class="pretext">Select your stage resource and select the 'SDK Generation' tab. For platform select Javascript and then select 'Generate SDK'
+
 <img src="images/apig-stage.png"/>
+
 We're going to go back to our website now and integrate invoking our API Gateway invocation into our website.  With Amazon API Gateway, you can optionally set your API methods to require authorization. When setting up a method to require authorization you can leverage AWS Signature Version 4 or custom authorizers to support your own bearer token auth strategy.
+</li></listing>
 
-<br/><br/>
 
-<h4>Amazon Cognito</h4>
+<h4 id="cognito">Amazon Cognito</h4>
+<listing class="pretext">Amazon Cognito lets you easily add user sign-up and sign-in and manage permissions for your mobile and web apps. You can create your own user directory within Amazon Cognito, or you can authenticate users through social identity providers such as Facebook, Twitter, or Amazon; with SAML identity solutions; or by using your own identity system. In addition, Amazon Cognito enables you to save data locally on users' devices, allowing your applications to work even when the devices are offline. You can then synchronize data across users' devices so that their app experience remains consistent regardless of the device they use.
 With Amazon API Gateway, you can optionally set your API methods to require authorization. When setting up a method to require authorization you can leverage AWS Signature Version 4 or custom authorizers to support your own bearer token auth strategy.
-<br/><br/>
-You can use AWS credentials -- access and secret keys – to sign requests to your service and authorize access like other AWS services. The signing of an Amazon API Gateway API request is managed by the custom API Gateway SDK generated for your service. You can retrieve temporary credentials associated with a role in your AWS account using Amazon Cognito. The requests are then signed with what is called sigv4 <a href="http://docs.aws.amazon.com/general/latest/gr/signature-version-4.html">Signature Version 4 Signing</a>. We will use Cognito User Pools to tighten our APIs still use Authentication, utilizing Amazon Cognito to provide us with a JWT token. We will not require our users to login, but for now we will use <a href="http://docs.aws.amazon.com/cognito/latest/developerguide/identity-pools.html">unauthenticated identities.</a>
-<br/><br/>
 
+You can use AWS credentials -- access and secret keys - to sign requests to your service and authorize access like other AWS services. The signing of an Amazon API Gateway API request is managed by the custom API Gateway SDK generated for your service. You can retrieve temporary credentials associated with a role in your AWS account using Amazon Cognito. The requests are then signed with what is called sigv4 <a href="http://docs.aws.amazon.com/general/latest/gr/signature-version-4.html">Signature Version 4 Signing</a>. We will use Cognito User Pools to tighten our APIs still use Authentication, utilizing Amazon Cognito to provide us with a JWT token. We will not require our users to login, but for now we will use <a href="http://docs.aws.amazon.com/cognito/latest/developerguide/identity-pools.html">unauthenticated identities. This will allow us to uniquely track users via a token and as well protect our APIs.</a></listing>
+<!-- We'll use this when we actually start to authorise.
 There are three three main auth types with API Gateway: 
 <br/><br/>
 <img src="images/apig-auth-types.png"/>
 <br/><br/>
-We are going to use the first type, using the 
-
-<br/><br/>
+  
 There's a great <a href="https://youtu.be/n4hsWVXCuVI">YouTube Reinvent 2016 Video - Serverless Authentication and Authorisation</a> that explains these well.
 <br/><br/>
 Check out this <a href="https://github.com/awslabs/aws-cognito-apigw-angular-auth">aws-cognito-apigw-angular-auth AWS Lab</a> or the <a href="https://github.com/awslabs/aws-serverless-auth-reference-app">aws-serverless-auth-reference-app AWS Lab</a> for some sample code. In the great diagram put together by the aws-cognito-apigw-angular-auth lab, we are going to start the bottom path where we will only use User Pools. This path supports unauthenticated users, but also supports authenticated users if you just requre a "yes/no" as to whether or not a user in your pool perform a task. 
 <br/><br/>
 <img src="images/cognito-auth-lab.png"/>
-<li>Open a new tab in your browers and navigate to Amazon Cognito.  Cognito has two main areas, User Pools and Federated Identies. We're only going to use the former for now.
+-->
+<li><listing class="pretext">Open a new tab in your browers and navigate to Amazon Cognito.  Cognito has two main areas, User Pools and Federated Identies. We're only going to use the an Identity Pool with unauthenticated identities.
 
+<img src="images/id_pool.png"/>
+
+Select 'Federated Identities' and then 'Create new identity pool'
+</li></listing>
+<li><listing class="pretext">Enter [userId]PetMatch for the name, and tick the box 'Enable access to unauthenticated identities'</li></listing>
+<li><listing class="pretext">Select Create Pool, and select 'Allow'</li></listing>
+<li><listing class="pretext">Select edit Identity Pool and copy the Identity Pool ID</li></listing>
+
+<h4 id="updwebcog">Update the webapp to use the Cognito Identity pool.</h4>
+
+
+<li><listing class="pretext">Now go to your IDE (or however you're editing your project files) to your source base base, and edit:
+
+aws-serverless-workshop/src/components/config.json
+
+{
+  "identityPoolId" : "",
+  "region" : ""
+}
+
+Fill in your identityPooId and your region. These will need to be the same region with the way the code is currently written but you could edit PetMatch.vueand change that if required. 
+
+<h4 id="apigunauth">Enable Authorisation on API Gateway rest API</h4>
+<li><listing class="pretext">Test out application again and ensure it's still working. Now go to API Gateway and turn on IAM for the petmatch API to protect it.</li></listing>
+<li><listing class="pretext"></li>Navigate to API Gateway your [userId]PetMatch API. Select on 'Resources' and then select the POST method of our /petmatches resource.</listing>
+<!--
+<li><listing class="pretext"></li>Select 'Authorisation' and then choose AWS_IAM, then select the check box to save.</listing>
+<li><listing class="pretext"></li>Select Actions again, and select 'Enable CORS' and then confirm to enable.</listing>
+
+<li><listing class="pretext">Now select Actions->Deploy API, and select the same stage you deployed it to last time.</li></listing>-->
+<li><listing class="pretext"></li></listing>
+<li><listing class="pretext"></li></listing>
 
 
 <li>Navigate to the directory that you downloaded SDK was placed, and unzip it. Move it to your aws-serverless-workshop directory into the 'static' directory, something like this if you are one level up from the aws-serverless-workshp:
@@ -1004,55 +1163,6 @@ Check out this <a href="https://github.com/awslabs/aws-cognito-apigw-angular-aut
 
 
 
-====
-setup lambda to deploy invoke synch
-====
-
-
- <button class="btn btn-outline-secondary btn-sm" data-clipboard-target="#polllam">Copy</button>
-<pre><span id="polllam">
-
-import json
-import boto3
-import time
-import os
- 
- 
-print('Loading function')
- 
- 
-def lambda_handler(event, context):
-    #print("Received event: " + json.dumps(event, indent=2))
-    #print("input = " + event)
- 
-    client = boto3.client('stepfunctions')
-   
-    response = client.start_execution(
-        stateMachineArn=os.environ['stateMachineArn'],
-        input=json.dumps(event)
-       
-    )
-   
-    print(response);
- 
-   
-    # now let's loop every 300ms andlook for the results - bail
-    
-    for i in range(1,100):
-        descResponse = client.describe_execution(
-            executionArn=response['executionArn']
-        );
-       
- 
-        print("attempt: " + str(i) + " : " + descResponse['status'])
-        if descResponse['status']=='SUCCEEDED':
-            op = json.loads(descResponse['output'])
-            return op;
-            break;
-        else:
-            time.sleep (300.0 / 1000.0);
-
-</pre></span>
 
 
 
@@ -1069,22 +1179,6 @@ npm install --save sleep
 <br/><br/>
 <li>Hit return to take all the defaults (or you can set some values up if you want).
 <li>
-
-add in bundleddependencies
-update the statemachine ARN in properties.
-
-cp in my files.
-./deploy.sh [your unique id] [your unique id]-aws-serverless-workshop/
-
-======
-this is the bit to make changes to the client
-======
-# not yet actually npm install axios --save
-npm install --save vue-form-validator
-
-they need this and all the setup:
-
-apiGateway-js-sdk-petmatcher
 
 Note that in practice you would not want to make this synchronous call as it is more scalable by having two separate calls - one to submit the job and then an ajax call to retrieve the result for a given PetMatch request.  And again, StepFunctions is not the only way to implement the logic, but this use case does help you see the benefit of being able to visualize and coordinate your distributed applications.
 
