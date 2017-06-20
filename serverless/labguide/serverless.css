@@ -1,7 +1,7 @@
   html *
   { 
      #font-size: 1em !important;
-     color: white ;
+     color: #E5E4E2;
      font-family: Calibri, Candara, Segoe, "Segoe UI", Optima, Arial, sans-serif; !important;
      line-height: 150%;
   }
@@ -38,8 +38,35 @@ pre {
     white-space: -pre-wrap;      /* Opera 4-6 */
     white-space: -o-pre-wrap;    /* Opera 7 */
     word-wrap: break-word;       /* Internet Explorer 5.5+ */
-    outline-style: solid;
+    outline-style: groove;
     outline-color: #0e1012;
+}
+h1 {
+    margin:20px; padding:7px ;margin-top:5px;margin-left:0px;margin-right:20px;
+    background-color: #0e1012;
+    color:#black; !important;
+    word-break: normal !important;
+    white-space: pre-wrap;       /* Since CSS 2.1 */
+    white-space: -moz-pre-wrap;  /* Mozilla, since 1999 */
+    white-space: -pre-wrap;      /* Opera 4-6 */
+    white-space: -o-pre-wrap;    /* Opera 7 */
+    word-wrap: break-word;       /* Internet Explorer 5.5+ */
+    outline-style: groove;
+    outline-color: #2C3539;
+}
+h4 {
+    margin:20px; padding:7px ;margin-top:5px;margin-left:0px;margin-right:20px;
+    background-color: #d03819;
+    font-color:#black; !important;
+    font-weight:bold;
+    word-break: normal !important;
+    white-space: pre-wrap;       /* Since CSS 2.1 */
+    white-space: -moz-pre-wrap;  /* Mozilla, since 1999 */
+    white-space: -pre-wrap;      /* Opera 4-6 */
+    white-space: -o-pre-wrap;    /* Opera 7 */
+    word-wrap: break-word;       /* Internet Explorer 5.5+ */
+    outline-style: groove;
+    outline-color: #726E6D;
 }
 .redoutline {
     outline-style: solid; !important

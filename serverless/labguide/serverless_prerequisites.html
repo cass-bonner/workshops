@@ -39,14 +39,15 @@
 <br/>
 <br/>
 <p ="font-family:verdana">
-<listing class="pretext"><h1 align="center">IAG AWS Serverless Workshop - Prerequisites</h1></listing>
+<h1 align="center">IAG AWS Serverless Workshop - Prerequisites</h1>
 <listing class="pretext">
 <img src="images/bullet.png"> <a href="#leaders">Pre-reqs for Dev Guild Leads</a>
 <img src="images/bullet.png"> <a href="#students">Pre-reqs for Participants</a>
 </listing>
 <div w3-include-html="toc.html"></div>
+<h4 id="leaders"> Preparation for DevGuild Team Leads/Cloud Team</h4>
 <listing class="pretext">
-<h2 id="leaders"> Preparation for DevGuild Team Leads/Cloud Team</h2> <ol> <li>Create an iam user for every particpant, and give them a password as well as a set of AWS Access Keys and give these to the participants. Assign them a role with the appropriate permissions - please see email discussion for this. 
+<ol> <li>Create an iam user for every particpant, and give them a password as well as a set of AWS Access Keys and give these to the participants. Assign them a role with the appropriate permissions - please see email discussion for this. 
 <li>Create the following roles:
 <ul>
 <li>  IAM Users should be assigned to a group, and ideally the group (and and any user if applicable) policies should apply least privileges policy (only grant access as required). In a hackathon account, one way to do this would be to constrain access to required services for policies where the user can only write(in addition to read actions) for resources named with ther username. For example the below policy could be added for DynamoDB (along with the provided AWS  AmazonDynamoDBReadOnlyAccess policy - or even easier just attach the 'ReadOnlyAccess' managed policy to the group) 
@@ -353,8 +354,8 @@ If you use the below samples please be sure to change the userid to the static n
 </ul>
 </ul>
 </listing>
+<h4 id="students"> Preparation for Students</h4>
 <listing class="pretext">
-<h2 id="students"> Preparation for Students</h2>
 <ol type="1">
 <li>A laptop with access to AWS console
 <li>If using windows, ideally  have Cygwin installed.

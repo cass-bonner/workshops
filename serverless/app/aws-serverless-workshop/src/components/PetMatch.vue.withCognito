@@ -196,50 +196,59 @@ export default {
                 outside: this.questions.question7.outside
               }
               var self = this
-      cognitoidentity.getId(params, function(err, data) {
-        if (err) console.log(err, err.stack); // an error occurred
-        else {
-          console.log("getId response: " + JSON.stringify(data)); // successful response
-          identityId = data.IdentityId;
-          console.log("after get id" + identityId);
-          var params = {
-            IdentityId: identityId
-          };
-          var creds;
-          cognitoidentity.getCredentialsForIdentity(params, function(err, data) {
-            if (err) console.log(err, err.stack); // an error occurred
-            else {
-              creds = data;
-              console.log("result from getCredentialsForIdentity: " + JSON.stringify(data)); // successful response
-              console.log("instantiating apig: ");
-              // This creds are temporary they will expire in 1h
-              var apigClient = apigClientFactory.newClient({
-                accessKey: creds.Credentials.AccessKeyId,
-                secretKey: creds.Credentials.SecretAccessKey,
-                sessionToken: creds.Credentials.Token, //OPTIONAL: If you are using temporary credentials you must include the session token
-                region: AWS.config.region // OPTIONAL: The region where the API is deployed, by default this parameter is set to us-east-1
-              });
-              console.log("payload" + JSON.stringify(payload))
-              apigClient.petmatchesPost({}, payload, {})
-                .then(function(result) {
-                  console.log('Communication with API via API SDK a success.')
-                  console.log(result)
-                  // set the match results
-                  self.questions.matchResults = result.data
-                  console.log("self: " + JSON.stringify(self.questions.matchResults))
-                  // unhide the div
-                  var span = document.getElementById("hidden_div")
-                  span.style.display = ''
-                  self.questions.matchResults.image = "static/images/" + result.data.petTypeId + ".jpg"
-                  console.log("self: " + JSON.stringify(self.questions.matchResults))
-                }).catch(function(result) {
-                  console.log('Communication with API via API SDK a Failure.')
-                  console.log(result)
-                })
-            }
-          });
-        }
+  AWS.config.region = CONFIG.region; // Replace with the region you deploy
+
+  var cognitoidentity = new AWS.CognitoIdentity();
+  var params = {
+    IdentityPoolId: CONFIG.identityPoolId 
+  };
+
+  // Generate a Cognito ID for the 1st time, so IdentityId could be kept for future use
+  cognitoidentity.getId(params, function(err, data) {
+    if (err) console.log(err, err.stack); // an error occurred
+    else console.log(data); // successful response
+
+    var params = {
+      IdentityId: data.IdentityId
+    };
+
+    // Retrieve temp credentials with IdentityId
+    cognitoidentity.getCredentialsForIdentity(params, function(err, data) {
+      if (err) console.log(err, err.stack); // an error occurred
+      else console.log(data); // successful response
+
+      var apigClient = apigClientFactory.newClient({
+        accessKey: data.Credentials.AccessKeyId,
+        secretKey: data.Credentials.SecretKey,
+        sessionToken: data.Credentials.SessionToken,
+        region: CONFIG.region // Replace with the region you deploy
       });
+
+      var params = {
+        //This is where any header, path, or querystring request params go. The key is the parameter named as defined in the API
+        foo: "foo"
+      };
+
+      apigClient.petmatchesPost({},payload,{}).then(function(result) {
+        console.log('Communication with API via API SDK a success.')
+        console.log(result)
+        // set the match results
+        self.questions.matchResults = result.data
+        console.log("self: " + JSON.stringify(self.questions.matchResults))
+        // unhide the div
+        var span = document.getElementById("hidden_div")
+        span.style.display = ''
+        self.questions.matchResults.image = "static/images/" + result.data.petTypeId + ".jpg"
+        console.log("self: " + JSON.stringify(self.questions.matchResults))
+      }).catch(function(result) {
+        //This is where you would put an error callback
+        console.log(result);
+        alert("Oops foo!");
+      });
+    })
+
+  });
+
     }
   }
 }

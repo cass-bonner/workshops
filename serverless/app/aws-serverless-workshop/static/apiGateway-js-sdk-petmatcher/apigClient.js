@@ -86,7 +86,7 @@ apigClientFactory.newClient = function (config) {
     apigClient.petmatchesPost = function (params, body, additionalParams) {
         if(additionalParams === undefined) { additionalParams = {}; }
         
-        apiGateway.core.utils.assertParametersDefined(params, [], ['body']);
+        apiGateway.core.utils.assertParametersDefined(params, ['body'], ['body']);
         
         var petmatchesPostRequest = {
             verb: 'post'.toUpperCase(),

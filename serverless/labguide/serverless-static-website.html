@@ -51,7 +51,7 @@
 <br/>
 <br/>
 <p ="font-family:verdana">
-<listing class="pretext"><h1 align="center">Serverless static website on AWS</h1></listing>
+<h1 align="center">Serverless static website on AWS</h1>
 <listing class="pretext">
 <table cellpadding="20px"  align="center">
 <tr>
@@ -59,7 +59,16 @@
 <td width="50%"><img src="images/vue.png"/><br/><a href="https://vuejs.org/">Vue.js</a></td>
 </tr>
 </table>
+
 </listing>
+<listing class="pretext">
+Lab Contents
+<img src="images/bullet.png"> <a href="#overview">Overview</></a>
+<img src="images/bullet.png"> <a href="#vue">vue.js & Setup</></a>
+<img src="images/bullet.png"> <a href="#s3">Amazon S3</></a>
+</listing>
+
+<h4>Overview</h4>
 <listing class="pretext">Serverless has many use cases as we have discussed, but is a great fit for building a webite. After all what do you need:
 
     <img src="images/serverless-arch.png" />
@@ -68,13 +77,14 @@
 <listing class="pretext">
 We minimally need:
 <ul>
-<li> A User Interface (UI). Of course the solution will be different whether you want to build a traditional website intended for a browser, a native app for mobile phones, etc. For this workshop we'll just build basic html/javascript for a traditional website but the design would not vary significantly.  We will use <a href="http://docs.aws.amazon.com/AmazonS3/latest/dev/Welcome.html">S3 (Simple Storage Service)</a> to serve our static file requests. In practice you'd likely want to include a <a href="http://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/Introduction.html">Content Delivery Network (CDN)</a> such as AWS Cloud Front to serve the static files from Edge locations to provide better performance for the users. We will use  and we want to build on this with dynamic ajax REST APIs in the next lesson so we are going to leverage Vue.js Framework. Vue is a progressive and lightweight javascript framework that takes the best features of some other frameworks and makes it easy to build websites. Further, later in this workshop we will layer on a Amazon Lex ChatBox and we will utilize an AWS Github awslabs project that also uses Vue so it will be good to get familiar with it if you're not already.
+<li> A User Interface (UI). Of course the solution will be different whether you want to build a traditional website intended for a browser, a native app for mobile phones, etc. For this workshop we'll just build basic html/javascript for a traditional website but the design would not vary significantly.  We will use <a href="http://docs.aws.amazon.com/AmazonS3/latest/dev/Welcome.html">S3 (Simple Storage Service)</a> to serve our static file requests. In practice you'd likely want to include a <a href="http://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/Introduction.html">Content Delivery Network (CDN)</a> such as AWS Cloud Front to serve the static files from Edge locations to provide better performance for the users. 
 <li> Dynamic Components. The static files come from S3, but few websites only need static content. We might need to post data to our backend, or query data specific to a given user, or their particular request. We will use <a href="http://docs.aws.amazon.com/apigateway/latest/developerguide/welcome.html">Amazon API Gateway</a> to define the various dynamic use cases (APIs) for which we need to serve our pages in the next section of this workshop. We will use <a href="http://docs.aws.amazon.com/lambda/latest/dg/welcome.html">AWS Lambda</a> to run the dynamic logic/code to fulfill our requests, which does not require you to provision or manage servers, and manages resiliency and scale on your behalf.  We use <a href="http://docs.aws.amazon.com/step-functions/latest/dg/welcome.html">AWS Step Functions</a> to coordinate the components of distributed applications and microservices using visual workflows. 
 
   Enough reading, let's get started!
 </listing>
 
 
+<h4 id="vue">vue.js & setup</h4>
 <listing class="pretext">Let's start by setting up a project in your local IDE (or you're welcome to work directly with an editor).</listing>
 <ol type="1"><li><listing class="pretext">Navigate to the aws-serverless-workshop directory that you created in the <a href="serverless-prerequisites.html"> Prerequisites</a> - OR - setup a project pointing to this directory in your IDE.</li></listing>
 <li><listing class="pretext">Let's start up the Vue dev mode server so that we can see our application. From directly within the aws-serverless-workshop, type:
@@ -100,8 +110,7 @@ cp src/router/index.js src/router/index.js.bak
 </li></listing>
 <li><listing class="pretext">Now, run the following commands which will copy some updates to those two files as well as bring in some additional resources.
 
-NB: do we need to use wget/curl and the http endpoint instead? To be tested!
-PLEASE ensure you are inside the aws-serverless-workshop when you run this command!!
+PLEASE ensure you are inside the aws-serverless-workshop when you run this command!
 
   <button class="btn btn-outline-secondary btn-sm" data-clipboard-target="#awscp">Copy</button>
 <pre><span id="awscp">
@@ -132,6 +141,7 @@ rm src/router/index.js.bak
 </span></pre>
 </listing></li>
 
+<h4 id="s3">Amazon S3</h4>
 <li><listing class="pretext">Now we have a simple static webapp utilizing a progressive framework that will help as we continue to build it out. Let's host our website on s3 now so it becomes a proper website not something running off our local drive.:) 
 
 First we create an S3 bucket called [your unique id]-aws-serverless-workshop. You can do this via the AWS console or with the following CLI commands - but be sure to change [your unique id] with your login id at work (or other unique identifier). If you do it via the console be sure to configure it as a website with the index document as index.html and the error document as error.html.
