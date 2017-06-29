@@ -61,7 +61,7 @@ Create a Custom Policy which provides admin permissions, but only for resources 
 This can be performed via command line interface, SDKs or via console. Here's the console instructions.
 
 <li>In the console, navigate to IAM -> Groups -> Create New Group. Use adminForUsername as the group name. Click 'Next Step'
-<li>In the 'Attach Policy' screen, enter 'ReadOnlyAccess' and then tick the the button.
+<li>In the 'Attach Policy' screen, enter 'ReadOnlyAccess' and AWSCodeCommitFullAccess then tick the the button.
 <li>Select 'Next Step' and then 'Create Group'.
 <li>Select on the adminForUser group , and expand the 'Inline Policies' section at the bottom of the page. 	
 <li>Select 'click here' to set permissions. Select the 'Custom Policy' 	in Set Permissions and then select 'Select'
@@ -79,19 +79,144 @@ This can be performed via command line interface, SDKs or via console. Here's th
                 "*"
             ],
             "Resource": [
-                "arn:aws:s3:::*${aws:username}*",
+                "arn:aws:s3:::*${aws:username}*/*",
                 "arn:aws:dynamodb:us-east-1::table/*${aws:username}*",
-                "arn:aws:iam:::user/*${aws:username}*",
+                "arn:aws:iam::XXXXX:user/*${aws:username}*",
+                "arn:aws:iam::XXXXX:role/*${aws:username}*",
+                "arn:aws:iam::XXXXX:policy/*${aws:username}*",
+                "arn:aws:iam::XXXXX:instance-profile/*${aws:username}*",
+                "arn:aws:sts::XXXXX:federated-user/*${aws:username}*",
+                "arn:aws:sts::XXXXX:assumed-role/*${aws:username}*/*${aws:username}*",
+                "arn:aws:iam::XXXXX:mfa/*${aws:username}*",
+                "arn:aws:iam::XXXXX:server-certificate/*${aws:username}*",
+                "arn:aws:iam::XXXXX:saml-provider/*${aws:username}*",
+                "arn:aws:iam::XXXXX:oidc-provider/*${aws:username}*",
                 "arn:aws:rds:*::db:*${aws:username}*",
                 "arn:aws:elasticbeanstalk:*::environment/*${aws:username}*/*",
                 "arn:aws:artifact:::report-package/document-type/report-type",
                 "arn:aws:lex:*::bot:*${aws:username}*:*",
                 "arn:aws:lex:*::intent:*${aws:username}*:*",
                 "arn:aws:lex:*::slottype:*${aws:username}*:*",
-                "arn:aws:lambda:us-east-1:XXX:function:*${aws:username}*",
-                "arn:aws:lambda:ap-southeast-2:XXX:function:*${aws:username}*",
-                "arn:aws:iam::XXX:role/lambda_basic_execution",
-                "arn:aws:iam::XXX:role/lambda_basic_execution/*${aws:username}*"
+                "arn:aws:lambda:us-east-1:XXXXX:function:*${aws:username}*/*",
+                "arn:aws:lambda:ap-southeast-2:XXXXX:function:*${aws:username}*/*",
+                "arn:aws:lambda:us-east-1:XXXXX:event-source-mappings:*",
+                "arn:aws:iam::XXXXX:role/lambda_basic_execution",
+                "arn:aws:iam::XXXXX:role/lambda_basic_execution/*${aws:username}*",
+                "arn:aws:cognito-identity:*:XXXXX:identitypool/*${aws:username}*",
+                "arn:aws:cognito-idp:us-east-1:XXXXX:userpool/*",
+                "arn:aws:autoscaling:us-east-1:XXXXX:scalingPolicy:*:autoScalingGroupName/*${aws:username}*:policyName/*${aws:username}*",
+                "arn:aws:acm:us-east-1:XXXXX:certificate/*",
+                "arn:aws:cloudformation:us-east-1:XXXXX:stack/*${aws:username}*/*",
+                "arn:aws:cloudsearch:us-east-1:XXXXX:domain/*${aws:username}*",
+                "arn:aws:cloudtrail:us-east-1:XXXXX:trail/*${aws:username}*",
+                "arn:aws:events:us-east-1:XXXXX:rule/*${aws:username}*",
+                "arn:aws:logs:us-east-1:*:*",
+                "arn:aws:codebuild:us-east-1:XXXXX:project/*${aws:username}*",
+                "arn:aws:codebuild:us-east-1:XXXXX:build/*${aws:username}*:*",
+                "arn:aws:codecommit:us-east-1:XXXXX:*${aws:username}*",
+                "arn:aws:codedeploy:us-east-1:XXXXX:application:*${aws:username}*",
+                "arn:aws:codedeploy:us-east-1:XXXXX:instance/*${aws:username}*",
+                "arn:aws:cognito-sync:us-east-1:XXXXX:identitypool/*",
+                "arn:aws:cognito-sync:us-east-1:XXXXX:identitypool/*/identity/*",
+                "arn:aws:config:us-east-1:XXXXX:config-rule/*${aws:username}*",
+                "arn:aws:codepipeline:us-east-1:XXXXX:*${aws:username}*",
+                "arn:aws:codestar:us-east-1:XXXXX:*${aws:username}*",
+                "arn:aws:ecr:us-east-1:XXXXX:repository/*${aws:username}*",
+                "arn:aws:ecs:us-east-1:XXXXX:cluster/*${aws:username}*",
+                "arn:aws:ecs:us-east-1:XXXXX:container-instance/*",
+                "arn:aws:ecs:us-east-1:XXXXX:task-definition/*${aws:username}*:*",
+                "arn:aws:ecs:us-east-1:XXXXX:service/*${aws:username}*",
+                "arn:aws:ecs:us-east-1:XXXXX:task/*",
+                "arn:aws:ecs:us-east-1:XXXXX:container/*",
+                "arn:aws:ec2:us-east-1:XXXXX:customer-gateway/*",
+                "arn:aws:ec2:us-east-1:XXXXX:dedicated-host/*",
+                "arn:aws:ec2:us-east-1:XXXXX:dhcp-options/*",
+                "arn:aws:ec2:us-east-1::image/*",
+                "arn:aws:ec2:us-east-1:XXXXX:instance/*",
+                "arn:aws:iam::XXXXX:instance-profile/*${aws:username}*",
+                "arn:aws:ec2:us-east-1:XXXXX:internet-gateway/*${aws:username}*",
+                "arn:aws:ec2:us-east-1:XXXXX:key-pair/*${aws:username}*",
+                "arn:aws:ec2:us-east-1:XXXXX:network-acl/*",
+                "arn:aws:ec2:us-east-1:XXXXX:network-interface/*",
+                "arn:aws:ec2:us-east-1:XXXXX:placement-group/*${aws:username}*",
+                "arn:aws:ec2:us-east-1:XXXXX:route-table/*",
+                "arn:aws:ec2:us-east-1:XXXXX:security-group/*",
+                "arn:aws:ec2:us-east-1:XXXXX:snapshot/*",
+                "arn:aws:ec2:us-east-1:XXXXX:subnet/*",
+                "arn:aws:ec2:us-east-1:XXXXX:volume/*",
+                "arn:aws:ec2:us-east-1:XXXXX:vpc/*",
+                "arn:aws:ec2:us-east-1:XXXXX:vpc-peering-connection/*",
+                "arn:aws:ec2:us-east-1:XXXXX:vpn-connection/*",
+                "arn:aws:ec2:us-east-1:XXXXX:vpn-gateway/*",
+                "arn:aws:elasticbeanstalk:us-east-1:XXXXX:application/*${aws:username}*",
+                "arn:aws:elasticbeanstalk:us-east-1:XXXXX:applicationversion/*${aws:username}*/*",
+                "arn:aws:elasticbeanstalk:us-east-1::solutionstack/*",
+                "arn:aws:elasticbeanstalk:us-east-1:XXXXX:configurationtemplate/*${aws:username}*/*",
+                "arn:aws:elasticfilesystem:us-east-1:XXXXX:file-system-id/*",
+                "arn:aws:elasticloadbalancing:us-east-1:XXXXX:loadbalancer/app/*${aws:username}*/*",
+                "arn:aws:elasticloadbalancing:us-east-1:XXXXX:listener/app/*${aws:username}*/*/*",
+                "arn:aws:elasticloadbalancing:us-east-1:XXXXX:listener-rule/app/*${aws:username}*/*/*/*",
+                "arn:aws:elasticloadbalancing:us-east-1:XXXXX:targetgroup/*${aws:username}*/*",
+                "arn:aws:elastictranscoder:us-east-1:XXXXX:preset/*",
+                "arn:aws:elasticache:us-east-1:XXXXX:cluster:*${aws:username}*",
+                "arn:aws:elasticache:us-east-1:XXXXX:snapshot:*${aws:username}*",
+                "arn:aws:es:us-east-1:XXXXX:domain/*${aws:username}*",
+                "arn:aws:glacier:us-east-1:XXXXX:vaults/*${aws:username}*",
+                "arn:aws:health:us-east-1::event/*",
+                "arn:aws:health:us-east-1:XXXXX:entity/*",
+                "arn:aws:iot:us-east-1:XXXXX:cert/*",
+                "arn:aws:iot:us-east-1:XXXXX:policy/*${aws:username}*",
+                "arn:aws:iot:us-east-1:XXXXX:rule/*${aws:username}*",
+                "arn:aws:iot:us-east-1:XXXXX:client/*",
+                "arn:aws:kms:us-east-1:XXXXX:key/*",
+                "arn:aws:kms:us-east-1:XXXXX:alias/*${aws:username}*",
+                "arn:aws:firehose:us-east-1:XXXXX:deliverystream/*${aws:username}*",
+                "arn:aws:kinesis:us-east-1:XXXXX:stream/*${aws:username}*",
+                "arn:aws:machinelearning:us-east-1:XXXXX:datasource/*${aws:username}*",
+                "arn:aws:machinelearning:us-east-1:XXXXX:mlmodel/*${aws:username}*",
+                "arn:aws:machinelearning:us-east-1:XXXXX:batchprediction/*${aws:username}*",
+                "arn:aws:machinelearning:us-east-1:XXXXX:evaluation/*${aws:username}*",
+                "arn:aws:mobilehub:us-east-1:XXXXX:project/*",
+                "arn:aws:polly:us-east-1:XXXXX:lexicon/*${aws:username}*",
+                "arn:aws:redshift:us-east-1:XXXXX:cluster:*${aws:username}*",
+                "arn:aws:redshift:us-east-1:XXXXX:my-cluster/*${aws:username}*",
+                "arn:aws:redshift:us-east-1:XXXXX:parametergroup:*${aws:username}*",
+                "arn:aws:redshift:us-east-1:XXXXX:securitygroup:*",
+                "arn:aws:redshift:us-east-1:XXXXX:snapshot:*${aws:username}*/*",
+                "arn:aws:redshift:us-east-1:XXXXX:subnetgroup:*",
+                "arn:aws:redshift:us-east-1:XXXXX:dbuser:*${aws:username}*/*",
+                "arn:aws:rds:us-east-1:XXXXX:db:*${aws:username}*",
+                "arn:aws:rds:us-east-1:XXXXX:snapshot:*${aws:username}*",
+                "arn:aws:rds:us-east-1:XXXXX:cluster:*${aws:username}*",
+                "arn:aws:rds:us-east-1:XXXXX:cluster-snapshot:*${aws:username}*",
+                "arn:aws:rds:us-east-1:XXXXX:og:*${aws:username}*",
+                "arn:aws:rds:us-east-1:XXXXX:pg:*${aws:username}*",
+                "arn:aws:rds:us-east-1:XXXXX:cluster-pg:*${aws:username}*3",
+                "arn:aws:rds:us-east-1:XXXXX:secgrp:*${aws:username}*",
+                "arn:aws:rds:us-east-1:XXXXX:subgrp:*${aws:username}*",
+                "arn:aws:rds:us-east-1:XXXXX:es:*",
+                "arn:aws:route53:::hostedzone/*",
+                "arn:aws:route53:::change/*",
+                "arn:aws:route53:::change/*",
+                "arn:aws:ssm:us-east-1:XXXXX:document/*",
+                "arn:aws:ssm:us-east-1:XXXXX:parameter/*${aws:username}*",
+                "arn:aws:ssm:us-east-1:XXXXX:patchbaseline/*",
+                "arn:aws:ssm:us-east-1:XXXXX:maintenancewindow/*",
+                "arn:aws:ssm:us-east-1:XXXXX:automation-execution/*",
+                "arn:aws:ssm:us-east-1:XXXXX:automation-activity/*${aws:username}*",
+                "arn:aws:ssm:us-east-1:XXXXX:automation-definition/*${aws:username}*:*",
+                "arn:aws:ssm:us-east-1:XXXXX:managed-instance/*${aws:username}*",
+                "arn:aws:ssm:us-east-1:XXXXX:managed-instance-inventory/*${aws:username}*",
+                "arn:aws:sns:*:XXXXX:*${aws:username}*",
+                "arn:aws:sns:us-east-1:XXXXX:*${aws:username}*:*",
+                "arn:aws:sqs:us-east-1:XXXXX:*${aws:username}*",
+                "arn:aws:swf:us-east-1:XXXXX:/domain/*${aws:username}*",
+                "arn:aws:swf:*:XXXXX:/domain/*",
+                "arn:aws:states:us-east-1:XXXXX:activity:*${aws:username}*",
+                "arn:aws:states:us-east-1:XXXXX:stateMachine:*${aws:username}*",
+                "arn:aws:states:us-east-1:XXXXX:execution:*${aws:username}*:*",
+                "arn:aws:waf::XXXXX:*/*",
+                "arn:aws:waf-regional::XXXXX:*/*"
             ]
         },
         {
@@ -211,9 +336,10 @@ This can be performed via command line interface, SDKs or via console. Here's th
         }
     ]
 }
+
 </span>
 </pre>
-<li> Save the policy- you should now see two policies on the group - ReadOnlyAcess and adminForUsername 
+<li> Save the policy- you should see three policies on the group - ReadOnlyAcess,AWSCodeCommitFullAccess, and adminForUsername 
 <li> Add all required users to this group.
 </ul>
 
@@ -292,13 +418,13 @@ If you use the below samples please be sure to change the userid to the static n
 }
 </pre></span>
 
-<li> Lambda Trust Role (invoke Other Lambdas): [userid]LambdaInvokeLambda
+<li> Lambda Trust Role (invoke Other Lambdas): [userid]-lambda-invoke-lambda
     <button class="btn btn-outline-secondary btn-sm" data-clipboard-target="#Lambda-invoke">Copy</button>
 <pre><span id="Lambda-invoke">{
     "Version": "2012-10-17",
     "Statement": [
         {
-            "Sid": "[STATIC_NAME]",
+            "Sid": "[STATIC_NAME]LambdaInvokeLambda",
             "Effect": "Allow",
             "Action": [
                 "lambda:InvokeFunction"
@@ -327,7 +453,7 @@ If you use the below samples please be sure to change the userid to the static n
     "Version": "2012-10-17",
     "Statement": [
         {
-            "Sid": "usernameSfnStartDescExec",
+            "Sid": "[userId]SfnStartDescExec",
             "Effect": "Allow",
             "Action": [
                 "states:StartExecution",
@@ -403,11 +529,18 @@ According to a 2016 JavaScript survey, Vue has an 89% developer satisfaction rat
 <span id="setupvue">npm install vue
  npm install --global vue-cli
  vue init webpack aws-serverless-workshop 
- cd aws-serverless-workshop 
+</pre>
+Hit return for project name taking the default aws-serverless-workshop as well as all the other defaults.
+
+<li>Once the vue init is complete, run these commands:
+
+    <button class="btn btn-outline-secondary btn-sm" data-clipboard-target="#setupvue">Copy</button>
+<pre>
+<span id="setupvue">cd aws-serverless-workshop 
  npm install
  npm run dev</span>
 </pre>
-<li> Hit return for project name taking the default aws-serverless-workshop as well as all the other defaults.
+
 
 <li>It should start the dev server, and open a page in your browser such as this:
 
