@@ -55,8 +55,8 @@
 <listing class="pretext">
 <table cellpadding="20px"  align="center">
 <tr>
-<td width="50%"><img src="images/s3.png"/><br/><a href="http://docs.aws.amazon.com/AmazonS3/latest/gsg/GetStartedWithS3.html">Amazon S3</a></td>
-<td width="50%"><img src="images/vue.png"/><br/><a href="https://vuejs.org/">Vue.js</a></td>
+<td width="50%"><a href="http://docs.aws.amazon.com/AmazonS3/latest/gsg/GetStartedWithS3.html"><img src="images/s3.png"/><br/>Amazon S3</a></td>
+<td width="50%"><a href="https://vuejs.org/"><img src="images/vue.png"/><br/>Vue.js</a></td>
 </tr>
 </table>
 
@@ -77,8 +77,8 @@ Lab Contents
 <listing class="pretext">
 We minimally need:
 <ul>
-<li> A User Interface (UI). Of course the solution will be different whether you want to build a traditional website intended for a browser, a native app for mobile phones, etc. For this workshop we'll just build basic html/javascript for a traditional website but the design would not vary significantly.  We will use <a href="http://docs.aws.amazon.com/AmazonS3/latest/dev/Welcome.html">S3 (Simple Storage Service)</a> to serve our static file requests. In practice you'd likely want to include a <a href="http://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/Introduction.html">Content Delivery Network (CDN)</a> such as AWS Cloud Front to serve the static files from Edge locations to provide better performance for the users. 
-<li> Dynamic Components. The static files come from S3, but few websites only need static content. We might need to post data to our backend, or query data specific to a given user, or their particular request. We will use <a href="http://docs.aws.amazon.com/apigateway/latest/developerguide/welcome.html">Amazon API Gateway</a> to define the various dynamic use cases (APIs) for which we need to serve our pages in the next section of this workshop. We will use <a href="http://docs.aws.amazon.com/lambda/latest/dg/welcome.html">AWS Lambda</a> to run the dynamic logic/code to fulfill our requests, which does not require you to provision or manage servers, and manages resiliency and scale on your behalf.  We use <a href="http://docs.aws.amazon.com/step-functions/latest/dg/welcome.html">AWS Step Functions</a> to coordinate the components of distributed applications and microservices using visual workflows. 
+<li> A User Interface (UI). Of course the solution will be different whether you want to build a traditional website intended for a browser, a native app for mobile phones, etc. For this workshop we'll just build basic html/javascript for a traditional website but the design would not vary significantly.  We will use <a target="_blank" style="target-new: tab;" href="http://docs.aws.amazon.com/AmazonS3/latest/dev/Welcome.html">S3 (Simple Storage Service)</a> to serve our static file requests. In practice you'd likely want to include a <a target="_blank" style="target-new: tab;" href="http://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/Introduction.html">Content Delivery Network (CDN)</a> such as AWS Cloud Front to serve the static files from Edge locations to provide better performance for the users. 
+<li> Dynamic Components. The static files come from S3, but few websites only need static content. We might need to post data to our backend, or query data specific to a given user, or their particular request. We will use <a target="_blank" style="target-new: tab;" href="http://docs.aws.amazon.com/apigateway/latest/developerguide/welcome.html">Amazon API Gateway</a> to define the various dynamic use cases (APIs) for which we need to serve our pages in the next section of this workshop. We will use <a target="_blank" style="target-new: tab;" href="http://docs.aws.amazon.com/lambda/latest/dg/welcome.html">AWS Lambda</a> to run the dynamic logic/code to fulfill our requests, which does not require you to provision or manage servers, and manages resiliency and scale on your behalf.  We use <a target="_blank" style="target-new: tab;" href="http://docs.aws.amazon.com/step-functions/latest/dg/welcome.html">AWS Step Functions</a> to coordinate the components of distributed applications and microservices using visual workflows. 
 
   Enough reading, let's get started!
 </listing>
@@ -119,6 +119,7 @@ aws s3 cp s3://aws-serverless-workshop/PetMatch/resources/App.vue src/App.vue
 aws s3 cp s3://aws-serverless-workshop/PetMatch/resources/components/Hello.vue src/components/Hello.vue
 aws s3 cp s3://aws-serverless-workshop/PetMatch/resources/router/index.js src/router/index.js
 aws s3 cp s3://aws-serverless-workshop/PetMatch/resources/components/PetMatch.vue src/components/PetMatch.vue
+aws s3 cp s3://aws-serverless-workshop/PetMatch/resources/components/PetMatch.vue.withCognito src/components/PetMatch.vue.withApig
 aws s3 cp s3://aws-serverless-workshop/PetMatch/resources/components/PetMatch.vue.withCognito src/components/PetMatch.vue.withCognito
 aws s3 cp s3://aws-serverless-workshop/PetMatch/resources/components/config.json src/components/config.json
 aws s3 cp s3://aws-serverless-workshop/PetMatch/resources/assets/app.css src/assets
@@ -144,7 +145,7 @@ rm src/router/index.js.bak
 <h4 id="s3">Amazon S3</h4>
 <li><listing class="pretext">Now we have a simple static webapp utilizing a progressive framework that will help as we continue to build it out. Let's host our website on s3 now so it becomes a proper website not something running off our local drive.:) 
 
-First we create an S3 bucket called [your unique id]-aws-serverless-workshop. You can do this via the AWS console or with the following CLI commands - but be sure to change [your unique id] with your login id at work (or other unique identifier). If you do it via the console be sure to configure it as a website with the index document as index.html and the error document as error.html.
+First we create an S3 bucket called [your unique id]-aws-serverless-workshop. You can do this via the AWS console or with the following CLI commands - but <font class="redc">be sure to CHANGE</font> [your unique id] with your login id at work (or other unique identifier). You should probably open a text editor to replace your name as a number of the commands will require replacement. If you do this via the console be sure to configure it as a website with the index document as index.html and the error document as error.html.
 
 NB: Ensure the region in your ~/.aws/config is set to the region in which you will be working. Recommendation is us-east
 
@@ -152,13 +153,15 @@ NB: Ensure the region in your ~/.aws/config is set to the region in which you wi
  <button class="btn btn-outline-secondary btn-sm" data-clipboard-target="#mkbucket">Copy</button>
 <pre><span id="mkbucket">
 
--aws s3 mb s3://[your unique id]-aws-serverless-workshop
--aws s3 website s3://[your unique id]-aws-serverless-workshop/ --index-document index.html --error-document error.html
+aws s3 mb s3://[your unique id]-aws-serverless-workshop
+aws s3 website s3://[your unique id]-aws-serverless-workshop/ --index-document index.html --error-document error.html
 
 </span></pre>
 </listing></li>
 
-<li><listing class="pretext">You may remember that we are running Vue.js in dev mode at this point. We need to convert it to prod mode before we deploy it. Back up out of the src directory into the 'aws-serverless-workshop'. With the next command we use 'npm run build' to build our Vue app in prod mode, and then we push it to our S3 bucket. Be sure to change [your unique id] to your actual unique id.
+<li><listing class="pretext">You may remember that we are running Vue.js in dev mode at this point. We need to convert it to prod mode before we deploy it. 
+
+<b>Navigate directly inside the 'aws-serverless-workshop' directory</b>. With the next command we use 'npm run build' to build our Vue app in prod mode, and then we push it to our S3 bucket. <font class="redc">Be sure to CHANGE</font> [your unique id] to your actual unique id.
 <br/>
  <button class="btn btn-outline-secondary btn-sm" data-clipboard-target="#prd">Copy</button>
 <pre><span id="prd">
@@ -169,7 +172,9 @@ npm run build && aws s3 sync dist s3://[your unique id]-aws-serverless-workshop 
 </listing></li>
 
 
-<li><listing class="pretext">Now navigate to the console and find your S3 bucket. Select  your bucket and click on properties.  Click Static Website Hosting and copy your URL. You should see a page that looks like this:
+<li><listing class="pretext">Now navigate to the console and find your S3 bucket. Refresh the bucket and notice that your files have been uploaded from the previous step.</listing></li>
+
+<li><listing class="pretext">Select your bucket and click on the 'Properties' tab.  Select 'Static Website Hosting' and copy your URL and enter it into a new tab. You should see a page that looks like this:
 
 <img src="images/vue-app-screenshot.png"/>
 
