@@ -1,6 +1,6 @@
   html *
   { 
-     #font-size: 1em !important;
+     font-size: 1em !important;
      color: #E5E4E2;
      font-family: Calibri, Candara, Segoe, "Segoe UI", Optima, Arial, sans-serif; !important;
      line-height: 150%;
@@ -54,9 +54,22 @@ h1 {
     outline-style: groove;
     outline-color: #2C3539;
 }
+h5 { 
+    background-color: #d03819;
+    font-color:#black; !important;
+    font-weight:bold;
+    word-break: normal !important;
+    white-space: pre-wrap;       /* Since CSS 2.1 */
+    white-space: -moz-pre-wrap;  /* Mozilla, since 1999 */
+    white-space: -pre-wrap;      /* Opera 4-6 */
+    white-space: -o-pre-wrap;    /* Opera 7 */
+    word-wrap: break-word;       /* Internet Explorer 5.5+ */
+    outline-style: groove;
+    outline-color: #726E6D;
+}
 h4 {
     margin:20px; padding:7px ;margin-top:5px;margin-left:0px;margin-right:20px;
-    background-color: #d03819;
+    background-color: #40a7fb;
     font-color:#black; !important;
     font-weight:bold;
     word-break: normal !important;
@@ -109,7 +122,7 @@ li {
     box-shadow: 0 0 8px 8px black inset;
 }
 a:link {
-    color: #00e7e7;
+    color: #40a7fb;
 }
 
 a:visited {
@@ -117,5 +130,9 @@ a:visited {
 }
 .redc
 {  
-  font-color: red !important; 
+  font-color: #FF0000 !important; 
+  color: #FF0000 !important; 
+  font-size: 24px !important; 
+  font-weight: 900;
+  text-decoration: underline;
 }
