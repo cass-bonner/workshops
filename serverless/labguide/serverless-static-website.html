@@ -119,7 +119,7 @@ aws s3 cp s3://aws-serverless-workshop/PetMatch/resources/App.vue src/App.vue
 aws s3 cp s3://aws-serverless-workshop/PetMatch/resources/components/Hello.vue src/components/Hello.vue
 aws s3 cp s3://aws-serverless-workshop/PetMatch/resources/router/index.js src/router/index.js
 aws s3 cp s3://aws-serverless-workshop/PetMatch/resources/components/PetMatch.vue src/components/PetMatch.vue
-aws s3 cp s3://aws-serverless-workshop/PetMatch/resources/components/PetMatch.vue.withCognito src/components/PetMatch.vue.withApig
+aws s3 cp s3://aws-serverless-workshop/PetMatch/resources/components/PetMatch.vue.withApig src/components/PetMatch.vue.withApig
 aws s3 cp s3://aws-serverless-workshop/PetMatch/resources/components/PetMatch.vue.withCognito src/components/PetMatch.vue.withCognito
 aws s3 cp s3://aws-serverless-workshop/PetMatch/resources/components/config.json src/components/config.json
 aws s3 cp s3://aws-serverless-workshop/PetMatch/resources/assets/app.css src/assets
@@ -146,6 +146,8 @@ rm src/router/index.js.bak
 <li><listing class="pretext">Now we have a simple static webapp utilizing a progressive framework that will help as we continue to build it out. Let's host our website on s3 now so it becomes a proper website not something running off our local drive.:) 
 
 First we create an S3 bucket called [your unique id]-aws-serverless-workshop. You can do this via the AWS console or with the following CLI commands - but <font class="redc">be sure to CHANGE</font> [your unique id] with your login id at work (or other unique identifier). You should probably open a text editor to replace your name as a number of the commands will require replacement. If you do this via the console be sure to configure it as a website with the index document as index.html and the error document as error.html.
+
+Because we are going to host this in an S3 Bucket, we are using a cli command to setup our s3 bucket as a website. This will modify the properties tab on your bucket. Once you run this command navigate to your S3 bucket and check out the properties tab to see the effect.
 
 NB: Ensure the region in your ~/.aws/config is set to the region in which you will be working. Recommendation is us-east
 
