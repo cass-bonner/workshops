@@ -65,7 +65,7 @@
 </table></listing>
 <listing class="pretext">
 Lab Contents
-<font size="2">
+<font size="3">
 <img src="images/bullet.png"> <a href="#overview">Overview</></a>
 <img src="images/bullet.png"> <a href="#usecase">Use Case Scenario: PetMatch</></a>
 <img src="images/bullet.png"> <a href="#apigsetup">Amazon API Gateway - Define API</></a>
@@ -150,14 +150,14 @@ The following diagram shows API Gateway architecture and you can read more about
 </listing>
 
 <ol>
-<li> <listing class="pretext">Navigate to the AWS Console and select <a target="_blank" style="target-new: tab;" href="https://console.aws.amazon.com/apigateway">Api Gateway</a>. Select 'Create API' and enter [your unique user id]-PetMatchService and hit 'Create API' again.
+<li> <listing class="pretext">Navigate to the AWS Console and select <a target="_blank" style="target-new: tab;" href="https://console.aws.amazon.com/apigateway">Api Gateway</a>. Select 'Create API' and enter [your unique user id]-PetTypeMatchService and hit 'Create API' again.
 
 There are many great sources that provide best practices on API Design, but I'll highlight one called <a target="_blank" style="target-new: tab;" href="http://www.vinaysahni.com/best-practices-for-a-pragmatic-restful-api">Best Practices for Designing a Pragmatic RESTful API</a> that is agood reference. 
 </listing>
 
 <li><listing class="pretext">Select 'Actions' and then 'Create Resource'. Use 'petmatches' for the resource name.</listing></li>
 <li><listing class="pretext"> Click 'Enable API Gatway CORS' and select 'Create Resource'.</listing></li>
-<li> <listing class="pretext">Select 'Actions'-enable CORS and  stick the boxes to enable for 4XX and 5XX codes as well and save.
+<li> <listing class="pretext">Select 'Actions'-enable CORS and tick the boxes to enable for 4XX and 5XX codes as well and select 'Enable CORS...' and select 'Yes' to replace the existing CORS definitions.
 
 <img src="images/apig-createmethod.png"/>
 </listing></li>
@@ -270,7 +270,7 @@ Our logic will be as follows:
 </listing></li>
 <li>Let's start to implement this in Step Functions.
 
-In the code box, REPLACE the Amazon States Language json sample with this json:
+In the code box, <font class="redc">REPLACE</font> the Amazon States Language json sample with this json:
 <br/>
   <button class="btn btn-outline-secondary btn-sm" data-clipboard-target="#sasstest">Copy</button>
 <pre><span id="sasstest">{
@@ -510,7 +510,7 @@ Let's start by testing the yap, as that's clear differentiator - we'll match all
     "FriendlyCat": {
       "Type" : "Pass",
       "Result" : {
-        "petmatch" : "cat-friedly"
+        "petmatch" : "cat-friendly"
       },
       "Next": "RetrievePetMatchDetails"
     },
@@ -569,13 +569,58 @@ Take a look at the logic within the Amazon States Language. We are using the com
 <img src="images/logic-deepdive.png"/>
 </listing></li>
 
-<li><listing class="pretext">Create this State Machine, even though it's not done and we'll test out the logic thus far.  Scroll to the top of the page, and ensure that you call the StateMachine:
+<li><listing class="pretext">Create this State Machine, even though it's not done and we'll test out the logic thus far.  <font class="redc">Scroll to the top of the page</font>, and ensure that you call the StateMachine:
 
 [your unique id]-PetTypeMatch
 
+This is becuase when you selected 'Choice' as a Blueprint it overrode your name so ensure that is correct.
+
 </listing></li>
 
-<li><listing class="pretext">Scroll to the bottom of the page and select 'Create State Machine' and Select 'OK' for the policy. </listing></li>
+<li><listing class="pretext">Scroll to the bottom of the page and select 'Create State Machine'.  It should prompt you to create use a role called StatesExecutionRole for your region. Select 'OK' for the StatesExecutionRole for your region. If the role exists -scroll down to the section 'Testing your State Machine'. But if it does not exist continue with these steps.
+
+<li><listing class="pretext">You will need to create a new role which gives trust to states. </listing></li>
+
+<li><listing class="pretext">Go to IAM Service and select 'Roles' from the navigation and then select 'Create New Role'</listing></li>
+<li><listing class="pretext">Leave AWS Service Role toggle selected and select AWS Lambda and then 'Next'</listing></li>
+<li><listing class="pretext">Hit Next again and do not attach any policies</listing></li>
+<li><listing class="pretext">Use the name 'StatesExecutionRole-[region] such as StatesExecutionRole-ap-southeast-2 and then save the policy. If it says it already exists someone else may have createn it for you and you can go back to StepFunction and use that</listing></li>
+<li><listing class="pretext">If the policy was not already created, we now need to modify the role in two ways. Search for the role and select it.</listing></li>
+<li><listing class="pretext">Select the Permissions tab and expand the carrot/arrow for Inline Policies, and then select 'click here'</listing></li>
+<li><listing class="pretext">Select 'Custom Policy', and then 'Select'</listing></li>
+<li><listing class="pretext">Copy the policy below and paste it into the Policy Document section</listing></li>
+
+ <button class="btn btn-outline-secondary btn-sm" data-clipboard-target="#cppol">Copy</button>
+<pre><span id="cppol">
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Action": [
+                "lambda:InvokeFunction"
+            ],
+            "Resource": "*"
+        }
+    ]
+}
+</span></pre>
+
+
+
+<li><listing class="pretext">For Policy Name use SER-[region] such as SER-ap-southeast-2, and then press 'Apply Policy'</listing></li>
+<li><listing class="pretext">The second change we need to make is to modify the Trust Relationship so select the the 'Trust Relationships' tab.</listing></li>
+<li><listing class="pretext">Select Edit Trust Relationship, and then change the Service from Lambda to states for the relevant region such as states-ap-southeast-2.amazonaws.com. Select 'Update Trust Policy' and then you should see a trust policy such as the following (with the relevant region):
+
+<img src="images/states-role-create.png"/>
+
+</listing></li>
+<li><listing class="pretext">For Policy Name use SER-[region] such as SER-ap-southeast-2, and then press 'Apply Policy'</listing></li>
+<li><listing class="pretext">Navigate back to your Step Function and select the new role. If the role is not listed you will need to exit from the StateMachine and come back in - be sure to save the code for your Step Function and name it as [yourId]-PetTypeMatch</listing></li>
+
+<h5>Testing your State Machine</h5>
+
+
 
 <li><listing class="pretext"> Let's execute our new state machine with some sample data to test the results. Create a new execution - but override the same json with this sample attributes:
 
@@ -806,7 +851,7 @@ var docClient = new AWS.DynamoDB.DocumentClient()
 
 var query = function(event, context, callback) {
 
-var tableName = "cass-PetType";
+var tableName = "williamPetType";
 
 var keyId = event.petmatch;
 console.log(keyId);
@@ -830,11 +875,9 @@ docClient.query(params, function(err, data) {
         console.log("Unable to query. Error:", JSON.stringify(err, null, 2));
     } else {
         console.log("Query succeeded.");
-        data.Items.forEach(function(item) {
-            console.log(" -", item.petTypeId + ": " + item.Classification
-            + " ... " + item.breed
-            + " ... " + item.lifespan);
-        });
+        var item = data.Items[0];
+        callback(null, item);
+        
     }
 });
 
@@ -919,7 +962,7 @@ Yee haw! Our backend logic is in place. :) All we have to do now is write a Lamb
 Note that polling Lambda's is not a common use case, but when there is an asynchronous delay, such as from the time we start the execution until it succeeds, it is a pattern that can be used. We will use Python for this sample:
 
 </listing></li>
-<li><listing class="pretext">Select the runtime as Python 3.6</listing></li>
+<li><listing class="pretext">Select the runtime as <font class="redc">the latest version of Python</font></listing></li>
 <li><listing class="pretext">Copy the code below and paste it into the code section of Lambda.
 
 
@@ -967,7 +1010,6 @@ def lambda_handler(event, context):
 </pre></span>
 </listing></li>
 
-<li><listing class="pretext">Scroll down and select 'Choose an existing role', and then [yourid]-]-lambda-sfn-start-desc-exec.  This role only gives the Lambda function the ability to start and describe the execution of your state machine. More specifically any statemachine with your id in it.</li></listing>
 
 <li><listing class="pretext">Just after the code box, enter the Environment Variable as follows:
 
@@ -976,13 +1018,14 @@ Value: [the ARN of your State Machine]
 
 It will look something like this:
 
-arn:aws:states:ap-southeast-2:XXXXXXX:stateMachine:userIdPetMatcher
+arn:aws:states:ap-southeast-2:XXXXXXX:stateMachine:userIdPetMatcherDynamoDB
 
-You can find this by navigating to AWS Step Functions, and then selecting one of your executions. You want the State Machine ARN - not the execution ARN
+You can find this by navigating to AWS Step Functions, and then selecting one of your executions. <font class="redc">You want the State Machine ARN</font> - not the execution ARN - see the diagram below.
 
 <img src="images/state-arn.png"/>
 
 </li></listing>
+<li><listing class="pretext">Scroll down and select 'Choose an existing role', and then [yourid]-lambda-sfn-start-desc-exec.  This role only gives the Lambda function the ability to start and describe the execution of your state machine. More specifically any statemachine with your id in it.</li></listing>
 
 <li><listing class="pretext">In Advanced Settings, set the timeout to 1 minute.</li></listing>
 <li><listing class="pretext">Select 'Next', and then review your then review your function.</li></listing>
@@ -1012,8 +1055,13 @@ You can find this by navigating to AWS Step Functions, and then selecting one of
 <h4 id="apiginteg">Amazon API Gateway</h4>
 
 <li><listing class="pretext">Now we are going to integrate our Lambda function into our API Gateway REST API.  Go back to your tab with API Gateway or open it again</li></listing>
+<li><listing class="pretext">Navigate to your PetTypeMatchService and select on Resources from the left tab, and then select on the POST Method to get the setup. We are going to use Lambda to call Step Functions which will in turn coordinate our backend logic, as well as implement a simplistic decision tree for our MVP. You can actually integrate directly to Step Functions from API Gateway, and in actual implementation that is exactly what you would likely do beause you do not want your user waiting for it to complete processing just do an ajax call to update the resultant match basesd on the execution id once it's received. However, for the purposed of this workhop/our MVP, we'll just code one request to keep it simple and have lambda both submit the execution and then wait for it to complete and return the response. This will also be useful for our next lab where we plan to integrate a Lex Bot into our app which currently only support Lambda integration.</li></listing>
 
-<li><listing class="pretext">Select on Resources from the left tab, and then select on the POST Method to get the setup. We are going to use Lambda to call Step Functions which will in turn coordinate our backend logic, as well as implement a simplistic decision tree for our MVP. You can actually integrate directly to Step Functions from API Gateway, and in actual implementation that is exactly what you would likely do beause you do not want your user waiting for it to complete processing just do an ajax call to update the resultant match basesd on the execution id once it's received. However, for the purposed of this workhop/our MVP, we'll just code one request to keep it simple and have lambda both submit the execution and then wait for it to complete and return the response. This will also be useful for our next lab where we plan to integrate a Lex Bot into our app which currently only support Lambda integration.</li></listing>
+<img src="images/apig-postmethod.png"/>
+
+<li><listing class="pretext">For the Integration type, leave Lambda Function selected. Select the Region your Lambda function is in. </li></listing>
+<li><listing class="pretext">Select or enter the name of your InvokeStateMachineWithResults Lambda function and press save.</li></listing>
+<li><listing class="pretext">Select OK when it asks to give permissions. </li></listing>
 
 <li><listing class="pretext">Select Method request in the right box. Expand on the request body tab, and say 'Add Model'.</listing></li>
 
@@ -1027,26 +1075,52 @@ You can find this by navigating to AWS Step Functions, and then selecting one of
 <li><listing class="pretext"> Type application/json for the Content Type and PetTypeMatchResponse for the ModelName. Click the check image to save the changes.</listing></li>
 
 <li><listing class="pretext">There are quite a few ways to <a target="_blank" style="target-new: tab;" href="http://docs.aws.amazon.com/apigateway/latest/developerguide/apigateway-control-access-to-api.html">control access to APIs with API Gateway</a>. We will be disucussing this later.
-
-
-<img src="images/apig-postmethod.png"/>
-
 </listing></li>
 <br/>
 
 
-<li><listing class="pretext">For the Integration type, leave Lambda Function selected. Select the Region your Lambda function is in. </li></listing>
-<li><listing class="pretext">Select or enter the name of your Lambda function and press save.</li></listing>
-<li><listing class="pretext">Select OK when it asks to give permissions. </li></listing>
 
-<li><listing class="pretext">Select 'New Stage' and call it dev - then save.</li></listing>
-<li><listing class="pretext">Navigate to the POST method in the Stages of the petmatcher API, and select it. Copy the URL - it should end with [yourstage]/petmatcher. </listing></li>
+<li><listing class="pretext">Select Actions->Deploy API.</li></listing>
+<li><listing class="pretext">Select 'New Stage' and call it something useful - perhaps dev or v1 - then save.</li></listing>
+<li><listing class="pretext">Ensure that 'Stages' is selected on the left and navigate to the POST method and select it. Copy the URL - it should end with [yourstage]/petmatcher. </listing></li>
 
-<li><listing class="pretext">Select your stage resource and select the 'SDK Generation' tab. For platform select Javascript and then select 'Generate SDK'
+<li><listing class="pretext">Select your stage resource (dev or v1, etc) in the second tab, and then select the 'SDK Generation' tab in the main window. For platform select Javascript and then select 'Generate SDK'
 
 <img src="images/apig-stage.png"/>
 
-We're going to go back to our website now and integrate invoking our API Gateway invocation into our website.  With Amazon API Gateway, you can optionally set your API methods to require authorization. When setting up a method to require authorization you can leverage AWS Signature Version 4 or custom authorizers to support your own bearer token auth strategy.
+We're going to go back to our website now and integrate invoking our API Gateway invocation into our website.  With Amazon API Gateway, you can optionally set your API methods to require authorization. When setting up a method to require authorization you can leverage AWS Signature Version 4 or custom authorizers to support your own bearer token auth strategy.</listing></li>
+
+<li><listing class="pretext">Now go to your IDE (or however you're editing your project files) to your source base (aws-serverless-workshop directory).   Run the following commands which will backup your current copy of your PetMatch vue component and replace it with a version that is pointing to your identity pool. </listing></li>
+
+ <button class="btn btn-outline-secondary btn-sm" data-clipboard-target="#bakpet">Copy</button>
+<pre><span id="bakpet">
+npm install --save aws-api-gateway-client
+cp src/components/PetMatch.vue src/components/PetMatch.vue.bak
+cp src/components/PetMatch.vue.withApig src/components/PetMatch.vue
+</span></pre>
+</listing></li>
+
+<li><listing class="pretext">Now edit:
+
+src/components/config.json
+
+{
+
+  "identityPoolId" : "",
+  "region" : ""
+}
+
+Fill in your region such as us-east-1 or ap-southeast-2. This will need to be the same region in which you deployed your Lambda Function. 
+
+</listing></li>
+<li><listing class="pretext">Navigate to the directory that your downloaded SDK was placed, and unzip it. Move it to your aws-serverless-workshop directory into the 'static' directory, something like this if you are one level up from the aws-serverless-workshp (Notice that I <font class="redc">renamed the folder to apiGateway-js-sdk-petmatcher</font>:
+
+ <button class="btn btn-outline-secondary btn-sm" data-clipboard-target="#mvandcp">Copy</button>
+<pre><span id="mvandcp">
+ mv apiGateway-js-sdk aws-serverless-workshop/static/apiGateway-js-sdk-petmatcher
+</pre></span>
+</listing></li>
+<li><listing class="pretext">
 
 It is now time to go back to our URL and see how our /petmatch resource is behaving now.  Copy the below URL again and hit submit. Try some different values you should now see images like the below and the match should change depending on the input.
 <button class="btn btn-outline-secondary btn-sm" data-clipboard-target="#localpet2">Copy</button>
@@ -1066,33 +1140,35 @@ So now we have a working webapp, but lets provide some form of protection for ou
 Amazon Cognito lets you easily add user sign-up and sign-in and manage permissions for your mobile and web apps. You can create your own user directory within Amazon Cognito, or you can authenticate users through social identity providers such as Facebook, Twitter, or Amazon; with SAML identity solutions; or by using your own identity system. In addition, Amazon Cognito enables you to save data locally on users' devices, allowing your applications to work even when the devices are offline. You can then synchronize data across users' devices so that their app experience remains consistent regardless of the device they use.
 With Amazon API Gateway, you can optionally set your API methods to require authorization. When setting up a method to require authorization you can leverage AWS Signature Version 4 or custom authorizers to support your own bearer token auth strategy.
 
+
 You can use AWS credentials -- access and secret keys - to sign requests to your service and authorize access like other AWS services. The signing of an Amazon API Gateway API request is managed by the custom API Gateway SDK generated for your service. You can retrieve temporary credentials associated with a role in your AWS account using Amazon Cognito. The requests are then signed with what is called sigv4 <a target="_blank" style="target-new: tab;" href="http://docs.aws.amazon.com/general/latest/gr/signature-version-4.html">Signature Version 4 Signing</a>. 
 
 We will not require our users to login for now, but we will use <a target="_blank" style="target-new: tab;" href="http://docs.aws.amazon.com/cognito/latest/developerguide/identity-pools.html">unauthenticated identities.</a>  Cognito Federated Identity to ensure that our APIs are only allowed by valid clients and as well providing a unique token for the user which can be useful for analytics about our users. We will use the <a target="_blank" style="target-new: tab;" href="http://docs.aws.amazon.com/cognito/latest/developerguide/authentication-flow.html">Enhanced (Simplified) Authflow</a>, calling Cognito's <a target="_blank" style="target-new: tab;" href="http://docs.aws.amazon.com/cognitoidentity/latest/APIReference/API_GetId.html">getId()</a> method to provide us with a Cognito Id, which is represented as a JSON Web Token (JWT) token. Then call another API <a target="_blank" style="target-new: tab;" href="http://docs.aws.amazon.com/cognitoidentity/latest/APIReference/API_GetCredentialsForIdentity.html">getCredentialsForId()</a> which will provide AWS Credentials so that we can invoke the API which we will protect with IAM.</a></listing>
-<img src="images/cognito-auth-lab.png"/>
 
-<li><listing class="pretext">Open a new tab in your browers and navigate to Amazon Cognito.  Cognito has two main areas, User Pools and Federated Identies. We're only going to use the an Identity Pool with unauthenticated identities.
+<li><listing class="pretext">Open a new tab in your browers and <a target="_blank" style="target-new: tab;" href="http://console.aws.amazon.com/cognito/">navigate to Amazon Cognito<a/>.  Cognito has two main areas, User Pools and Federated Identies. We're only going to use the an Identity Pool with unauthenticated identities.
 
 <img src="images/id_pool.png"/>
 
 Select 'Federated Identities' and then 'Create new identity pool'
 </li></listing>
-<li><listing class="pretext">Enter [userId]PetMatch for the name, and tick the box 'Enable access to unauthenticated identities'</li></listing>
+<li><listing class="pretext">Enter [userId]PetTypeMatch for the name, and tick the box 'Enable access to unauthenticated identities'</li></listing>
 <li><listing class="pretext">Select Create Pool, and select 'Allow'</li></listing>
-<li><listing class="pretext">Select edit Identity Pool and copy the Identity Pool ID and also note down the Role Name for your unauthenticated role</li></listing>
+<li><listing class="pretext">Select edit Identity Pool (top right corner) and copy the Identity Pool ID and also note down the Role Name for your unauthenticated role and then cancel the edit.</li></listing>
 
 <h4 id="iamupd">AWS IAM - Update Unauthenticated Role </h4>
 <listing class="pretext">The default permissions for the unauthenticated role that Cognito creates needs modified to be able to invoke your API</listing>
 <li><listing class="pretext">Navigate to IAM and select 'Roles'</li></listing>
-<li><listing class="pretext">Search for your Cognito Role</li></listing>
+<li><listing class="pretext">Search for your Cognito Unauth Role (something like Cognito_[yourId]PetTypeMatchUnauth_Role</li></listing>
 <li><listing class="pretext">
-Select the role and then
+Select the role 
 
 <img src="images/createRolePolicy.png"/>
 
-In the policy editor, copy the following policy and paste, substituting the [] variables with the actual values such as:
+In the policy editor, copy the following policy and paste, <font class="redc">substituting the [] variables</font> with the actual values such as:
 
-arn:aws:execute-api:us-east-1:XXX:cass-PetMatcherService/*/POST/petmatches
+"arn:aws:execute-api:us-east-1:*:m9nn3xxxe6/v1/POST/petmatches"
+
+Note that m9nn3xxxe6 is the api id from the url.
 
  <button class="btn btn-outline-secondary btn-sm" data-clipboard-target="#policye">Copy</button>
 <pre><span id="policye">{
@@ -1114,7 +1190,7 @@ It should look like this after:
 
 <img src="images/policyView.png"/>
 
-Press save and you should now see:
+Give your policy a name with your id in it and then press save and you should now see:
 
 <img src="images/twoPolicies.png"/>
 
@@ -1122,11 +1198,10 @@ Press save and you should now see:
 
 <h4 id="updwebcog">Update the webapp to use the Cognito Identity pool.</h4>
 
-
 <li><listing class="pretext">Now go to your IDE (or however you're editing your project files) to your source base (aws-serverless-workshop directory).   Run the following commands which will backup your current copy of your PetMatch vue component and replace it with a version that is pointing to your identity pool. 
 
- <button class="btn btn-outline-secondary btn-sm" data-clipboard-target="#bakpet">Copy</button>
-<pre><span id="bakpet">
+ <button class="btn btn-outline-secondary btn-sm" data-clipboard-target="#bakpet2">Copy</button>
+<pre><span id="bakpet2">
 cp src/components/PetMatch.vue src/components/PetMatch.vue.bak
 cp src/components/PetMatch.vue.withCognito src/components/PetMatch.vue
 </span></pre>
@@ -1142,21 +1217,19 @@ src/components/config.json
   "region" : ""
 }
 
-Fill in your identityPooId and your region. These will need to be the same region with the way the code is currently written but you could edit PetMatch.vueand change that if required. 
+Fill in your identityPooId. The identity pool will need to be in the same region as your Lambda with the way the code is currently written but you could edit PetMatch.vue and change that if required. 
 
 </listing></li>
-<li>Navigate to the directory that you downloaded SDK was placed, and unzip it. Move it to your aws-serverless-workshop directory into the 'static' directory, something like this if you are one level up from the aws-serverless-workshp (Notice that I <b><u>renamed the folder to apiGateway-js-sdk-petmatcher</b></u>:
-
- <button class="btn btn-outline-secondary btn-sm" data-clipboard-target="#mvandcp">Copy</button>
-<pre><span id="mvandcp">
- mv apiGateway-js-sdk aws-serverless-workshop/static/apiGateway-js-sdk-petmatcher
-</pre></span>
+<li><listing class="pretext"> In API Gateway - select the petmatches resource from your API and select Actions->Click 'Enable API Gatway CORS' and select 'Create Resource'.</listing></li>
+<li> <listing class="pretext">Select 'Actions'-enable CORS and tick the boxes to enable for 4XX and 5XX codes as well and select 'Enable CORS...' and select 'Yes' to replace the existing CORS definitions.
 
 <li><listing class="pretext">Test out the application again and ensure it's still working. Now go to API Gateway and turn on IAM for the petmatch API to protect it.</li></listing>
+
+
 <h4 class="heading" id="apigunauth">Enable Authorisation on API Gateway rest API</h4>
 <li><listing class="pretext">Navigate to API Gateway your [userId]PetMatch API. Select on 'Resources' and then select the POST method of our /petmatches resource.</listing>
-<li><listing class="pretext">Select 'Authorisation' and then choose AWS_IAM, then select the check box to save.</li>
-<li><listing class="pretext">Select Actions again, and select 'Enable CORS' and then confirm to enable.</listing></li>
+<li><listing class="pretext">Select 'Method Request', and then select the 'pencil' to the right of 'Authorization' and then choose AWS_IAM, then select the check box to save and say yes to replacing.</li>
+<li><listing class="pretext">Select Actions again, and select 'Enable CORS' and select 4XX and 5XX as well and then confirm to enable.</listing></li>
 <li><listing class="pretext">Now select Actions->Deploy API, and select the same stage you deployed it to last time.</li></listing>
 
 <li><listing class="pretext">Test your local website again:<listing></li>
@@ -1198,6 +1271,8 @@ If we did want to authorise our users, there are three three main auth types wit
 There's a great <a target="_blank" style="target-new: tab;" href="https://youtu.be/n4hsWVXCuVI">YouTube Reinvent 2016 Video - Serverless Authentication and Authorisation</a> that explains these well.
 
 And theres's also a great blog post on <a target="_blank" style="target-new: tab;" href="https://aws.amazon.com/blogs/compute/secure-api-access-with-amazon-cognito-federated-identities-amazon-cognito-user-pools-and-amazon-api-gateway/">Secure API Access with Amazon Cognito, Federated Identities, Amazon Cognito User Pools, and Amazon API Gateway.</a> It refers to a project with sample code that is great heck out this <a target="_blank" style="target-new: tab;" href="https://github.com/awslabs/aws-cognito-apigw-angular-auth">aws-cognito-apigw-angular-auth AWS Lab</a> or the <a target="_blank" style="target-new: tab;" href="https://github.com/awslabs/aws-serverless-auth-reference-app">aws-serverless-auth-reference-app AWS Lab</a> for some sample code. 
+
+<img src="images/cognito-auth-lab.png"/>
 
 
 </listing>
