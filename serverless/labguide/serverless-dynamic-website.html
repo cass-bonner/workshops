@@ -1,11 +1,14 @@
-<html>
-<meta>
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
-<link rel="stylesheet" type="text/css" href="serverless.css" />
-<script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
-</meta>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Bootstrap Example</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <link rel="stylesheet" type="text/css" href="serverless.css" />
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
 <body background="images/background.png">
 <script src="js/clipboard.js-master/dist/clipboard.min.js"></script>
 
@@ -17,38 +20,86 @@
     clipboard.on('error', function(e) {
         console.log(e);
     });
-    </script>
+    var shiftWindow = function() { scrollBy(0, -70) };
+if (location.hash) shiftWindow();
+window.addEventListener("hashchange", shiftWindow);
 
-<table>
-  <tr>
-    <td align="left" width="25%"><img src="images/aws_icon.png"/></td>
-    <td align = "center" width = "60%">
-<listing class="pretext">
-<font size="2">
-  <table>
-<tr>
-<td width="100%"><a href="serverless_prerequisites.html">Serverless Workshop Prerequisites</a></td>
-</tr>
-<tr>
-<td width="100%"><a href="serverless.html">Serverless Overview</a><br/></td>
-</tr>
-<tr>
-<td width="100%"><a href="serverless-static-website.html">Serverless Static Webabb</a><br/></td>
-</tr>
-<tr>
-<td width="100%"><a href="serverless-dynamic-website.html">Serverless Dynamic Webapp</a><br/></td>
-</tr>
-<tr>
-<td width="100%"><a href="serverless-chatbot.html">Serverless Lex Chatbot</a><br/></td>
-</tr></table>
-</font size="2">
-</listing>
-    </td>
-    <td align="right" width="25%"><img src="images/iag_icon.png"/></td>
- </tr>
-</table>
-<br/>
-<br/>
+
+$(document).ready(function () {
+        $('ul.nav > li').click(function (e) {
+    //        e.preventDefault();
+            $('ul.nav > li').removeClass('active');
+            $(this).addClass('active');                
+        });            
+    });
+    </script>
+<nav class="navbar navbar-inverse navbar-fixed-top">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>                        
+      </button>
+      <a class="navbar-brand" href="https://aws.amazon.com">  <img src="images/aws_icon.png"/></a>
+    </div>
+    <div class="collapse navbar-collapse" id="myNavbar">
+      <ul class="nav navbar-nav">
+        <li><a href="index.html#">AWS Serverless Workshop</a></li>
+        <li class="dropdown">
+          <a class="dropdown-toggle" data-toggle="dropdown" href="serverless_prerequisites.html#">Setup & Serverless Overview<span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li><a href="serverless_prerequisites.html#account_setup"><img src="images/bullet.png"/> Account Setup</a></li>
+            <li><a href="serverless_prerequisites.html#students"><img src="images/bullet.png"/> Participants Pre-Reqs</a></li>
+            <li><a href="serverless.html"><img src="images/bullet.png"/> Serverless Overview</a></li>
+          </ul>
+        </li>
+        <li class="dropdown">
+          <a class="dropdown-toggle" data-toggle="dropdown" href="serverless-static-website.html#">Lab 1: Static Site<span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li><a href="serverless-static-website.html#">Lab1: Serverless Static Website</a></li>
+            <li><a href="serverless-static-website.html#overview"><img src="images/bullet.png"/> Overview</a></li>
+            <li><a href="serverless-static-website.html#vue"><img src="images/bullet.png"/> Vue.js</a></li>
+            <li><a href="serverless-static-website.html#s3"><img src="images/bullet.png"/> Amazon S3</a></li>
+          </ul>
+        </li>
+        <li class="dropdown">
+          <a class="dropdown-toggle" data-toggle="dropdown" href="serverless-dynamic-website.html#">Lab 2: Dynamic Site<span class="caret"></span></a>
+          <ol type="1" class="dropdown-menu">
+                  <li><a href="serverless-dynamic-website.html#">Lab 2: Serverless Dynamic Website</a></li>
+                  <li><a href="serverless-dynamic-website.html#overview"><img src="images/bullet.png"/> Overview</a></li>
+                  <li><a href="serverless-dynamic-website.html#usecase"><img src="images/bullet.png"/> Use Case (Pet Type Match)</a></li>
+                  <li><a href="serverless-dynamic-website.html#apigsetup"><img src="images/bullet.png"/> Amazon API Gateway - Define API</a></li>
+                  <li><a href="serverless-dynamic-website.html#steplogic"><img src="images/bullet.png"/> AWS Step Functions - Coordinate Logic</a></li>
+                  <li><a href="serverless-dynamic-website.html#ddbcreate"><img src="images/bullet.png"/> Amazon DynamoDB - Create PetMatchType Tabl</a></li>
+                  <li><a href="serverless-dynamic-website.html#lamprime"><img src="images/bullet.png"/> AWS Lambda - Prime PetMatchType Table</a></li>
+                  <li><a href="serverless-dynamic-website.html#ddbverify"><img src="images/bullet.png"/> Amazon DynamoDB - Verify Table</a></li>
+                  <li><a href="serverless-dynamic-website.html#ddbquery"><img src="images/bullet.png"/> AWS Lambda - Query PetMatchType Table</a></li>
+                  <li><a href="serverless-dynamic-website.html#sfnupd"><img src="images/bullet.png"/> AWS Step Functions - Update State Machine w/ Lambda</a></li>
+                  <li><a href="serverless-dynamic-website.html#invstate"><img src="images/bullet.png"/> AWS Lambda - Step Functions: Start & Describe Execution</a></li>
+                  <li><a href="serverless-dynamic-website.html#apiginteg"><img src="images/bullet.png"/> Amazon API Gateway - Integrate API to Lambda</a></li>
+                  <li><a href="serverless-dynamic-website.html#cognito"><img src="images/bullet.png"/> Amazon Cognito - Establish Identity Pool & Permissions</a></li>
+                  <li><a href="serverless-dynamic-website.html#updwebcog"><img src="images/bullet.png"/> webapp - Update with Cognito</a></li>
+                  <li><a href="serverless-dynamic-website.html#apigunauth"><img src="images/bullet.png"/> Amazon API Gateway - Activate IAM (unauthenticated identity)</a></li>
+          </ol>
+        </li>
+        <li class="dropdown">
+          <a class="dropdown-toggle" data-toggle="dropdown" href="serverless-chatbot.html#">Lab 3: Chatbox<span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li><a href="serverless-chatbot.html#overview">Lab 3: Serverless Chatbox</a></li>
+            <li><a href="serverless-chatbot.html#overview"><img src="images/bullet.png"/> Overview</a></li>
+            <li><a href="serverless-chatbot.html#createbot"><img src="images/bullet.png"/> Create Amazon Lex Bot</a></li>
+            <li><a href="serverless-chatbot.html#lamfulfill"><img src="images/bullet.png"/> AWS Lambda Fulfillment Function</a></li>
+            <li><a href="serverless-chatbot.html#awslcfn"><img src="images/bullet.png"/> awslabs &amp; Cloudformation</a></li>
+            <li><a href="serverless-chatbot.html#update_bot_config"><img src="images/bullet.png"/> Update Lex Bot Configuration</a></li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+  
+<div class="container">
 <p ="font-family:verdana">
 <h1 align="center">Serverless Dynamic Website on AWS</h1>
 <listing class="pretext"><table cellpadding="20px"  align="center">
@@ -91,7 +142,7 @@ OK, let's get started!
 
 But wait - what are we building? Well I'll put an idea out but if you're feeling ambitious you can change it to whatever you want.
 </listing>
-<h4 id="usecase">USE CASE: PetMatcher Service </h4>
+<h4 id="usecase">USE CASE: PetMatch Service </h4>
 <listing class="pretext">
 <img src="images/arrow.png"> Let's create a webapp that matches a user with the best type of pet for them , based on attributes about the user. In the future we want the ability to actually find a specific animal from an animal shelter but for now we'll just collect some attributes about the user and suggest which type is best. 
 
@@ -107,7 +158,7 @@ But wait - what are we building? Well I'll put an idea out but if you're feeling
 <img src="images/bullet.png"> accommodation: Do you live in an apartment or house? 
 <img src="images/bullet.png"> outside: If you have an Outdoors area, how large is it in sq m? Say 0 if you do not have one.
 
-So our model for the Matcher will look something like this:
+So our model for the Match will look something like this:
 
 <pre>
 { 
@@ -257,7 +308,7 @@ AWS Step Functions is a web service that enables you to coordinate the component
 <listing class="pretext">Step Functions is based on the concepts of <a target="_blank" style="target-new: tab;" href="http://docs.aws.amazon.com/step-functions/latest/dg/concepts-tasks.html">tasks</a> and <a target="_blank" style="target-new: tab;" href="http://docs.aws.amazon.com/step-functions/latest/dg/concepts-states.html">state machines</a>.
 <ul> <li> You define state machines using the JSON-based <a target="_blank" style="target-new: tab;" href="http://docs.aws.amazon.com/step-functions/latest/dg/concepts-amazon-states-language.html">Amazon States Language.</a>
 <li> The Step Functions console displays a graphical view of your state machine's structure, which provides you with a way to visually check your state machine's logic and monitor executions.
-<li> You will see that Step Functions comes with blueprints, which provide sample json templates (in Amazon States Language) for different state types. Now in the end state, our matching algorithm would likely take many more attributes and use a complex algorithm. <!-- such as <a target="_blank" style="target-new: tab;" href="https://en.wikipedia.org/wiki/Singular_value_decomposition">SVD</a>. --> But for the MVP we're going to keep things simple, and still there's a large number of solutions we could use to perform the match.  So in the first instance we'll use the Choice within Step Functions to perform the match. Longer-term Step would coordinate with the fully implemented matcher but there will be no changes to the API. 
+<li> You will see that Step Functions comes with blueprints, which provide sample json templates (in Amazon States Language) for different state types. Now in the end state, our matching algorithm would likely take many more attributes and use a complex algorithm. <!-- such as <a target="_blank" style="target-new: tab;" href="https://en.wikipedia.org/wiki/Singular_value_decomposition">SVD</a>. --> But for the MVP we're going to keep things simple, and still there's a large number of solutions we could use to perform the match.  So in the first instance we'll use the Choice within Step Functions to perform the match. Longer-term Step would coordinate with the fully implemented match but there will be no changes to the API. 
 </ul>
 To be clear, the State Machine we will build in this lab does not leverage the full functionality of Step Functions, as there are many other state types to provide retry, wait, and branching (parallel) functionality. But imho, Step Functions is a great for POCs because you can define and visualise your logic which is very useful for both development and operational support. Further, the ability to visualise each execution and the path it took, as well as the state sent in to the various states is quite appealing, but you can make a decision for yourself. :) </listing></li>
 
@@ -905,7 +956,7 @@ Now we're going to call that Lambda function from Step Functions, but first grab
 </listing></li>
 <h4 id="sfnupd">AWS Step Functions</h4></listing>
 <li><listing class="pretext"> Navigate to AWS Step Functions, and  select your previously created State Machine and copy the code for the state machine by going into one of the executions and clicking the 'Code' tab. </listing></li>
-<li><listing class="pretext">Copy the code and then go back to the Dashboard and create a new State Machine. Call it [your unique id]-PetMatcherDynamoDB.  Paste the code into the Code Section.</li></listing>
+<li><listing class="pretext">Copy the code and then go back to the Dashboard and create a new State Machine. Call it [your unique id]-PetMatchDynamoDB.  Paste the code into the Code Section.</li></listing>
 <li><listing class="pretext">Search for the 'RetrievePetMatchDetails' State in teh code. We need to change the RetrievePetMatchDetails state in two ways: 
 
 1) Change the Type to 'Task'. 
@@ -1018,7 +1069,7 @@ Value: [the ARN of your State Machine]
 
 It will look something like this:
 
-arn:aws:states:ap-southeast-2:XXXXXXX:stateMachine:userIdPetMatcherDynamoDB
+arn:aws:states:ap-southeast-2:XXXXXXX:stateMachine:userIdPetMatchDynamoDB
 
 You can find this by navigating to AWS Step Functions, and then selecting one of your executions. <font class="redc">You want the State Machine ARN</font> - not the execution ARN - see the diagram below.
 
@@ -1082,7 +1133,7 @@ You can find this by navigating to AWS Step Functions, and then selecting one of
 
 <li><listing class="pretext">Select Actions->Deploy API.</li></listing>
 <li><listing class="pretext">Select 'New Stage' and call it something useful - perhaps dev or v1 - then save.</li></listing>
-<li><listing class="pretext">Ensure that 'Stages' is selected on the left and navigate to the POST method and select it. Copy the URL - it should end with [yourstage]/petmatcher. </listing></li>
+<li><listing class="pretext">Ensure that 'Stages' is selected on the left and navigate to the POST method and select it. Copy the URL - it should end with [yourstage]/petmatch. </listing></li>
 
 <li><listing class="pretext">Select your stage resource (dev or v1, etc) in the second tab, and then select the 'SDK Generation' tab in the main window. For platform select Javascript and then select 'Generate SDK'
 
@@ -1113,11 +1164,11 @@ src/components/config.json
 Fill in your region such as us-east-1 or ap-southeast-2. This will need to be the same region in which you deployed your Lambda Function. 
 
 </listing></li>
-<li><listing class="pretext">Navigate to the directory that your downloaded SDK was placed, and unzip it. Move it to your aws-serverless-workshop directory into the 'static' directory, something like this if you are one level up from the aws-serverless-workshp (Notice that I <font class="redc">renamed the folder to apiGateway-js-sdk-petmatcher</font>:
+<li><listing class="pretext">Navigate to the directory that your downloaded SDK was placed, and unzip it. Move it to your aws-serverless-workshop directory into the 'static' directory, something like this if you are one level up from the aws-serverless-workshp (Notice that I <font class="redc">renamed the folder to apiGateway-js-sdk-petmatch</font>:
 
  <button class="btn btn-outline-secondary btn-sm" data-clipboard-target="#mvandcp">Copy</button>
 <pre><span id="mvandcp">
- mv apiGateway-js-sdk aws-serverless-workshop/static/apiGateway-js-sdk-petmatcher
+ mv apiGateway-js-sdk aws-serverless-workshop/static/apiGateway-js-sdk-petmatch
 </pre></span>
 </listing></li>
 <li><listing class="pretext">
@@ -1260,8 +1311,8 @@ npm run build && aws s3 sync dist s3://[your unique id]-aws-serverless-workshop 
 
 </listing></li>
 
-<listing class="pretext">Of course in practice you would not deploy like this because you would utilize CI/CD and a build would be triggered (along with all your unit tests, etc.) and your build pipeline would perform the deploy. But for POCs or work that you do on your own the CLI can be very quick to prove a concept or try something out so they are good to know. We'll look at using a build pipeline in the next lab when we pull in Lex to introduce a chat bot to the Pet Matcher service.</listing>
-
+<listing class="pretext">Of course in practice you would not deploy like this because you would utilize CI/CD and a build would be triggered (along with all your unit tests, etc.) and your build pipeline would perform the deploy. But for POCs or work that you do on your own the CLI can be very quick to prove a concept or try something out so they are good to know. We'll look at using a build pipeline in the next lab when we pull in Lex to introduce a chat bot to the Pet Match service.</listing>
+<!--
 <h5 id="users">Introducing Users to your Application</h5>
 <listing class="pretext">
 If we did want to authorise our users, there are three three main auth types with API Gateway and Cognito: 
@@ -1320,6 +1371,7 @@ Select 'edit identity pool' and scroll down to Authentication Providers. Select 
 
 
 
-<listing class="pretext">Continue to the <a target="_blank" style="target-new: tab;" href="serverless-chatbot.html">chatbot lab</a> where we will build a chatbot into our app using Amazon Lex.</listing>
+<listing class="pretext">That concludes our Serverless Dynamic Website Lab, now continue to the <a target="_blank" style="target-new: tab;" href="serverless-chatbot.html">chatbot lab</a> where we will build a chatbot into our app using Amazon Lex.</listing>
+</p>
 </body>
 </html>

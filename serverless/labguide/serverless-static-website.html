@@ -1,11 +1,14 @@
-<html>
-<meta>
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
-<link rel="stylesheet" type="text/css" href="serverless.css" />
-<script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
-</meta>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Bootstrap Example</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <link rel="stylesheet" type="text/css" href="serverless.css" />
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
 <body background="images/background.png">
 <script src="js/clipboard.js-master/dist/clipboard.min.js"></script>
 
@@ -17,40 +20,86 @@
     clipboard.on('error', function(e) {
         console.log(e);
     });
+    var shiftWindow = function() { scrollBy(0, -70) };
+if (location.hash) shiftWindow();
+window.addEventListener("hashchange", shiftWindow);
+
+
+$(document).ready(function () {
+        $('ul.nav > li').click(function (e) {
+    //        e.preventDefault();
+            $('ul.nav > li').removeClass('active');
+            $(this).addClass('active');                
+        });            
+    });
     </script>
-
-<table>
-  <tr>
-    <td align="left" width="25%"><img src="images/aws_icon.png"/></td>
-    <td align = "center" width = "60%">
-<listing class="pretext">
-<font size="2">
-  <table>
-<tr>
-<td width="100%"><a href="serverless_prerequisites.html">Serverless Workshop Prerequisites</a></td>
-</tr>
-<tr>
-<td width="100%"><a href="serverless.html">Serverless Overview</a><br/></td>
-</tr>
-<tr>
-<td width="100%"><a href="serverless-static-website.html">Serverless Static Webabb</a><br/></td>
-</tr>
-<tr>
-<td width="100%"><a href="serverless-dynamic-website.html">Serverless Dynamic Webapp</a><br/></td>
-</tr>
-<tr>
-<td width="100%"><a href="serverless-chatbot.html">Serverless Lex Chatbot</a><br/></td>
-</tr></table>
-</font size="2">
-</listing>
-    </td>
-    <td align="right" width="25%"><img src="images/iag_icon.png"/></td>
- </tr>
-</table>
-
-<br/>
-<br/>
-<p ="font-family:verdana">
+<nav class="navbar navbar-inverse navbar-fixed-top">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>                        
+      </button>
+      <a class="navbar-brand" href="https://aws.amazon.com">  <img src="images/aws_icon.png"/></a>
+    </div>
+    <div class="collapse navbar-collapse" id="myNavbar">
+      <ul class="nav navbar-nav">
+        <li><a href="index.html#">AWS Serverless Workshop</a></li>
+        <li class="dropdown">
+          <a class="dropdown-toggle" data-toggle="dropdown" href="serverless_prerequisites.html#">Setup & Serverless Overview<span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li><a href="serverless_prerequisites.html#account_setup"><img src="images/bullet.png"/> Account Setup</a></li>
+            <li><a href="serverless_prerequisites.html#students"><img src="images/bullet.png"/> Participants Pre-Reqs</a></li>
+            <li><a href="serverless.html"><img src="images/bullet.png"/> Serverless Overview</a></li>
+          </ul>
+        </li>
+        <li class="dropdown">
+          <a class="dropdown-toggle" data-toggle="dropdown" href="serverless-static-website.html#">Lab 1: Static Site<span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li><a href="serverless-static-website.html#">Lab1: Serverless Static Website</a></li>
+            <li><a href="serverless-static-website.html#overview"><img src="images/bullet.png"/> Overview</a></li>
+            <li><a href="serverless-static-website.html#vue"><img src="images/bullet.png"/> Vue.js</a></li>
+            <li><a href="serverless-static-website.html#s3"><img src="images/bullet.png"/> Amazon S3</a></li>
+          </ul>
+        </li>
+        <li class="dropdown">
+          <a class="dropdown-toggle" data-toggle="dropdown" href="serverless-dynamic-website.html#">Lab 2: Dynamic Site<span class="caret"></span></a>
+          <ol type="1" class="dropdown-menu">
+                  <li><a href="serverless-dynamic-website.html#">Lab 2: Serverless Dynamic Website</a></li>
+                  <li><a href="serverless-dynamic-website.html#overview"><img src="images/bullet.png"/> Overview</a></li>
+                  <li><a href="serverless-dynamic-website.html#usecase"><img src="images/bullet.png"/> Use Case (Pet Type Match)</a></li>
+                  <li><a href="serverless-dynamic-website.html#apigsetup"><img src="images/bullet.png"/> Amazon API Gateway - Define API</a></li>
+                  <li><a href="serverless-dynamic-website.html#steplogic"><img src="images/bullet.png"/> AWS Step Functions - Coordinate Logic</a></li>
+                  <li><a href="serverless-dynamic-website.html#ddbcreate"><img src="images/bullet.png"/> Amazon DynamoDB - Create PetMatchType Tabl</a></li>
+                  <li><a href="serverless-dynamic-website.html#lamprime"><img src="images/bullet.png"/> AWS Lambda - Prime PetMatchType Table</a></li>
+                  <li><a href="serverless-dynamic-website.html#ddbverify"><img src="images/bullet.png"/> Amazon DynamoDB - Verify Table</a></li>
+                  <li><a href="serverless-dynamic-website.html#ddbquery"><img src="images/bullet.png"/> AWS Lambda - Query PetMatchType Table</a></li>
+                  <li><a href="serverless-dynamic-website.html#sfnupd"><img src="images/bullet.png"/> AWS Step Functions - Update State Machine w/ Lambda</a></li>
+                  <li><a href="serverless-dynamic-website.html#invstate"><img src="images/bullet.png"/> AWS Lambda - Step Functions: Start & Describe Execution</a></li>
+                  <li><a href="serverless-dynamic-website.html#apiginteg"><img src="images/bullet.png"/> Amazon API Gateway - Integrate API to Lambda</a></li>
+                  <li><a href="serverless-dynamic-website.html#cognito"><img src="images/bullet.png"/> Amazon Cognito - Establish Identity Pool & Permissions</a></li>
+                  <li><a href="serverless-dynamic-website.html#updwebcog"><img src="images/bullet.png"/> webapp - Update with Cognito</a></li>
+                  <li><a href="serverless-dynamic-website.html#apigunauth"><img src="images/bullet.png"/> Amazon API Gateway - Activate IAM (unauthenticated identity)</a></li>
+          </ol>
+        </li>
+        <li class="dropdown">
+          <a class="dropdown-toggle" data-toggle="dropdown" href="serverless-chatbot.html#">Lab 3: Chatbox<span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li><a href="serverless-chatbot.html#overview">Lab 3: Serverless Chatbox</a></li>
+            <li><a href="serverless-chatbot.html#overview"><img src="images/bullet.png"/> Overview</a></li>
+            <li><a href="serverless-chatbot.html#createbot"><img src="images/bullet.png"/> Create Amazon Lex Bot</a></li>
+            <li><a href="serverless-chatbot.html#lamfulfill"><img src="images/bullet.png"/> AWS Lambda Fulfillment Function</a></li>
+            <li><a href="serverless-chatbot.html#awslcfn"><img src="images/bullet.png"/> awslabs &amp; Cloudformation</a></li>
+            <li><a href="serverless-chatbot.html#update_bot_config"><img src="images/bullet.png"/> Update Lex Bot Configuration</a></li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+  
+<div class="container">
 <h1 align="center">Serverless static website on AWS</h1>
 <listing class="pretext">
 <table cellpadding="20px"  align="center">
@@ -60,12 +109,6 @@
 </tr>
 </table>
 
-</listing>
-<listing class="pretext">
-Lab Contents
-<img src="images/bullet.png"> <a href="#overview">Overview</></a>
-<img src="images/bullet.png"> <a href="#vue">vue.js & Setup</></a>
-<img src="images/bullet.png"> <a href="#s3">Amazon S3</></a>
 </listing>
 
 <h4>Overview</h4>
@@ -187,10 +230,10 @@ Note that this technique of deploying via cli is handy for POCs and isolated dev
 <br/>
 <br/>
 
-Cool? Well not really as it's not really doing much. So <a href="serverless-dynamic-website.html"/>&nbsp;&nbsp;&nbsp;&lt;Now let's create the dynamic components&gt;</a>
+
+<listing class="pretext">Cool? Well not really as it's not really doing much. So <a href="serverless-dynamic-website.html"/>&nbsp;&nbsp;&nbsp;&lt;Now let's create the dynamic components&gt;</a></listing>
+
+</div>
 </body>
 </html>
-</ol>
-</ol>
-</ol>
-</ol>
+

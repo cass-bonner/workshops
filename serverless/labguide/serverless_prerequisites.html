@@ -1,69 +1,130 @@
 <!DOCTYPE html>
 <html lang="en">
-<meta>
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
-<link rel="stylesheet" type="text/css" href="serverless.css" />
-<script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
-<script src="https://www.w3schools.com/lib/w3.js"></script>
-</meta>
+<head>
+  <title>Bootstrap Example</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <link rel="stylesheet" type="text/css" href="serverless.css" />
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
 <body background="images/background.png">
-</script>
-<table>
-  <tr>
-    <td align="left" width="25%"><img src="images/aws_icon.png"/></td>
-    <td align = "center" width = "60%">
+<script src="js/clipboard.js-master/dist/clipboard.min.js"></script>
+
+    <script>
+    var clipboard = new Clipboard('.btn');
+    clipboard.on('success', function(e) {
+        console.log(e);
+    });
+    clipboard.on('error', function(e) {
+        console.log(e);
+    });
+    var shiftWindow = function() { scrollBy(0, -70) };
+if (location.hash) shiftWindow();
+window.addEventListener("hashchange", shiftWindow);
+
+
+$(document).ready(function () {
+        $('ul.nav > li').click(function (e) {
+    //        e.preventDefault();
+            $('ul.nav > li').removeClass('active');
+            $(this).addClass('active');                
+        });            
+    });
+    </script>
+<nav class="navbar navbar-inverse navbar-fixed-top">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>                        
+      </button>
+      <a class="navbar-brand" href="https://aws.amazon.com">  <img src="images/aws_icon.png"/></a>
+    </div>
+    <div class="collapse navbar-collapse" id="myNavbar">
+      <ul class="nav navbar-nav">
+        <li><a href="index.html#">AWS Serverless Workshop</a></li>
+        <li class="dropdown">
+          <a class="dropdown-toggle" data-toggle="dropdown" href="serverless_prerequisites.html#">Setup & Serverless Overview<span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li><a href="serverless_prerequisites.html#account_setup"><img src="images/bullet.png"/> Account Setup</a></li>
+            <li><a href="serverless_prerequisites.html#students"><img src="images/bullet.png"/> Participants Pre-Reqs</a></li>
+            <li><a href="serverless.html"><img src="images/bullet.png"/> Serverless Overview</a></li>
+          </ul>
+        </li>
+        <li class="dropdown">
+          <a class="dropdown-toggle" data-toggle="dropdown" href="serverless-static-website.html#">Lab 1: Static Site<span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li><a href="serverless-static-website.html#">Lab1: Serverless Static Website</a></li>
+            <li><a href="serverless-static-website.html#overview"><img src="images/bullet.png"/> Overview</a></li>
+            <li><a href="serverless-static-website.html#vue"><img src="images/bullet.png"/> Vue.js</a></li>
+            <li><a href="serverless-static-website.html#s3"><img src="images/bullet.png"/> Amazon S3</a></li>
+          </ul>
+        </li>
+        <li class="dropdown">
+          <a class="dropdown-toggle" data-toggle="dropdown" href="serverless-dynamic-website.html#">Lab 2: Dynamic Site<span class="caret"></span></a>
+          <ol type="1" class="dropdown-menu">
+                  <li><a href="serverless-dynamic-website.html#">Lab 2: Serverless Dynamic Website</a></li>
+                  <li><a href="serverless-dynamic-website.html#overview"><img src="images/bullet.png"/> Overview</a></li>
+                  <li><a href="serverless-dynamic-website.html#usecase"><img src="images/bullet.png"/> Use Case (Pet Type Match)</a></li>
+                  <li><a href="serverless-dynamic-website.html#apigsetup"><img src="images/bullet.png"/> Amazon API Gateway - Define API</a></li>
+                  <li><a href="serverless-dynamic-website.html#steplogic"><img src="images/bullet.png"/> AWS Step Functions - Coordinate Logic</a></li>
+                  <li><a href="serverless-dynamic-website.html#ddbcreate"><img src="images/bullet.png"/> Amazon DynamoDB - Create PetMatchType Tabl</a></li>
+                  <li><a href="serverless-dynamic-website.html#lamprime"><img src="images/bullet.png"/> AWS Lambda - Prime PetMatchType Table</a></li>
+                  <li><a href="serverless-dynamic-website.html#ddbverify"><img src="images/bullet.png"/> Amazon DynamoDB - Verify Table</a></li>
+                  <li><a href="serverless-dynamic-website.html#ddbquery"><img src="images/bullet.png"/> AWS Lambda - Query PetMatchType Table</a></li>
+                  <li><a href="serverless-dynamic-website.html#sfnupd"><img src="images/bullet.png"/> AWS Step Functions - Update State Machine w/ Lambda</a></li>
+                  <li><a href="serverless-dynamic-website.html#invstate"><img src="images/bullet.png"/> AWS Lambda - Step Functions: Start & Describe Execution</a></li>
+                  <li><a href="serverless-dynamic-website.html#apiginteg"><img src="images/bullet.png"/> Amazon API Gateway - Integrate API to Lambda</a></li>
+                  <li><a href="serverless-dynamic-website.html#cognito"><img src="images/bullet.png"/> Amazon Cognito - Establish Identity Pool & Permissions</a></li>
+                  <li><a href="serverless-dynamic-website.html#updwebcog"><img src="images/bullet.png"/> webapp - Update with Cognito</a></li>
+                  <li><a href="serverless-dynamic-website.html#apigunauth"><img src="images/bullet.png"/> Amazon API Gateway - Activate IAM (unauthenticated identity)</a></li>
+          </ol>
+        </li>
+        <li class="dropdown">
+          <a class="dropdown-toggle" data-toggle="dropdown" href="serverless-chatbot.html#">Lab 3: Chatbox<span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li><a href="serverless-chatbot.html#overview">Lab 3: Serverless Chatbox</a></li>
+            <li><a href="serverless-chatbot.html#overview"><img src="images/bullet.png"/> Overview</a></li>
+            <li><a href="serverless-chatbot.html#createbot"><img src="images/bullet.png"/> Create Amazon Lex Bot</a></li>
+            <li><a href="serverless-chatbot.html#lamfulfill"><img src="images/bullet.png"/> AWS Lambda Fulfillment Function</a></li>
+            <li><a href="serverless-chatbot.html#awslcfn"><img src="images/bullet.png"/> awslabs &amp; Cloudformation</a></li>
+            <li><a href="serverless-chatbot.html#update_bot_config"><img src="images/bullet.png"/> Update Lex Bot Configuration</a></li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+  
+<div class="container">
+<h1 align="center">AWS Serverless Workshop - Prerequisites</h1>
 <listing class="pretext">
-  <table>
-<tr>
-<td width="100%"><a href="serverless_prerequisites.html">Serverless Workshop Prerequisites</a></td>
-</tr>
-<tr>
-<td width="100%"><a href="serverless.html">Serverless Overview</a><br/></td>
-</tr>
-<tr>
-<td width="100%"><a href="serverless-static-website.html">Serverless Static Webabb</a><br/></td>
-</tr>
-<tr>
-<td width="100%"><a href="serverless-dynamic-website.html">Serverless Dynamic Webapp</a><br/></td>
-</tr>
-<tr>
-<td width="100%"><a href="serverless-chatbot.html">Serverless Lex Chatbot</a><br/></td>
-</tr></table>
-</listing>
-    </td>
-    <td align="right" width="25%"><img src="images/iag_icon.png"/></td>
- </tr>
-</table>
-<br/>
-<br/>
-<p ="font-family:verdana">
-<h1 align="center">IAG AWS Serverless Workshop - Prerequisites</h1>
-<listing class="pretext">
-<img src="images/bullet.png"> <a href="#leaders">Pre-reqs for Dev Guild Leads</a>
+<img src="images/bullet.png"> <a href="#account_setup">Account Setup Pre-reqs</a>
 <img src="images/bullet.png"> <a href="#students">Pre-reqs for Participants</a>
 </listing>
 <div w3-include-html="toc.html"></div>
-<h4 id="leaders"> Preparation for DevGuild Team Leads/Cloud Team</h4>
+<h4 id="account_setup"> Account Setup</h4>
 <listing class="pretext">
-<ol> <li>Create an iam user for every particpant, and give them a password as well as a set of AWS Access Keys and give these to the participants. Assign them a role with the appropriate permissions - please see email discussion for this. 
-<li>Create the following roles:
+The account setup for the Serverless Workshop depends upon the context in which you would like run the workshop as follows:
+
+<img src="images/bullet.png"/>Single Account per Participant. If you have your own account, or are planning to run the workshop with a number of participants, who all have their own account, then you will simply need the valid permissions for your users to create all the relevant services utilized by the workshop. If you have admin access to your account, you will have all required acces but if you don't you can either request admin access or request the two policies on the adminForUser the permissions which you will require (see below).
+
+<img src="images/bullet.png"/>QwikLab Accounts. If you are coordinating this workshop with AWS, you may be able to leverage a QwikLabs environment for the lab. With this approach you will not be able to explore the workshop after the lab but if this is acceptable to you, then please coordinate with AWS on this approach.
+
+<img src="images/bullet.png"/>If neither of the two above approaches work, you may want to run a workshop in one account shared by many participants. You may hit some AWS limits utilizing a default AWS account with this approach, but if you can get the limits increased or are willing to wait a bit to pass some throttling limits this should work fine.
+
+<ol> 
+<li>Create an iam user for every particpant, and give them a password as well as a set of AWS Access Keys and give these to the participants. Assign them a role with the appropriate permissions. 
+<li> The IAM Users should be assigned to a group, and ideally the group policies should apply least privileges policy (only grant access as required). In a hackathon account, one way to do this would be to constrain access to required services for policies where the user can only write (in addition to read actions) for resources named with ther username. Perform the following steps to setup the group for the users. 
 <ul>
-<li>  IAM Users should be assigned to a group, and ideally the group (and and any user if applicable) policies should apply least privileges policy (only grant access as required). In a hackathon account, one way to do this would be to constrain access to required services for policies where the user can only write(in addition to read actions) for resources named with ther username. For example the below policy could be added for DynamoDB (along with the provided AWS  AmazonDynamoDBReadOnlyAccess policy - or even easier just attach the 'ReadOnlyAccess' managed policy to the group) 
+<li>We're going to create Custom Policies which provides access to all APIs, but only for resources with the AWS username in it (where supported).  This can be performed via AWS CLI (command line interface), SDKs or via console. The console instructions are provided here.
 
-This is recommended practice and would need permutated for every service because the "resource vendor" such as s3 versus dynamodb has to be fully qualified.  
-
-<ul>
-<li>
-Create a Custom Policy which provides admin permissions, but only for resources with the user's name in it.
-
-This can be performed via command line interface, SDKs or via console. Here's the console instructions.
-
-<li>In the console, navigate to IAM -> Groups -> Create New Group. Use adminForUsername as the group name. Click 'Next Step'
-<li>In the 'Attach Policy' screen, enter 'ReadOnlyAccess' and AWSCodeCommitFullAccess then tick the the button.
-<li>Select 'Next Step' and then 'Create Group'.
-<li>Navigate to the 'Policies' in the left Navigation Bar. Create two new policies, and then come back and add these to the adminForUsername Group.
+<li>Navigate to  <a target="_blank" style="target-new: tab;" href="https://console.aws.amazon.com/iam/">IAM in the console</a>, and then select the 'Policies' in the left Navigation Bar. We're going to create two new custom policies for our Group which we will create in a moment.
+<li>Select 'Create Policy', and then 'Create Your Own Policy'.   
+<li>For Policy Name, enter adminForUsername-P1, and then copy the policy below and enter it into the 'Policy Document'. Please be sure to <font class="redc">substitute your account number</font> for the XXXXXXXXX blocks.
 
     <button class="btn btn-outline-secondary btn-sm" data-clipboard-target="#username-policy-1">Copy</button>
 <pre>
@@ -77,35 +138,35 @@ This can be performed via command line interface, SDKs or via console. Here's th
                 "*"
             ],
             "Resource": [
-                "arn:aws:dynamodb:*:970386504547:table/*${aws:username}*",
-                "arn:aws:sts::970386504547:federated-user/*${aws:username}*",
-                "arn:aws:sts::970386504547:assumed-role/*${aws:username}*/*${aws:username}*",
+                "arn:aws:dynamodb:*:XXXXXXXXX:table/*${aws:username}*",
+                "arn:aws:sts::XXXXXXXXX:federated-user/*${aws:username}*",
+                "arn:aws:sts::XXXXXXXXX:assumed-role/*${aws:username}*/*${aws:username}*",
                 "arn:aws:lex:*::bot:*${aws:username}*:*",
                 "arn:aws:lex:*::intent:*${aws:username}*:*",
                 "arn:aws:lex:*::slottype:*${aws:username}*:*",
-                "arn:aws:lambda:*:970386504547:function:*${aws:username}*",
-                "arn:aws:lambda:*:970386504547:function:*${aws:username}*/*",
-                "arn:aws:lambda:*:970386504547:event-source-mappings:*",
-                "arn:aws:cloudformation:us-east-1:970386504547:stack/*${aws:username}*/*",
-                "arn:aws:cloudsearch:us-east-1:970386504547:domain/*${aws:username}*",
-                "arn:aws:cloudtrail:us-east-1:970386504547:trail/*${aws:username}*",
-                "arn:aws:events:us-east-1:970386504547:rule/*${aws:username}*",
+                "arn:aws:lambda:*:XXXXXXXXX:function:*${aws:username}*",
+                "arn:aws:lambda:*:XXXXXXXXX:function:*${aws:username}*/*",
+                "arn:aws:lambda:*:XXXXXXXXX:event-source-mappings:*",
+                "arn:aws:cloudformation:us-east-1:XXXXXXXXX:stack/*${aws:username}*/*",
+                "arn:aws:cloudsearch:us-east-1:XXXXXXXXX:domain/*${aws:username}*",
+                "arn:aws:cloudtrail:us-east-1:XXXXXXXXX:trail/*${aws:username}*",
+                "arn:aws:events:us-east-1:XXXXXXXXX:rule/*${aws:username}*",
                 "arn:aws:logs:us-east-1:*:*",
-                "arn:aws:codebuild:us-east-1:970386504547:project/*${aws:username}*",
-                "arn:aws:codebuild:us-east-1:970386504547:build/*${aws:username}*:*",
-                "arn:aws:codecommit:us-east-1:970386504547:*${aws:username}*",
-                "arn:aws:codedeploy:us-east-1:970386504547:application:*${aws:username}*",
-                "arn:aws:codedeploy:us-east-1:970386504547:instance/*${aws:username}*",
-                "arn:aws:config:us-east-1:970386504547:config-rule/*${aws:username}*",
-                "arn:aws:codepipeline:us-east-1:970386504547:*${aws:username}*",
-                "arn:aws:codestar:us-east-1:970386504547:*${aws:username}*",
-                "arn:aws:ecr:us-east-1:970386504547:repository/*${aws:username}*",
-                "arn:aws:ecs:us-east-1:970386504547:cluster/*${aws:username}*",
-                "arn:aws:ecs:us-east-1:970386504547:container-instance/*",
-                "arn:aws:ecs:us-east-1:970386504547:task-definition/*${aws:username}*:*",
-                "arn:aws:ecs:us-east-1:970386504547:service/*${aws:username}*",
-                "arn:aws:ecs:us-east-1:970386504547:task/*",
-                "arn:aws:ecs:us-east-1:970386504547:container/*"
+                "arn:aws:codebuild:us-east-1:XXXXXXXXX:project/*${aws:username}*",
+                "arn:aws:codebuild:us-east-1:XXXXXXXXX:build/*${aws:username}*:*",
+                "arn:aws:codecommit:us-east-1:XXXXXXXXX:*${aws:username}*",
+                "arn:aws:codedeploy:us-east-1:XXXXXXXXX:application:*${aws:username}*",
+                "arn:aws:codedeploy:us-east-1:XXXXXXXXX:instance/*${aws:username}*",
+                "arn:aws:config:us-east-1:XXXXXXXXX:config-rule/*${aws:username}*",
+                "arn:aws:codepipeline:us-east-1:XXXXXXXXX:*${aws:username}*",
+                "arn:aws:codestar:us-east-1:XXXXXXXXX:*${aws:username}*",
+                "arn:aws:ecr:us-east-1:XXXXXXXXX:repository/*${aws:username}*",
+                "arn:aws:ecs:us-east-1:XXXXXXXXX:cluster/*${aws:username}*",
+                "arn:aws:ecs:us-east-1:XXXXXXXXX:container-instance/*",
+                "arn:aws:ecs:us-east-1:XXXXXXXXX:task-definition/*${aws:username}*:*",
+                "arn:aws:ecs:us-east-1:XXXXXXXXX:service/*${aws:username}*",
+                "arn:aws:ecs:us-east-1:XXXXXXXXX:task/*",
+                "arn:aws:ecs:us-east-1:XXXXXXXXX:container/*"
             ]
         },
         {
@@ -154,7 +215,7 @@ This can be performed via command line interface, SDKs or via console. Here's th
 </span>
 </pre>
 
-Save that policy and create another policy
+<li>Save that policy and create another policy with the same process, only using the Policy Name adminForUsername-P2 this time.
     <button class="btn btn-outline-secondary btn-sm" data-clipboard-target="#username-policy-2">Copy</button>
 <pre>
 <span id="username-policy-2">{
@@ -167,15 +228,16 @@ Save that policy and create another policy
                 "*"
             ],
             "Resource": [
+                "arn:aws:apigateway:*::/*",
                 "arn:aws:apigateway:*::*:/*",
                 "arn:aws:apigateway:*::/restapis/*",
                 "arn:aws:apigateway:*::/restapis/*/*",
-                "arn:aws:states:*:970386504547:activity:*${aws:username}*",
-                "arn:aws:states:*:970386504547:stateMachine:*",
-                "arn:aws:states:*:970386504547:execution:*${aws:username}*:*",
+                "arn:aws:states:*:XXXXXXXXX:activity:*${aws:username}*",
+                "arn:aws:states:*:XXXXXXXXX:stateMachine:*",
+                "arn:aws:states:*:XXXXXXXXX:execution:*${aws:username}*:*",
                 "arn:aws:s3:::*${aws:username}*/*",
                 "arn:aws:s3:::*${aws:username}*",
-                "arn:aws:autoscaling:us-east-1:970386504547:scalingPolicy:*"
+                "arn:aws:autoscaling:us-east-1:XXXXXXXXX:scalingPolicy:*"
             ]
         },
         {
@@ -210,9 +272,12 @@ Save that policy and create another policy
 </span>
 </pre>
 
-<li> Save both those policies and then navigate to the group and add the two policies as customer managed policies. 
-<li> Save the policy- you should see 2 manged policies (ReadOnlyAcess,AWSCodeCommitFullAccess) and 2 custom policies (the two admin for users) on the group in total.
-<li> Add all required users to this group.
+<li>Once both policies are create, navigate to IAM -> Groups -> and select 'Create New Group'. Use adminForUsername as the group name. Click 'Next Step'
+<li>In the 'Attach Policy' screen, to the right of the 'Filter' select 'No Filter' and ensure that the Filter displays 'All Types'. 
+<li>In the filter search box, enter 'ReadOnlyAccess' then tick the checkbox to select this policy.
+<li>Replace the 'ReadOnlyAccess' filter with 'adminForUsername' and then tick both the checkboxes to select the two policies we just created in the previous step.
+<li>Select 'Next Step' and then 'Create Group'.
+<li> Add <font class="redc">all required users</font> to this group.
 </ul>
 
 <li> There are four service roles required for the Serverless Workshop that either can be created manually (via script or console) or we can supply a <a href="http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/Welcome.html">CloudFormation template</a>. We recommend the team or users create them as a learning experience. For context, the roles include:
@@ -372,8 +437,10 @@ npm init
 <h3>Node.js & npm</h3>
 <li>Node must be installed. If you do not have it please download from the <a href="https://nodejs.org/en/download/">Node.js</a> site. 
 <li>npm is included with node, but you should be on a recent version.You can update npm with 'npm install npm@latest -g'</li>
-    <button class="btn btn-outline-secondary btn-sm" data-clipboard-target="#testnpm">Copy</button>
+
 Verify node and npm installation and versions:
+
+    <button class="btn btn-outline-secondary btn-sm" data-clipboard-target="#testnpm">Copy</button>
 <pre>
 <span id="testnpm">
 node -v
@@ -536,10 +603,10 @@ This is in line with the AWS IAM Best Practices as you only want to give access 
 </listing>
 
  
-<a href="serverless.html"/>&lt;Serverless Workshop&gt;</a>
+<listing class="pretext">Now that the Pre-Reqs are in order, continue to the <a href="serverless.html"/>&lt;Serverless Workshop&gt;</a></listing>
 
 </font>
-</p
+</div>
 
 </body>
 </html>
