@@ -164,3 +164,6 @@ a:visited {
 }
 .collapse a {
 }
+table td {
+    padding: 17px;
+}
