@@ -20,7 +20,7 @@
     clipboard.on('error', function(e) {
         console.log(e);
     });
-    var shiftWindow = function() { scrollBy(0, -70) };
+    var shiftWindow = function() { scrollBy(0, -100) };
 if (location.hash) shiftWindow();
 window.addEventListener("hashchange", shiftWindow);
 
@@ -45,10 +45,11 @@ $(document).ready(function () {
     </div>
     <div class="collapse navbar-collapse" id="myNavbar">
       <ul class="nav navbar-nav">
-        <li><a href="index.html#">AWS Serverless Workshop</a></li>
+        <li><a href="index.html#">AWS Serverless <br/>PetMatch Workshop</a></li>
         <li class="dropdown">
           <a class="dropdown-toggle" data-toggle="dropdown" href="serverless_prerequisites.html#">Setup & Serverless Overview<span class="caret"></span></a>
           <ul class="dropdown-menu">
+            <li><a href="serverless_prerequisites.html">Setup & Serverless Overview</a></li> 
             <li><a href="serverless_prerequisites.html#account_setup"><img src="images/bullet.png"/> Account Setup</a></li>
             <li><a href="serverless_prerequisites.html#students"><img src="images/bullet.png"/> Participants Pre-Reqs</a></li>
             <li><a href="serverless.html"><img src="images/bullet.png"/> Serverless Overview</a></li>
@@ -70,6 +71,10 @@ $(document).ready(function () {
                   <li><a href="serverless-dynamic-website.html#overview"><img src="images/bullet.png"/> Overview</a></li>
                   <li><a href="serverless-dynamic-website.html#usecase"><img src="images/bullet.png"/> Use Case (Pet Type Match)</a></li>
                   <li><a href="serverless-dynamic-website.html#apigsetup"><img src="images/bullet.png"/> Amazon API Gateway - Define API</a></li>
+                  <li><a href="serverless-dynamic-website.html#apiginteg"><img src="images/bullet.png"/> Amazon API Gateway - Integrate API to Lambda</a></li>
+                  <li><a href="serverless-dynamic-website.html#updwebcog"><img src="images/bullet.png"/> webapp - Update with Cognito</a></li>
+                  <li><a href="serverless-dynamic-website.html#apigunauth"><img src="images/bullet.png"/> Amazon API Gateway - Activate IAM (unauthenticated identity)</a></li>
+                  <li><a href="serverless-dynamic-website.html#cognito"><img src="images/bullet.png"/> Amazon Cognito - Establish Identity Pool & Permissions</a></li>
                   <li><a href="serverless-dynamic-website.html#steplogic"><img src="images/bullet.png"/> AWS Step Functions - Coordinate Logic</a></li>
                   <li><a href="serverless-dynamic-website.html#ddbcreate"><img src="images/bullet.png"/> Amazon DynamoDB - Create PetMatchType Tabl</a></li>
                   <li><a href="serverless-dynamic-website.html#lamprime"><img src="images/bullet.png"/> AWS Lambda - Prime PetMatchType Table</a></li>
@@ -77,21 +82,20 @@ $(document).ready(function () {
                   <li><a href="serverless-dynamic-website.html#ddbquery"><img src="images/bullet.png"/> AWS Lambda - Query PetMatchType Table</a></li>
                   <li><a href="serverless-dynamic-website.html#sfnupd"><img src="images/bullet.png"/> AWS Step Functions - Update State Machine w/ Lambda</a></li>
                   <li><a href="serverless-dynamic-website.html#invstate"><img src="images/bullet.png"/> AWS Lambda - Step Functions: Start & Describe Execution</a></li>
-                  <li><a href="serverless-dynamic-website.html#apiginteg"><img src="images/bullet.png"/> Amazon API Gateway - Integrate API to Lambda</a></li>
-                  <li><a href="serverless-dynamic-website.html#cognito"><img src="images/bullet.png"/> Amazon Cognito - Establish Identity Pool & Permissions</a></li>
-                  <li><a href="serverless-dynamic-website.html#updwebcog"><img src="images/bullet.png"/> webapp - Update with Cognito</a></li>
-                  <li><a href="serverless-dynamic-website.html#apigunauth"><img src="images/bullet.png"/> Amazon API Gateway - Activate IAM (unauthenticated identity)</a></li>
           </ol>
         </li>
         <li class="dropdown">
-          <a class="dropdown-toggle" data-toggle="dropdown" href="serverless-chatbot.html#">Lab 3: Chatbox<span class="caret"></span></a>
+          <a class="dropdown-toggle" data-toggle="dropdown" href="serverless-chatbot.html#">Lab 3: Chatbot<span class="caret"></span></a>
           <ul class="dropdown-menu">
-            <li><a href="serverless-chatbot.html#overview">Lab 3: Serverless Chatbox</a></li>
+            <li><a href="serverless-chatbot.html#">Lab 3: Serverless Chatbot</a></li>
             <li><a href="serverless-chatbot.html#overview"><img src="images/bullet.png"/> Overview</a></li>
             <li><a href="serverless-chatbot.html#createbot"><img src="images/bullet.png"/> Create Amazon Lex Bot</a></li>
             <li><a href="serverless-chatbot.html#lamfulfill"><img src="images/bullet.png"/> AWS Lambda Fulfillment Function</a></li>
             <li><a href="serverless-chatbot.html#awslcfn"><img src="images/bullet.png"/> awslabs &amp; Cloudformation</a></li>
             <li><a href="serverless-chatbot.html#update_bot_config"><img src="images/bullet.png"/> Update Lex Bot Configuration</a></li>
+            <li><a href="serverless-chatbot.html#configure_setup"><img src="images/bullet.png"/> Configuring and Setup for your CI/CD Pipeline</a></li>
+            <li><a href="serverless-chatbot.html#modify_bot"><img src="images/bullet.png"/> Modifying the webapp Bot</a></li>
+            <li><a href="serverless-chatbot.html#include_bot"><img src="images/bullet.png"/> Incorporating the Amazon Lex Bot to our webapp</a></li>
           </ul>
         </li>
       </ul>
@@ -102,14 +106,14 @@ $(document).ready(function () {
 <div class="container">
 <p ="font-family:verdana">
 <h1 align="center">Serverless Dynamic Website on AWS</h1>
-<listing class="pretext"><table cellpadding="20px"  align="center">
+<listing class="pretext"><table cellpadding="100"  align="center">
 <tr>
-<td width="12%"><a target="_blank" style="target-new: tab;" href="http://docs.aws.amazon.com/AmazonS3/latest/gsg/GetStartedWithS3.html"><img src="images/s3.png"/><br/>Amazon S3</a></td>
-<td width="12%"><a target="_blank" style="target-new: tab;" href="http://docs.aws.amazon.com/apigateway/latest/developerguide/welcome.html"><img src="images/apigateway.png"/><br/>Amazon Api Gateway</a></td>
-<td width="12%"><a target="_blank" style="target-new: tab;" href="http://docs.aws.amazon.com/lambda/latest/dg/welcome.html"><img src="images/lambda.png"/><br/>AWS Lambda</a></td>
-<td width="12%"><a target="_blank" style="target-new: tab;" href="http://docs.aws.amazon.com/step-functions/latest/dg/welcome.html"><img src="images/step-functions.png"/><br/>AWS Step Functions</a></td>
-<td width="12%"><a target="_blank" style="target-new: tab;" href="http://docs.aws.amazon.com/amazondynamodb/latest/gettingstartedguide/Welcome.html"><img src="images/dynamodb.png"/><br/>Amazon DynamoDB</a></td>
-<td width="12%"><a target="_blank" style="target-new: tab;" href="http://docs.aws.amazon.com/cognito/latest/developerguide/what-is-amazon-cognito.html"><img src="images/cognito.png"/><br/>Amazon Cgnito</a></td>
+<td width="12%"><a target="_blank" style="target-new: tab;" href="http://docs.aws.amazon.com/AmazonS3/latest/gsg/GetStartedWithS3.html"><img src="images/s3.png"/><br/><br/>Amazon S3</a></td>
+<td width="12%"><a target="_blank" style="target-new: tab;" href="http://docs.aws.amazon.com/apigateway/latest/developerguide/welcome.html"><img src="images/apigateway.png"/><br/>Amazon <br/>API Gateway</a></td>
+<td width="12%"><a target="_blank" style="target-new: tab;" href="http://docs.aws.amazon.com/lambda/latest/dg/welcome.html"><img src="images/lambda.png"/><br/><br/>AWS Lambda</a></td>
+<td width="12%"><center><a target="_blank" style="target-new: tab;" href="http://docs.aws.amazon.com/step-functions/latest/dg/welcome.html"><img src="images/step-functions.png"/><br/>AWS <br/>Step Functions</a></center></td>
+<td width="12%"><a target="_blank" style="target-new: tab;" href="http://docs.aws.amazon.com/amazondynamodb/latest/gettingstartedguide/Welcome.html"><img src="images/dynamodb.png"/><br/>Amazon <br/>DynamoDB</a></td>
+<td width="12%"><a target="_blank" style="target-new: tab;" href="http://docs.aws.amazon.com/cognito/latest/developerguide/what-is-amazon-cognito.html"><img src="images/cognito.png"/><br/>Amazon <br/>Cognito</a></td>
 <td width="12%"><a target="_blank" style="target-new: tab;" href="http://docs.aws.amazon.com/IAM/latest/UserGuide/"><img src="images/iam.png"/><br/><a href="http://docs.aws.amazon.com/IAM/latest/UserGuide/">AWS IAM</a></td>
 <td width="12%"><a target="_blank" style="target-new: tab;" href="https://vuejs.org/"><img src="images/vue.png"/><br/>Vue.js</a></td>
 </tr>
@@ -120,6 +124,10 @@ Lab Contents
 <img src="images/bullet.png"> <a href="#overview">Overview</></a>
 <img src="images/bullet.png"> <a href="#usecase">Use Case Scenario: PetMatch</></a>
 <img src="images/bullet.png"> <a href="#apigsetup">Amazon API Gateway - Define API</></a>
+<img src="images/bullet.png"> <a href="#apiginteg">Amazon API Gateway - Integrate API to Lambda</></a>
+<img src="images/bullet.png"> <a href="#cognito">Amazon Cognito - Establish Identity Pool & Permissions</></a>
+<img src="images/bullet.png"> <a href="#updwebcog">webapp - Update with Cognito</></a>
+<img src="images/bullet.png"> <a href="#apigunauth">Amazon API Gateway - Activate IAM (unauthenticated identity)</></a>
 <img src="images/bullet.png"> <a href="#steplogic">AWS Step Functions - Coordinate Logic</></a>
 <img src="images/bullet.png"> <a href="#ddbcreate">Amazon DynamoDB - Create PetMatchType Table</></a>
 <img src="images/bullet.png"> <a href="#lamprime">AWS Lambda - Prime PetMatchType Table</></a>
@@ -127,10 +135,6 @@ Lab Contents
 <img src="images/bullet.png"> <a href="#ddbquery">AWS Lambda - Query PetMatchType Table</></a>
 <img src="images/bullet.png"> <a href="#sfnupd">AWS Step Functions - Update State Machine w/ Lambda</></a>
 <img src="images/bullet.png"> <a href="#invstate">AWS Lambda - Step Functions: Start & Describe Execution</></a>
-<img src="images/bullet.png"> <a href="#apiginteg">Amazon API Gateway - Integrate API to Lambda</></a>
-<img src="images/bullet.png"> <a href="#cognito">Amazon Cognito - Establish Identity Pool & Permissions</></a>
-<img src="images/bullet.png"> <a href="#updwebcog">webapp - Update with Cognito</></a>
-<img src="images/bullet.png"> <a href="#apigunauth">Amazon API Gateway - Activate IAM (unauthenticated identity)</></a>
 </font>
 </listing>
 <h4 id="overview">Overview</h4>
@@ -189,7 +193,7 @@ http://localhost:8080/#/petmatch
 
 </listing>
 
-<h4 id="apigsetup">Amazon API Gateway</h4>
+<h4 id="apigsetup">Amazon A/index.htmlPI Gateway</h4>
 <listing class="pretext">
 Let's take an API-driven approach and start with defining the REST API. Amazon API Gateway is an AWS service that enables developers to create, publish, maintain, monitor, and secure APIs at any scale. You can create APIs that access AWS or other web services, as well as data stored in the AWS Cloud.
 
@@ -208,7 +212,6 @@ There are many great sources that provide best practices on API Design, but I'll
 
 <li><listing class="pretext">Select 'Actions' and then 'Create Resource'. Use 'petmatches' for the resource name.</listing></li>
 <li><listing class="pretext"> Click 'Enable API Gatway CORS' and select 'Create Resource'.</listing></li>
-<li> <listing class="pretext">Select 'Actions'-enable CORS and tick the boxes to enable for 4XX and 5XX codes as well and select 'Enable CORS...' and select 'Yes' to replace the existing CORS definitions.
 
 <img src="images/apig-createmethod.png"/>
 </listing></li>
@@ -283,10 +286,132 @@ There are many great sources that provide best practices on API Design, but I'll
 
 <li><listing class="pretext">Select on Resources from the left tab, and then select on POST for our petmatches resource. In the main window you will see the POST - Setup the integration type of Lambda Function selected by default. 
 
+We are going to use Lambda to invoke and poll our Step Function, but we have not written that Lambda function nor any of the backend yet. But before we commence building out the backend, we are going to secure our APIs and provide a unique identifier for our users using Amazon Cognito unauthenticated identities.</listing></li>
 
-We are going to use Lambda to invoke and poll our Step Function, but we have not written that Lambda function nor any of the backend yet.</listing></li>
 
-<listing class="pretext">So let's take pause on the API Gateway now and open another tab to finish off all the backend components. Our flow is going to look a bit like the sequence diagram below:
+<h4 id="cognito">Amazon Cognito</h4>
+<listing class="pretext">
+Amazon Cognito lets you easily add user sign-up and sign-in and manage permissions for your mobile and web apps. You can create your own user directory within Amazon Cognito, or you can authenticate users through social identity providers such as Facebook, Twitter, or Amazon; with SAML identity solutions; or by using your own identity system. In addition, Amazon Cognito enables you to save data locally on users' devices, allowing your applications to work even when the devices are offline. You can then synchronize data across users' devices so that their app experience remains consistent regardless of the device they use.
+With Amazon API Gateway, you can optionally set your API methods to require authorization. When setting up a method to require authorization you can leverage AWS Signature Version 4 or custom authorizers to support your own bearer token auth strategy.
+
+
+You can use AWS credentials -- access and secret keys - to sign requests to your service and authorize access like other AWS services. The signing of an Amazon API Gateway API request is managed by the custom API Gateway SDK generated for your service. You can retrieve temporary credentials associated with a role in your AWS account using Amazon Cognito. The requests are then signed with what is called sigv4 <a target="_blank" style="target-new: tab;" href="http://docs.aws.amazon.com/general/latest/gr/signature-version-4.html">Signature Version 4 Signing</a>. 
+
+We will not require our users to login for now, but we will use <a target="_blank" style="target-new: tab;" href="http://docs.aws.amazon.com/cognito/latest/developerguide/identity-pools.html">unauthenticated identities.</a>  Cognito Federated Identity to ensure that our APIs are only allowed by valid clients and as well providing a unique token for the user which can be useful for analytics about our users. We will use the <a target="_blank" style="target-new: tab;" href="http://docs.aws.amazon.com/cognito/latest/developerguide/authentication-flow.html">Enhanced (Simplified) Authflow</a>, calling Cognito's <a target="_blank" style="target-new: tab;" href="http://docs.aws.amazon.com/cognitoidentity/latest/APIReference/API_GetId.html">getId()</a> method to provide us with a Cognito Id, which is represented as a JSON Web Token (JWT) token. Then call another API <a target="_blank" style="target-new: tab;" href="http://docs.aws.amazon.com/cognitoidentity/latest/APIReference/API_GetCredentialsForIdentity.html">getCredentialsForId()</a> which will provide AWS Credentials so that we can invoke the API which we will protect with IAM.</a></listing>
+
+<li><listing class="pretext">Open a new tab in your browers and <a target="_blank" style="target-new: tab;" href="http://console.aws.amazon.com/cognito/">navigate to Amazon Cognito<a/>.  Cognito has two main areas, User Pools and Federated Identies. We're only going to use the an Identity Pool with unauthenticated identities.
+
+<img src="images/id_pool.png"/>
+
+Select 'Federated Identities' and then 'Create new identity pool'
+</li></listing>
+<li><listing class="pretext">Enter [userId]PetTypeMatch for the name, and tick the box 'Enable access to unauthenticated identities'</li></listing>
+<li><listing class="pretext">Select Create Pool, and select 'Allow'</li></listing>
+<li><listing class="pretext">Select edit Identity Pool (top right corner) and copy the Identity Pool ID and also note down the Role Name for your unauthenticated role and then cancel the edit.</li></listing>
+
+<h4 id="updwebcog">Update the webapp to use the Cognito Identity pool.</h4>
+
+<li><listing class="pretext">Now go to your IDE (or however you're editing your project files) to your source base (aws-serverless-workshop directory).   Run the following commands which will backup your current copy of your PetMatch vue component and replace it with a version that integrates with API Gateway Feel free to diff or edit the PetMatch.vue so you can understand what is changing. You can search for 'Cognito' and it should take you to the 'submit' button and you can follow the logic to utilize the downloaded SDK to invoke our POST petmatches method. Search for 'apigClient.petmatchesPost' (or similiar if you named your method differently) for the actual invocation.  
+
+ <button class="btn btn-outline-secondary btn-sm" data-clipboard-target="#bakpet2">Copy</button>
+<pre><span id="bakpet2">
+cp src/components/PetMatch.vue src/components/PetMatch.vue.bak
+cp src/components/PetMatch.vue.withCognito src/components/PetMatch.vue
+</span></pre>
+</listing></li>
+
+<li><listing class="pretext">Now edit:
+
+src/components/config.json
+
+{
+
+  "identityPoolId" : "",
+  "region" : ""
+}
+
+Fill in your identityPooId. The identity pool will need to be in the same region as your Lambda with the way the code is currently written but you could edit PetMatch.vue and change that if required. 
+
+Fill in your region such as us-east-1 or ap-southeast-2. This will need to be the same region in which you deployed API Gateway.
+
+</listing></li>
+<li><listing class="pretext">Now that we have configured the our webapp to use the Cognito Identity Pool, let's go activate IAM Integration in our API Gateway API</li></listing>
+
+
+<h4 class="heading" id="apigunauth">Enable Authorisation on API Gateway REST API</h4>
+<li><listing class="pretext">Navigate to API Gateway your [userId]PetMatch API. Select on 'Resources' and then select the POST method of our /petmatches resource.</listing>
+<li><listing class="pretext">Select 'Method Request', and then select the 'pencil' to the right of 'Authorization' and then choose AWS_IAM, then select the check box to save and say yes to replacing.</li>
+<li><listing class="pretext">Select Actions again, and select 'Enable CORS' and select 4XX and 5XX as well and then confirm to enable, confiming to all checkboxes to replace the existing CORS configuration.</listing></li>
+<li><listing class="pretext">Now select Actions->Deploy API
+
+Select 'New Stage' and call it something useful - perhaps dev or v1 - then save
+
+</li></listing>
+
+<li><listing class="pretext">Ensure that 'Stages' is selected on the left and navigate to the POST method and select it. Copy the URL and save it into notepad - it should end with [yourstage]/petmatch. </listing></li>
+
+<li><listing class="pretext">Select your stage resource (dev or v1, etc) in the second tab, and then select the 'SDK Generation' tab in the main window. For platform select Javascript and then select 'Generate SDK'
+
+<img src="images/apig-stage.png"/>
+
+We're going to go back to our website now and integrate invoking our API Gateway invocation into our website. </listing></li>
+
+</listing></li>
+
+<li><listing class="pretext">Navigate to the directory that your downloaded SDK was placed, and unzip it. Move it to your aws-serverless-workshop directory into the 'static' directory, something like this if you are one level up from the aws-serverless-workshp (Notice that I <font class="redc">renamed the folder to apiGateway-js-sdk-petmatch</font>:
+
+ <button class="btn btn-outline-secondary btn-sm" data-clipboard-target="#mvandcp">Copy</button>
+<pre><span id="mvandcp">
+ mv apiGateway-js-sdk aws-serverless-workshop/static/apiGateway-js-sdk-petmatch
+</pre></span>
+
+</listing></li>
+
+<h4 id="iamupd">AWS IAM - Update Unauthenticated Role </h4>
+
+<listing class="pretext">The default permissions for the unauthenticated role that Cognito creates needs modified to be able to invoke your API</listing>
+<li><listing class="pretext">Navigate to IAM and select 'Roles'</li></listing>
+<li><listing class="pretext">Search for your Cognito Unauth Role (something like Cognito_[yourId]PetTypeMatchUnauth_Role</li></listing>
+<li><listing class="pretext">
+Select the role 
+
+<img src="images/createRolePolicy.png"/>
+
+In the policy editor, copy the following policy and paste, <font class="redc">substituting the [] variables</font> with the actual values such as:
+
+"arn:aws:execute-api:us-east-1:*:m9nn3xxxe6/v1/POST/petmatches"
+
+Note that m9nn3xxxe6 is the <font class="redc">api id from the URL you noted in your notepad just previously and NOT the name of your API</font>.
+
+ <button class="btn btn-outline-secondary btn-sm" data-clipboard-target="#policye">Copy</button>
+<pre><span id="policye">{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Action": [
+                "execute-api:Invoke"
+            ],
+            "Resource": [
+                "arn:aws:execute-api:[region]:[accountNumber]:[apiId]/[stageName]/[HTTP VERB]/[resoucePath]"
+            ]
+        }
+    ]
+}</span></pre>
+
+It should look like this after:
+
+<img src="images/policyView.png"/>
+
+Give your policy a name with your id in it and then press save and you should now see:
+
+<img src="images/twoPolicies.png"/>
+
+</listing></li>
+
+<li><listing class="pretext">Test your local website again to ensure you can still connect, but the submit button will still not work because although you are invoking the API Gateway POST Method there is no backend integration. <listing></li>
+
+<listing class="pretext">With the APIs secured, let's take pause on the API Gateway now and open another tab to finish off all the backend components. Our flow is going to look a bit like the sequence diagram below:
 
 <center><img src="images/seq-flow.png"/></center>
 We are going to:
@@ -299,6 +424,7 @@ We are going to:
 </li>
 </ul>
 </listing>
+
 <h4 id="steplogic">AWS Step Functions</h4>
 <listing class="pretext">
 AWS Step Functions is a web service that enables you to coordinate the components of distributed applications and microservices using visual workflows. You build applications from individual components that each perform a discrete function, or task, allowing you to scale and change applications quickly. Step Functions provides a reliable way to coordinate components and step through the functions of your application. Step Functions provides a graphical console to visualize the components of your application as a series of steps. It automatically triggers and tracks each step, and retries when there are errors, so your application executes in order and as expected, every time. Step Functions logs the state of each step, so when things do go wrong, you can diagnose and debug problems quickly.</listing></li>
@@ -1131,46 +1257,11 @@ You can find this by navigating to AWS Step Functions, and then selecting one of
 
 
 
-<li><listing class="pretext">Select Actions->Deploy API.</li></listing>
-<li><listing class="pretext">Select 'New Stage' and call it something useful - perhaps dev or v1 - then save.</li></listing>
-<li><listing class="pretext">Ensure that 'Stages' is selected on the left and navigate to the POST method and select it. Copy the URL - it should end with [yourstage]/petmatch. </listing></li>
+<li><listing class="pretext">Select Actions->Deploy API</li></listing>
+<li><listing class="pretext">Select the same stage you deployed it to last time.</li></listing>
 
-<li><listing class="pretext">Select your stage resource (dev or v1, etc) in the second tab, and then select the 'SDK Generation' tab in the main window. For platform select Javascript and then select 'Generate SDK'
 
-<img src="images/apig-stage.png"/>
 
-We're going to go back to our website now and integrate invoking our API Gateway invocation into our website.  With Amazon API Gateway, you can optionally set your API methods to require authorization. When setting up a method to require authorization you can leverage AWS Signature Version 4 or custom authorizers to support your own bearer token auth strategy.</listing></li>
-
-<li><listing class="pretext">Now go to your IDE (or however you're editing your project files) to your source base (aws-serverless-workshop directory).   Run the following commands which will backup your current copy of your PetMatch vue component and replace it with a version that is pointing to your identity pool. </listing></li>
-
- <button class="btn btn-outline-secondary btn-sm" data-clipboard-target="#bakpet">Copy</button>
-<pre><span id="bakpet">
-npm install --save aws-api-gateway-client
-cp src/components/PetMatch.vue src/components/PetMatch.vue.bak
-cp src/components/PetMatch.vue.withApig src/components/PetMatch.vue
-</span></pre>
-</listing></li>
-
-<li><listing class="pretext">Now edit:
-
-src/components/config.json
-
-{
-
-  "identityPoolId" : "",
-  "region" : ""
-}
-
-Fill in your region such as us-east-1 or ap-southeast-2. This will need to be the same region in which you deployed your Lambda Function. 
-
-</listing></li>
-<li><listing class="pretext">Navigate to the directory that your downloaded SDK was placed, and unzip it. Move it to your aws-serverless-workshop directory into the 'static' directory, something like this if you are one level up from the aws-serverless-workshp (Notice that I <font class="redc">renamed the folder to apiGateway-js-sdk-petmatch</font>:
-
- <button class="btn btn-outline-secondary btn-sm" data-clipboard-target="#mvandcp">Copy</button>
-<pre><span id="mvandcp">
- mv apiGateway-js-sdk aws-serverless-workshop/static/apiGateway-js-sdk-petmatch
-</pre></span>
-</listing></li>
 <li><listing class="pretext">
 
 It is now time to go back to our URL and see how our /petmatch resource is behaving now.  Copy the below URL again and hit submit. Try some different values you should now see images like the below and the match should change depending on the input.
@@ -1186,104 +1277,9 @@ So now we have a working webapp, but lets provide some form of protection for ou
 </li></listing>
 
 
-<h4 id="cognito">Amazon Cognito</h4>
-<listing class="pretext">
-Amazon Cognito lets you easily add user sign-up and sign-in and manage permissions for your mobile and web apps. You can create your own user directory within Amazon Cognito, or you can authenticate users through social identity providers such as Facebook, Twitter, or Amazon; with SAML identity solutions; or by using your own identity system. In addition, Amazon Cognito enables you to save data locally on users' devices, allowing your applications to work even when the devices are offline. You can then synchronize data across users' devices so that their app experience remains consistent regardless of the device they use.
-With Amazon API Gateway, you can optionally set your API methods to require authorization. When setting up a method to require authorization you can leverage AWS Signature Version 4 or custom authorizers to support your own bearer token auth strategy.
 
 
-You can use AWS credentials -- access and secret keys - to sign requests to your service and authorize access like other AWS services. The signing of an Amazon API Gateway API request is managed by the custom API Gateway SDK generated for your service. You can retrieve temporary credentials associated with a role in your AWS account using Amazon Cognito. The requests are then signed with what is called sigv4 <a target="_blank" style="target-new: tab;" href="http://docs.aws.amazon.com/general/latest/gr/signature-version-4.html">Signature Version 4 Signing</a>. 
 
-We will not require our users to login for now, but we will use <a target="_blank" style="target-new: tab;" href="http://docs.aws.amazon.com/cognito/latest/developerguide/identity-pools.html">unauthenticated identities.</a>  Cognito Federated Identity to ensure that our APIs are only allowed by valid clients and as well providing a unique token for the user which can be useful for analytics about our users. We will use the <a target="_blank" style="target-new: tab;" href="http://docs.aws.amazon.com/cognito/latest/developerguide/authentication-flow.html">Enhanced (Simplified) Authflow</a>, calling Cognito's <a target="_blank" style="target-new: tab;" href="http://docs.aws.amazon.com/cognitoidentity/latest/APIReference/API_GetId.html">getId()</a> method to provide us with a Cognito Id, which is represented as a JSON Web Token (JWT) token. Then call another API <a target="_blank" style="target-new: tab;" href="http://docs.aws.amazon.com/cognitoidentity/latest/APIReference/API_GetCredentialsForIdentity.html">getCredentialsForId()</a> which will provide AWS Credentials so that we can invoke the API which we will protect with IAM.</a></listing>
-
-<li><listing class="pretext">Open a new tab in your browers and <a target="_blank" style="target-new: tab;" href="http://console.aws.amazon.com/cognito/">navigate to Amazon Cognito<a/>.  Cognito has two main areas, User Pools and Federated Identies. We're only going to use the an Identity Pool with unauthenticated identities.
-
-<img src="images/id_pool.png"/>
-
-Select 'Federated Identities' and then 'Create new identity pool'
-</li></listing>
-<li><listing class="pretext">Enter [userId]PetTypeMatch for the name, and tick the box 'Enable access to unauthenticated identities'</li></listing>
-<li><listing class="pretext">Select Create Pool, and select 'Allow'</li></listing>
-<li><listing class="pretext">Select edit Identity Pool (top right corner) and copy the Identity Pool ID and also note down the Role Name for your unauthenticated role and then cancel the edit.</li></listing>
-
-<h4 id="iamupd">AWS IAM - Update Unauthenticated Role </h4>
-<listing class="pretext">The default permissions for the unauthenticated role that Cognito creates needs modified to be able to invoke your API</listing>
-<li><listing class="pretext">Navigate to IAM and select 'Roles'</li></listing>
-<li><listing class="pretext">Search for your Cognito Unauth Role (something like Cognito_[yourId]PetTypeMatchUnauth_Role</li></listing>
-<li><listing class="pretext">
-Select the role 
-
-<img src="images/createRolePolicy.png"/>
-
-In the policy editor, copy the following policy and paste, <font class="redc">substituting the [] variables</font> with the actual values such as:
-
-"arn:aws:execute-api:us-east-1:*:m9nn3xxxe6/v1/POST/petmatches"
-
-Note that m9nn3xxxe6 is the api id from the url.
-
- <button class="btn btn-outline-secondary btn-sm" data-clipboard-target="#policye">Copy</button>
-<pre><span id="policye">{
-    "Version": "2012-10-17",
-    "Statement": [
-        {
-            "Effect": "Allow",
-            "Action": [
-                "execute-api:Invoke"
-            ],
-            "Resource": [
-                "arn:aws:execute-api:[region]:[accountNumber]:[apiId]/[stageName]/[HTTP VERB]/[resoucePath]"
-            ]
-        }
-    ]
-}</span></pre>
-
-It should look like this after:
-
-<img src="images/policyView.png"/>
-
-Give your policy a name with your id in it and then press save and you should now see:
-
-<img src="images/twoPolicies.png"/>
-
-</listing></li>
-
-<h4 id="updwebcog">Update the webapp to use the Cognito Identity pool.</h4>
-
-<li><listing class="pretext">Now go to your IDE (or however you're editing your project files) to your source base (aws-serverless-workshop directory).   Run the following commands which will backup your current copy of your PetMatch vue component and replace it with a version that is pointing to your identity pool. 
-
- <button class="btn btn-outline-secondary btn-sm" data-clipboard-target="#bakpet2">Copy</button>
-<pre><span id="bakpet2">
-cp src/components/PetMatch.vue src/components/PetMatch.vue.bak
-cp src/components/PetMatch.vue.withCognito src/components/PetMatch.vue
-</span></pre>
-</listing></li>
-
-<li><listing class="pretext">Now edit:
-
-src/components/config.json
-
-{
-
-  "identityPoolId" : "",
-  "region" : ""
-}
-
-Fill in your identityPooId. The identity pool will need to be in the same region as your Lambda with the way the code is currently written but you could edit PetMatch.vue and change that if required. 
-
-</listing></li>
-<li><listing class="pretext"> In API Gateway - select the petmatches resource from your API and select Actions->Click 'Enable API Gatway CORS' and select 'Create Resource'.</listing></li>
-<li> <listing class="pretext">Select 'Actions'-enable CORS and tick the boxes to enable for 4XX and 5XX codes as well and select 'Enable CORS...' and select 'Yes' to replace the existing CORS definitions.
-
-<li><listing class="pretext">Test out the application again and ensure it's still working. Now go to API Gateway and turn on IAM for the petmatch API to protect it.</li></listing>
-
-
-<h4 class="heading" id="apigunauth">Enable Authorisation on API Gateway rest API</h4>
-<li><listing class="pretext">Navigate to API Gateway your [userId]PetMatch API. Select on 'Resources' and then select the POST method of our /petmatches resource.</listing>
-<li><listing class="pretext">Select 'Method Request', and then select the 'pencil' to the right of 'Authorization' and then choose AWS_IAM, then select the check box to save and say yes to replacing.</li>
-<li><listing class="pretext">Select Actions again, and select 'Enable CORS' and select 4XX and 5XX as well and then confirm to enable.</listing></li>
-<li><listing class="pretext">Now select Actions->Deploy API, and select the same stage you deployed it to last time.</li></listing>
-
-<li><listing class="pretext">Test your local website again:<listing></li>
 <img src="images/petmatchui-cat.png"/><br/><br/>
 <li><listing class="pretext">Navigate over to the AWS console in another tab and go find the latest state machine execution and it should look like this:
 

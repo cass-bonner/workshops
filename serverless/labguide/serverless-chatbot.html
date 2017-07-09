@@ -20,7 +20,7 @@
     clipboard.on('error', function(e) {
         console.log(e);
     });
-    var shiftWindow = function() { scrollBy(0, -70) };
+    var shiftWindow = function() { scrollBy(0, -100) };
 if (location.hash) shiftWindow();
 window.addEventListener("hashchange", shiftWindow);
 
@@ -45,10 +45,11 @@ $(document).ready(function () {
     </div>
     <div class="collapse navbar-collapse" id="myNavbar">
       <ul class="nav navbar-nav">
-        <li><a href="index.html#">AWS Serverless Workshop</a></li>
+        <li><a href="index.html#">AWS Serverless <br/>PetMatch Workshop</a></li>
         <li class="dropdown">
           <a class="dropdown-toggle" data-toggle="dropdown" href="serverless_prerequisites.html#">Setup & Serverless Overview<span class="caret"></span></a>
           <ul class="dropdown-menu">
+            <li><a href="serverless_prerequisites.html">Setup & Serverless Overview</a></li>
             <li><a href="serverless_prerequisites.html#account_setup"><img src="images/bullet.png"/> Account Setup</a></li>
             <li><a href="serverless_prerequisites.html#students"><img src="images/bullet.png"/> Participants Pre-Reqs</a></li>
             <li><a href="serverless.html"><img src="images/bullet.png"/> Serverless Overview</a></li>
@@ -84,14 +85,17 @@ $(document).ready(function () {
           </ol>
         </li>
         <li class="dropdown">
-          <a class="dropdown-toggle" data-toggle="dropdown" href="serverless-chatbot.html#">Lab 3: Chatbox<span class="caret"></span></a>
+          <a class="dropdown-toggle" data-toggle="dropdown" href="serverless-chatbot.html#">Lab 3: Chatbot<span class="caret"></span></a>
           <ul class="dropdown-menu">
-            <li><a href="serverless-chatbot.html#overview">Lab 3: Serverless Chatbot</a></li>
+            <li><a href="serverless-chatbot.html#">Lab 3: Serverless Chatbot</a></li>
             <li><a href="serverless-chatbot.html#overview"><img src="images/bullet.png"/> Overview</a></li>
             <li><a href="serverless-chatbot.html#createbot"><img src="images/bullet.png"/> Create Amazon Lex Bot</a></li>
             <li><a href="serverless-chatbot.html#lamfulfill"><img src="images/bullet.png"/> AWS Lambda Fulfillment Function</a></li>
             <li><a href="serverless-chatbot.html#awslcfn"><img src="images/bullet.png"/> awslabs &amp; Cloudformation</a></li>
             <li><a href="serverless-chatbot.html#update_bot_config"><img src="images/bullet.png"/> Update Lex Bot Configuration</a></li>
+            <li><a href="serverless-chatbot.html#configure_setup"><img src="images/bullet.png"/> Configuring and Setup for your CI/CD Pipeline</a></li>
+            <li><a href="serverless-chatbot.html#modify_bot"><img src="images/bullet.png"/> Modifying the webapp Bot</a></li>
+            <li><a href="serverless-chatbot.html#include_bot"><img src="images/bullet.png"/> Incorporating the Amazon Lex Bot to our webapp</a></li>
           </ul>
         </li>
       </ul>
@@ -111,13 +115,16 @@ $(document).ready(function () {
 </td></tr>
 </tbody></table>
 
-<listing class="pretext">Serverless Chatbox Lab Contents
+<listing class="pretext">Serverless Chatbot Lab Contents
 <font size="2">
 <img src="images/bullet.png"> <a href="serverless-chatbot.html#overview">Amazon Lex Overview</a>
 <img src="images/bullet.png"> <a href="serverless-chatbot.html#createbot">Create Amazon Lex Bot</a>
 <img src="images/bullet.png"> <a href="serverless-chatbot.html#lamfulfill">AWS Lambda Fulfillment Function</a>
 <img src="images/bullet.png"> <a href="serverless-chatbot.html#awslcfn">awslabs &amp; Cloudformation</a>
 <img src="images/bullet.png"> <a href="serverless-chatbot.html#update_bot_config">Update Lex Bot Configuration</a>
+<img src="images/bullet.png"/><a href="serverless-chatbot.html#configure_setup">Configuring and Setup for your CI/CD Pipeline</a>
+<img src="images/bullet.png"/><a href="serverless-chatbot.html#modify_bot">Modifying the webapp Bot</a>
+<img src="images/bullet.png"/><a href="serverless-chatbot.html#include_bot">Incorporating the Amazon Lex Bot to our webapp</a>
 </font></listing><font size="2">
 
 <h4 id="overview">Amazon Lex Overview</h4>
@@ -509,7 +516,7 @@ There are two statements in this policy. This first allows a specific resource (
 </listing></li>
 <li><listing class="pretext">Ok, that's all well and good but we want it to be tailored to our Bot so that we can incorporate it into our bot.
 </listing></li>
- <h4 id="modify_bot">Configuring and Setup for your CI/CD Pipeline</h4> 
+ <h4 id="configure_setup">Configuring and Setup for your CI/CD Pipeline</h4> 
 <li><listing class="pretext">So, we want to modify our Bot so we can embed it in our website and make it relevant for our application. Fortunately, the AWS Proserve Consultants who wrote the aws-lex-web-ui, have provided a slick way to accommodate this requirement. You will recall that there were four (4) outputs in our CloudFormation Stack. Scroll up and look at the image above again and you will see that there is one for a CodeCommitURL and another for a PipelineUrl. In fact the project uses three key AWS Services to provide an OOTB Pipeline to allow you to modify, commit and deploy your ChatBot Webapp as depicted in their diagram:
 
 <center><img src="images/cfn-stack.png"/> </center>
@@ -530,7 +537,7 @@ And the specific Deployment Pipeline for this Project looks like this:
 <li><listing class="pretext">You can read more about the pipeline at the <a target="_blank" style="target-new: tab;" href="https://github.com/awslabs/aws-lex-web-ui">aws-lex-web-ui awslabs</a>, but our next step will be to Setup for  <a target="_blank" style="target-new: tab;" href="http://docs.aws.amazon.com/codecommit/latest/userguide/setting-up.html">AWS CodeCommit</a>. This Lab assumes that you will want to setup for connectivity from an IDE, but please utilize the link above for alternative setup and revert to the <a target="_blank" style="target-new: tab;" href="http://docs.aws.amazon.com/codecommit/latest/userguide/setting-up-gc.html">AWS Instructions</a> should you hit any issues..
 </listing></li>
 
-<li><listing class="pretext"><a target="_blank" style="target-new: tab;" href="https://console.aws.amazon.com/iam">Navigate to IAM</a> in the AWS Console, as we are going to setup your userId to be able to access the AWS CodeCommit Repository. NB Feel free to utilize any alternative approach as desired.
+<li><listing class="pretext"><a target="_blank" style="target-new: tab;" href="https://console.aws.amazon.com/iam">Navigate to IAM</a> in the AWS Console, as we are going to setup your userId to be able to access the AWS CodeCommit Repository. NB Feel free to utilize any alternative approach as desired and if your user is already setup for CodeCommit this step can be eliminated.
 </listing></li>
 <li><listing class="pretext">Select 'Users' and then select your AWS UserId. (NB: Another approach is to add this to the adminForUsername group too allow for all AWS participants but I will leave that to you)
 </listing></li>
@@ -575,7 +582,16 @@ This diagram tries to highlight the field you might want to modify:
 </listing></li>
 <li><listing class="pretext">If you want to change the colour of the Bot (from red to something else), then we have one more field to modify, which is index.js within the same directory as config.dev.json.  Search for 'toolbarColour (mispelled as toolbarColor of course - the yanks! ;), and replace the value 'red' with whatever html colour you desire. You may note that some of the values you updated in config.dev.json are in this file but don't worry your config.dev.json files will be updated).
 </listing></li>
-<li><listing class="pretext">Once modified, commit the two files, and you should find that your build pipeline is kicked off and your bot at the webapp is updated. Be sure to push the files to complete the update.
+<li><listing class="pretext">If you want to change the image (the white flower) to something else, in the same index.js file - search for 'toolbarLogo' and change the path of the require to the image of your choice. You could copy favicon.png from PetMatch appication and place it in the assets directory. And then the require will look like this:
+
+<img src="images/favicon.png"/>
+
+</listing></li>
+
+<li><listing class="pretext">Before we commit these, we need to 
+
+</listing></li>
+<li><listing class="pretext">Once modified, commit the two files, and you should find that your build pipeline is kicked off and your bot at the webapp is updated. Be sure to 'git push' the files to complete the update.
 </listing></li>
 <li><listing class="pretext">You can follow your build pipeline most readily by navigating to <a target="_blank" style="target-new: tab;" href="https://console.aws.amazon.com/codepipeline">AWS CodePipeline</a> and selecting your pipeline (e.g. [yourUserId]-pet-match-ui). In the diagram below you will see that the BuildDeploy is still inprogress- but once this completes it will turn green and say 'Succeeded' rather than 'In Progress'. Once that is complete - navigate back to the webapp URL from your CloudFormation Stack and you should see that not only is your Lex Bot still the engine, but it should have the additional configurations. 
 <center><img src="images/cass-codepipeline.png"/></center>
@@ -600,23 +616,21 @@ This diagram tries to highlight the field you might want to modify:
 
 <li><listing class="pretext">Copy all the files from 'lex-web-ui/static/iframe/' to a directory of your choice in your local aws-serverless-workshop build. The recommended directory is aws-serverless-workshop/static/iframe as that will require the fewest changes but any directory is acceptable so long as you modify the relevant paths in future steps
 </listing></li>
-<li><listing class="pretext">Now we need to add the following includes into our index.html in the base of aws-serverless-workshop - WITH appropriate modifictatons:
+<li><listing class="pretext">Edit the config.json which should be located in parallel to the files you copied in from the 'lex-web-ui/static/iframe' directory.  The cognitoPoolId and region should be set appropriately, but correct them if not.
+</listing></li>
+<li><listing class="pretext">Modify the iframeOrigin - set this to the value of your webappurl  (from CloudFormation outputs) - but REMOVE the trailing '/index.html'. 
+</listing></li>
+<li><listing class="pretext">Now we need to add the following includes into our index.html in the base of aws-serverless-workshop - WITH appropriate modifications depending on where you put your files. If you put them in a directory called iframe inside the static directory then this is the correct path:
 
  <button class="btn btn-outline-secondary btn-sm" data-clipboard-target="#botmod">Copy</button>
 <pre><span id="botmod">
-  &lt;link rel="stylesheet" type="text/css" href=[INSERT-PATH-TO]/static/iframe/bot.css">
-
-  &lt;script src="[INSERT-PATH-TO]/static/iframe/bot-loader.js"></script>
+  &lt;link rel="stylesheet" type="text/css" href=static/iframe/bot.css">
+  &lt;script src="static/iframe/bot-loader.js"></script>
 
 </pre></span>
-
 Modify the index.html to point to the appropriate relative paths based on where you placed the files.
 </listing></li>
-<li><listing class="pretext">Edit the config.json which should be located in parallel to the files you copied in from the 'lex-web-ui/static/iframe' directory.  The cognitoPoolId and region should be set appropriately, but correct them if not.
-</listing></li>
-<li><listing class="pretext">You can leave the 'iframeOrigin' as it is to 'localhost' and test locally, or modify it to your webappurl  (from CloudFormation outputs) to test it in full. 
-</listing></li>
-<li><listing class="pretext">Once you've reloaded  
+<li><listing class="pretext">Reload the PetMatch local webapp with the bot included.
 </listing></li>
 
 </ul>

@@ -20,7 +20,7 @@
     clipboard.on('error', function(e) {
         console.log(e);
     });
-    var shiftWindow = function() { scrollBy(0, -70) };
+    var shiftWindow = function() { scrollBy(0, -100) };
 if (location.hash) shiftWindow();
 window.addEventListener("hashchange", shiftWindow);
 
@@ -45,10 +45,11 @@ $(document).ready(function () {
     </div>
     <div class="collapse navbar-collapse" id="myNavbar">
       <ul class="nav navbar-nav">
-        <li><a href="index.html#">AWS Serverless Workshop</a></li>
+        <li><a href="index.html#">AWS Serverless <br/>PetMatch Workshop</a></li>
         <li class="dropdown">
           <a class="dropdown-toggle" data-toggle="dropdown" href="serverless_prerequisites.html#">Setup & Serverless Overview<span class="caret"></span></a>
           <ul class="dropdown-menu">
+            <li><a href="serverless_prerequisites.html">Setup & Serverless Overview</a></li> 
             <li><a href="serverless_prerequisites.html#account_setup"><img src="images/bullet.png"/> Account Setup</a></li>
             <li><a href="serverless_prerequisites.html#students"><img src="images/bullet.png"/> Participants Pre-Reqs</a></li>
             <li><a href="serverless.html"><img src="images/bullet.png"/> Serverless Overview</a></li>
@@ -84,14 +85,17 @@ $(document).ready(function () {
           </ol>
         </li>
         <li class="dropdown">
-          <a class="dropdown-toggle" data-toggle="dropdown" href="serverless-chatbot.html#">Lab 3: Chatbox<span class="caret"></span></a>
+          <a class="dropdown-toggle" data-toggle="dropdown" href="serverless-chatbot.html#">Lab 3: Chatbot<span class="caret"></span></a>
           <ul class="dropdown-menu">
-            <li><a href="serverless-chatbot.html#overview">Lab 3: Serverless Chatbox</a></li>
+            <li><a href="serverless-chatbot.html#">Lab 3: Serverless Chatbot</a></li>
             <li><a href="serverless-chatbot.html#overview"><img src="images/bullet.png"/> Overview</a></li>
             <li><a href="serverless-chatbot.html#createbot"><img src="images/bullet.png"/> Create Amazon Lex Bot</a></li>
             <li><a href="serverless-chatbot.html#lamfulfill"><img src="images/bullet.png"/> AWS Lambda Fulfillment Function</a></li>
             <li><a href="serverless-chatbot.html#awslcfn"><img src="images/bullet.png"/> awslabs &amp; Cloudformation</a></li>
             <li><a href="serverless-chatbot.html#update_bot_config"><img src="images/bullet.png"/> Update Lex Bot Configuration</a></li>
+            <li><a href="serverless-chatbot.html#configure_setup"><img src="images/bullet.png"/> Configuring and Setup for your CI/CD Pipeline</a></li>
+            <li><a href="serverless-chatbot.html#modify_bot"><img src="images/bullet.png"/> Modifying the webapp Bot</a></li>
+            <li><a href="serverless-chatbot.html#include_bot"><img src="images/bullet.png"/> Incorporating the Amazon Lex Bot to our webapp</a></li>
           </ul>
         </li>
       </ul>
@@ -101,30 +105,34 @@ $(document).ready(function () {
   
 <div class="container">
 <h1 align="center">AWS Serverless Overview</h1>
-<font color="white">
-<listing class="pretext"AWS defines Serverless as services with the following features to be serverless: 
 
-    <img class="fade" src="images/serverless.png" />
+<listing class="pretext">AWS defines Serverless as services with the following features to be serverless: 
+
+    <img src="images/serverless.png" />
 </listing>
 <listing class="pretext">Serverless is associated with Lambda, but actually there are many AWS Services that are classified as serverless including but not limited to these:
 
-    <img class="fade" src="images/serverless_ecosystem.png"/>
+    <img src="images/serverless_ecosystem.png"/>
 
 </listing>
 <listing class="pretext">There are many Serverless Use Cases, such as:
 
-<img src="images/bullet.png">Serverless Static Website - Using a combination of Serverless services to build up all components of a static or dynamic website.
-<img src="images/bullet.png">Serverless Event Driven Processing - There are many scenarios in this category such as having an event listener (AWS Lambda) on an AWS S3 bucket, which in turn performs another action such as enriching the file and re-writing it to S3, or perhaps writing it to another service.  Streaming data though Kinesis can use AWS Lambda as an event listener as well. There are many other uses cases in this category.
-<img src="images/bullet.png">Serverless Orchestration - AWS Lambda is often use as the "glue" to orchestrate either the creation or management of AWS Services. Often in combination with other orchestration tools, AWS Step Functions and Lambda can help coordinate, visualise and invoke relevant actions during the launch, management and monitoring of Serverless and other components.
-<img src="images/bullet.png">Serverless Application Ecosystem (e.g. AI, Mobile & IoT) - There are many more uses cases in the broader ecosystem, such as with components that utilize various Artificial Intelligence (AI) Services such as Amazon Lex or Amazon Rekognition to provide enhanced capabilities. Similarly, Serverless components play a large role in the Mobile and IoT space.
+<img src="images/bullet.png"> Serverless Static Website - Using a combination of Serverless services to build up all components of a static or dynamic website.
+
+<img src="images/bullet.png"> Serverless Event Driven Processing - There are many scenarios in this category such as having an event listener (AWS Lambda) on an AWS S3 bucket, which in turn performs another action such as enriching the file and re-writing it to S3, or perhaps writing it to another service.  Streaming data though Kinesis can use AWS Lambda as an event listener as well. There are many other uses cases in this category.
+
+<img src="images/bullet.png"> Serverless Orchestration - AWS Lambda is often use as the "glue" to orchestrate either the creation or management of AWS Services. Often in combination with other orchestration tools, AWS Step Functions and Lambda can help coordinate, visualise and invoke relevant actions during the launch, management and monitoring of Serverless and other components.
+
+<img src="images/bullet.png"> Serverless Application Ecosystem (e.g. AI, Mobile & IoT) - There are many more uses cases in the broader ecosystem, such as with components that utilize various Artificial Intelligence (AI) Services such as Amazon Lex or Amazon Rekognition to provide enhanced capabilities. Similarly, Serverless components play a large role in the Mobile and IoT space.
+
 </listing>
 
-<listing class="pretext">This Serverless Workshop introduces the basics of serverless applications using AWS Lambda, Amazon API Gateway, AWS Step Functions, Amazon DynamoDB, Amazon Cognito, computational dispatch and machine learning via Amazon EMR (Spark) and other AWS services. We will be building a web application that provides the following features: A Pet Matching Service, A Voice and Text Chatbot using Amazon Lex.
+<listing class="pretext"> This Serverless Workshop introduces the basics of serverless applications using AWS Lambda, Amazon API Gateway, AWS Step Functions, Amazon DynamoDB, Amazon Cognito, computational dispatch and machine learning via Amazon EMR (Spark) and other AWS services. We will be building a web application that provides the following features: A Pet Matching Service, A Voice and Text Chatbot using Amazon Lex.
 
-The web application stores static files such as html, images, css and javascript  pages in S3.  Updates/posts to thefrom the application invoke API Gateway requests. All dynamic content is retrieved via API Gateway and interfaces to the serverless backend.  Use cases from the client that submit data for processing are routed to scalable compute processing (Amazon EMR Spark). 
-<br/>
-   <img class="fade" src="images/serverless-arch.png " />
-<br/>
+The web application stores static files such as html, images, css and javascript  pages in S3.  Updates/posts from the application invoke API Gateway. All dynamic content is retrieved via API Gateway and interfaces to the serverless backend.  
+
+   <img src="images/serverless-arch.png " />
+
 This lab takes the approach of starting simple and building up, and endeavours to have participants work in 
 <img src="images/bullet.png">  Understand Serverless concepts and feel comfortable using them 
 <img src="images/bullet.png">  Familiarize yourselves with Serverless Development and how to integrate into build pipelines
@@ -134,7 +142,6 @@ This lab takes the approach of starting simple and building up, and endeavours t
 
 </listing>
 
-</font>
 </div>
 </body>
 </html>
