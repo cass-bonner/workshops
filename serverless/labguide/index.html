@@ -20,7 +20,7 @@
     clipboard.on('error', function(e) {
         console.log(e);
     });
-    var shiftWindow = function() { scrollBy(0, -70) };
+    var shiftWindow = function() { scrollBy(0, -100) };
 if (location.hash) shiftWindow();
 window.addEventListener("hashchange", shiftWindow);
 
@@ -45,10 +45,11 @@ $(document).ready(function () {
     </div>
     <div class="collapse navbar-collapse" id="myNavbar">
       <ul class="nav navbar-nav">
-        <li><a href="index.html#">AWS Serverless Workshop</a></li>
+        <li><a href="index.html#">AWS Serverless <br/>PetMatch Workshop</a></li>
         <li class="dropdown">
           <a class="dropdown-toggle" data-toggle="dropdown" href="serverless_prerequisites.html#">Setup & Serverless Overview<span class="caret"></span></a>
           <ul class="dropdown-menu">
+            <li><a href="serverless_prerequisites.html">Setup & Serverless Overview</a></li>
             <li><a href="serverless_prerequisites.html#account_setup"><img src="images/bullet.png"/> Account Setup</a></li>
             <li><a href="serverless_prerequisites.html#students"><img src="images/bullet.png"/> Participants Pre-Reqs</a></li>
             <li><a href="serverless.html"><img src="images/bullet.png"/> Serverless Overview</a></li>
@@ -84,14 +85,17 @@ $(document).ready(function () {
           </ol>
         </li>
         <li class="dropdown">
-          <a class="dropdown-toggle" data-toggle="dropdown" href="serverless-chatbot.html#">Lab 3: Chatbox<span class="caret"></span></a>
+          <a class="dropdown-toggle" data-toggle="dropdown" href="serverless-chatbot.html">Lab 3: Chatbot<span class="caret"></span></a>
           <ul class="dropdown-menu">
-            <li><a href="serverless-chatbot.html#overview">Lab 3: Serverless Chatbox</a></li>
+            <li><a href="serverless-chatbot.html">Lab 3: Serverless Chatbot</a></li>
             <li><a href="serverless-chatbot.html#overview"><img src="images/bullet.png"/> Overview</a></li>
             <li><a href="serverless-chatbot.html#createbot"><img src="images/bullet.png"/> Create Amazon Lex Bot</a></li>
             <li><a href="serverless-chatbot.html#lamfulfill"><img src="images/bullet.png"/> AWS Lambda Fulfillment Function</a></li>
             <li><a href="serverless-chatbot.html#awslcfn"><img src="images/bullet.png"/> awslabs &amp; Cloudformation</a></li>
             <li><a href="serverless-chatbot.html#update_bot_config"><img src="images/bullet.png"/> Update Lex Bot Configuration</a></li>
+            <li><a href="serverless-chatbot.html#configure_setup"><img src="images/bullet.png"/> Configuring and Setup for your CI/CD Pipeline</a></li>
+            <li><a href="serverless-chatbot.html#modify_bot"><img src="images/bullet.png"/> Modifying the webapp Bot</a></li>
+            <li><a href="serverless-chatbot.html#include_bot"><img src="images/bullet.png"/> Incorporating the Amazon Lex Bot to our webapp</a></li>
           </ul>
         </li>
       </ul>
@@ -100,15 +104,15 @@ $(document).ready(function () {
 </nav>
   
 <div class="container">
-<h1 align="center">AWS Serverless Workshop</h1>
-<listing class="pretext"><table cellpadding="20px"  align="center">
+<h1 align="center">AWS Serverless PetMatch Workshop</h1>
+<listing class="pretext"><table cellpadding="100"  align="center">
 <tr>
-<td width="12%"><a target="_blank" style="target-new: tab;" href="http://docs.aws.amazon.com/AmazonS3/latest/gsg/GetStartedWithS3.html"><img src="images/s3.png"/><br/>Amazon S3</a></td>
-<td width="12%"><a target="_blank" style="target-new: tab;" href="http://docs.aws.amazon.com/apigateway/latest/developerguide/welcome.html"><img src="images/apigateway.png"/><br/>Amazon Api Gateway</a></td>
-<td width="12%"><a target="_blank" style="target-new: tab;" href="http://docs.aws.amazon.com/lambda/latest/dg/welcome.html"><img src="images/lambda.png"/><br/>AWS Lambda</a></td>
-<td width="12%"><a target="_blank" style="target-new: tab;" href="http://docs.aws.amazon.com/step-functions/latest/dg/welcome.html"><img src="images/step-functions.png"/><br/>AWS Step Functions</a></td>
-<td width="12%"><a target="_blank" style="target-new: tab;" href="http://docs.aws.amazon.com/amazondynamodb/latest/gettingstartedguide/Welcome.html"><img src="images/dynamodb.png"/><br/>Amazon DynamoDB</a></td>
-<td width="12%"><a target="_blank" style="target-new: tab;" href="http://docs.aws.amazon.com/cognito/latest/developerguide/what-is-amazon-cognito.html"><img src="images/cognito.png"/><br/>Amazon Cgnito</a></td>
+<td width="12%"><a target="_blank" style="target-new: tab;" href="http://docs.aws.amazon.com/AmazonS3/latest/gsg/GetStartedWithS3.html"><img src="images/s3.png"/><br/><br/>Amazon S3</a></td>
+<td width="12%"><a target="_blank" style="target-new: tab;" href="http://docs.aws.amazon.com/apigateway/latest/developerguide/welcome.html"><img src="images/apigateway.png"/><br/>Amazon <br/>API Gateway</a></td>
+<td width="12%"><a target="_blank" style="target-new: tab;" href="http://docs.aws.amazon.com/lambda/latest/dg/welcome.html"><img src="images/lambda.png"/><br/><br/>AWS Lambda</a></td>
+<td width="12%"><center><a target="_blank" style="target-new: tab;" href="http://docs.aws.amazon.com/step-functions/latest/dg/welcome.html"><img src="images/step-functions.png"/><br/>AWS <br/>Step Functions</a></center></td>
+<td width="12%"><a target="_blank" style="target-new: tab;" href="http://docs.aws.amazon.com/amazondynamodb/latest/gettingstartedguide/Welcome.html"><img src="images/dynamodb.png"/><br/>Amazon <br/>DynamoDB</a></td>
+<td width="12%"><a target="_blank" style="target-new: tab;" href="http://docs.aws.amazon.com/cognito/latest/developerguide/what-is-amazon-cognito.html"><img src="images/cognito.png"/><br/>Amazon <br/>Cognito</a></td>
 <td width="12%"><a target="_blank" style="target-new: tab;" href="http://docs.aws.amazon.com/IAM/latest/UserGuide/"><img src="images/iam.png"/><br/><a href="http://docs.aws.amazon.com/IAM/latest/UserGuide/">AWS IAM</a></td>
 <td width="12%"><a target="_blank" style="target-new: tab;" href="https://vuejs.org/"><img src="images/vue.png"/><br/>Vue.js</a></td>
 </tr>
