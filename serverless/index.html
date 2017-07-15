@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>AWS Serverless Workshop</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <link rel="stylesheet" type="text/css" href="serverless.css" />
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<body background="images/background.png">
+<script src="js/clipboard.js-master/dist/clipboard.min.js"></script>
+
+    <script>
+    var clipboard = new Clipboard('.btn');
+    clipboard.on('success', function(e) {
+        console.log(e);
+    });
+    clipboard.on('error', function(e) {
+        console.log(e);
+    });
+    var shiftWindow = function() { scrollBy(0, -100) };
+if (location.hash) shiftWindow();
+window.addEventListener("hashchange", shiftWindow);
+
+
+$(document).ready(function () {
+        $('ul.nav > li').click(function (e) {
+    //        e.preventDefault();
+            $('ul.nav > li').removeClass('active');
+            $(this).addClass('active');                
+        });            
+    });
+    </script>
+<nav class="navbar navbar-inverse navbar-fixed-top">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>                        
+      </button>
+      <a class="navbar-brand" href="https://aws.amazon.com">  <img src="images/aws_icon.png"/></a>
+    </div>
+    <div class="collapse navbar-collapse" id="myNavbar">
+      <ul class="nav navbar-nav">
+        <li><a href="index.html#">AWS Serverless <br/>PetMatch Workshop</a></li>
+        <li class="dropdown">
+          <a class="dropdown-toggle" data-toggle="dropdown" href="serverless-dynamic-website.html#">Workshops<span class="caret"></span></a>
+          <ol type="1" class="dropdown-menu">
+                  <li><a href="petmatch/index.html#">Workshop 1: Pet Match</a></li>
+          </ol>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+  
+<div class="container">
+<h1 align="center">AWS Serverless Workshops</h1>
+<listing class="pretext"><table cellpadding="100"  align="center">
+<tr>
+<td width="12%"><a target="_blank" style="target-new: tab;" href="http://docs.aws.amazon.com/AmazonS3/latest/gsg/GetStartedWithS3.html"><img src="images/s3.png"/><br/><br/>Amazon S3</a></td>
+<td width="12%"><a target="_blank" style="target-new: tab;" href="http://docs.aws.amazon.com/apigateway/latest/developerguide/welcome.html"><img src="images/apigateway.png"/><br/>Amazon <br/>API Gateway</a></td>
+<td width="12%"><a target="_blank" style="target-new: tab;" href="http://docs.aws.amazon.com/lambda/latest/dg/welcome.html"><img src="images/lambda.png"/><br/><br/>AWS Lambda</a></td>
+<td width="12%"><center><a target="_blank" style="target-new: tab;" href="http://docs.aws.amazon.com/step-functions/latest/dg/welcome.html"><img src="images/step-functions.png"/><br/>AWS <br/>Step Functions</a></center></td>
+<td width="12%"><a target="_blank" style="target-new: tab;" href="http://docs.aws.amazon.com/amazondynamodb/latest/gettingstartedguide/Welcome.html"><img src="images/dynamodb.png"/><br/>Amazon <br/>DynamoDB</a></td>
+<td width="12%"><a target="_blank" style="target-new: tab;" href="http://docs.aws.amazon.com/cognito/latest/developerguide/what-is-amazon-cognito.html"><img src="images/cognito.png"/><br/>Amazon <br/>Cognito</a></td>
+<td width="12%"><a target="_blank" style="target-new: tab;" href="http://docs.aws.amazon.com/IAM/latest/UserGuide/"><img src="images/iam.png"/><br/><a href="http://docs.aws.amazon.com/IAM/latest/UserGuide/">AWS IAM</a></td>
+<td width="12%"><a target="_blank" style="target-new: tab;" href="https://vuejs.org/"><img src="images/vue.png"/><br/>Vue.js</a></td>
+</tr>
+</table></listing>
+<listing class="pretext">The AWS Serverless workshops provide detailed, hands-on labs that intend to provide familiarity with AWS Serverless Concepts and Services, as well as provide hands-on skills to navigate the various services and build solutions on your own. At this point the labs have only one lab:
+
+<img src="images/bullet.png"><a href="petmatch/index.html">Serverless Pet Match Workshop</a> for guidance. This page also provides more context on what we will be building so you may want to check it out regardless.
+
+</listing>
+
+</div>
+</body>
+</html>

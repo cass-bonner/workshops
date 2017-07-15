@@ -1,0 +1,16 @@
+{
+  "iframeOrigin": "https://lex-web-ui-pipeline-cvu6zg5mywac-webappbucket-v872dz236xkm.s3.amazonaws.com",
+  "aws": {
+    "cognitoPoolId": "us-east-1:4db68352-a219-4090-9b1e-efd442279205",
+    "region": "us-east-1"
+  },
+  "iframeConfig": {
+    "lex": {
+      "sessionAttributes": {}
+    },
+    "ui": {},
+    "recorder": {
+      "preset": "speech_recognition"
+    }
+  }
+}

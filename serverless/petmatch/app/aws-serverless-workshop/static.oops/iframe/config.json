@@ -1,0 +1,18 @@
+{
+  "iframeOrigin": "https://cass-pet-match-ui-pipeline-882m3yhdn-webappbucket-dqpfuxfnxixo.s3.amazonaws.com",
+  "aws": {
+    "cognitoPoolId": "us-east-1:4db68352-a219-4090-9b1e-efd442279205",
+    "region": "us-east-1"
+  },
+  "iframeConfig": {
+    "lex": {
+      "sessionAttributes": {}
+    },
+    "ui": {
+      "parentOrigin": "http://cass-aws-serverless-workshop.s3-website-us-east-1.amazonaws.com/#/petmatch"
+    },
+    "recorder": {
+      "preset": "speech_recognition"
+    }
+  }
+}

@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Bootstrap Example</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <link rel="stylesheet" type="text/css" href="serverless.css" />
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<body background="images/background.png">
+<script src="js/clipboard.js-master/dist/clipboard.min.js"></script>
+
+    <script>
+    var clipboard = new Clipboard('.btn');
+    clipboard.on('success', function(e) {
+        console.log(e);
+    });
+    clipboard.on('error', function(e) {
+        console.log(e);
+    });
+    var shiftWindow = function() { scrollBy(0, -100) };
+if (location.hash) shiftWindow();
+window.addEventListener("hashchange", shiftWindow);
+
+
+$(document).ready(function () {
+        $('ul.nav > li').click(function (e) {
+    //        e.preventDefault();
+            $('ul.nav > li').removeClass('active');
+            $(this).addClass('active');                
+        });            
+    });
+    </script>
+<nav class="navbar navbar-inverse navbar-fixed-top">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>                        
+      </button>
+      <a class="navbar-brand" href="https://aws.amazon.com">  <img src="images/aws_icon.png"/></a>
+    </div>
+    <div class="collapse navbar-collapse" id="myNavbar">
+      <ul class="nav navbar-nav">
+        <li><a href="index.html#">AWS Serverless <br/>PetMatch Workshop</a></li>
+        <li class="dropdown">
+          <a class="dropdown-toggle" data-toggle="dropdown" href="serverless_prerequisites.html#">Setup & Serverless Overview<span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li><a href="serverless_prerequisites.html">Setup & Serverless Overview</a></li>
+            <li><a href="serverless_prerequisites.html#account_setup"><img src="images/bullet.png"/> Account Setup</a></li>
+            <li><a href="serverless_prerequisites.html#students"><img src="images/bullet.png"/> Participants Pre-Reqs</a></li>
+            <li><a href="serverless.html"><img src="images/bullet.png"/> Serverless Overview</a></li>
+          </ul>
+        </li>
+        <li class="dropdown">
+          <a class="dropdown-toggle" data-toggle="dropdown" href="serverless-static-website.html#">Lab 1: Static Site<span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li><a href="serverless-static-website.html#">Lab1: Serverless Static Website</a></li>
+            <li><a href="serverless-static-website.html#overview"><img src="images/bullet.png"/> Overview</a></li>
+            <li><a href="serverless-static-website.html#vue"><img src="images/bullet.png"/> Vue.js</a></li>
+            <li><a href="serverless-static-website.html#s3"><img src="images/bullet.png"/> Amazon S3</a></li>
+          </ul>
+        </li>
+        <li class="dropdown">
+          <a class="dropdown-toggle" data-toggle="dropdown" href="serverless-dynamic-website.html#">Lab 2: Dynamic Site<span class="caret"></span></a>
+          <ol type="1" class="dropdown-menu">
+                  <li><a href="serverless-dynamic-website.html#">Lab 2: Serverless Dynamic Website</a></li>
+                  <li><a href="serverless-dynamic-website.html#overview"><img src="images/bullet.png"/> Overview</a></li>
+                  <li><a href="serverless-dynamic-website.html#usecase"><img src="images/bullet.png"/> Use Case (Pet Type Match)</a></li>
+                  <li><a href="serverless-dynamic-website.html#apigsetup"><img src="images/bullet.png"/> Amazon API Gateway - Define API</a></li>
+                  <li><a href="serverless-dynamic-website.html#steplogic"><img src="images/bullet.png"/> AWS Step Functions - Coordinate Logic</a></li>
+                  <li><a href="serverless-dynamic-website.html#ddbcreate"><img src="images/bullet.png"/> Amazon DynamoDB - Create PetMatchType Tabl</a></li>
+                  <li><a href="serverless-dynamic-website.html#lamprime"><img src="images/bullet.png"/> AWS Lambda - Prime PetMatchType Table</a></li>
+                  <li><a href="serverless-dynamic-website.html#ddbverify"><img src="images/bullet.png"/> Amazon DynamoDB - Verify Table</a></li>
+                  <li><a href="serverless-dynamic-website.html#ddbquery"><img src="images/bullet.png"/> AWS Lambda - Query PetMatchType Table</a></li>
+                  <li><a href="serverless-dynamic-website.html#sfnupd"><img src="images/bullet.png"/> AWS Step Functions - Update State Machine w/ Lambda</a></li>
+                  <li><a href="serverless-dynamic-website.html#invstate"><img src="images/bullet.png"/> AWS Lambda - Step Functions: Start & Describe Execution</a></li>
+                  <li><a href="serverless-dynamic-website.html#apiginteg"><img src="images/bullet.png"/> Amazon API Gateway - Integrate API to Lambda</a></li>
+                  <li><a href="serverless-dynamic-website.html#cognito"><img src="images/bullet.png"/> Amazon Cognito - Establish Identity Pool & Permissions</a></li>
+                  <li><a href="serverless-dynamic-website.html#updwebcog"><img src="images/bullet.png"/> webapp - Update with Cognito</a></li>
+                  <li><a href="serverless-dynamic-website.html#apigunauth"><img src="images/bullet.png"/> Amazon API Gateway - Activate IAM (unauthenticated identity)</a></li>
+          </ol>
+        </li>
+        <li class="dropdown">
+          <a class="dropdown-toggle" data-toggle="dropdown" href="serverless-chatbot.html">Lab 3: Chatbot<span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li><a href="serverless-chatbot.html">Lab 3: Serverless Chatbot</a></li>
+            <li><a href="serverless-chatbot.html#overview"><img src="images/bullet.png"/> Overview</a></li>
+            <li><a href="serverless-chatbot.html#createbot"><img src="images/bullet.png"/> Create Amazon Lex Bot</a></li>
+            <li><a href="serverless-chatbot.html#lamfulfill"><img src="images/bullet.png"/> AWS Lambda Fulfillment Function</a></li>
+            <li><a href="serverless-chatbot.html#awslcfn"><img src="images/bullet.png"/> awslabs &amp; Cloudformation</a></li>
+            <li><a href="serverless-chatbot.html#update_bot_config"><img src="images/bullet.png"/> Update Lex Bot Configuration</a></li>
+            <li><a href="serverless-chatbot.html#configure_setup"><img src="images/bullet.png"/> Configuring and Setup for your CI/CD Pipeline</a></li>
+            <li><a href="serverless-chatbot.html#modify_bot"><img src="images/bullet.png"/> Modifying the webapp Bot</a></li>
+            <li><a href="serverless-chatbot.html#include_bot"><img src="images/bullet.png"/> Incorporating the Amazon Lex Bot to our webapp</a></li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+  
+<div class="container">
+<h1 align="center">AWS Serverless PetMatch Workshop</h1>
+<listing class="pretext"><table cellpadding="100"  align="center">
+<tr>
+<td width="12%"><a target="_blank" style="target-new: tab;" href="http://docs.aws.amazon.com/AmazonS3/latest/gsg/GetStartedWithS3.html"><img src="images/s3.png"/><br/><br/>Amazon S3</a></td>
+<td width="12%"><a target="_blank" style="target-new: tab;" href="http://docs.aws.amazon.com/apigateway/latest/developerguide/welcome.html"><img src="images/apigateway.png"/><br/>Amazon <br/>API Gateway</a></td>
+<td width="12%"><a target="_blank" style="target-new: tab;" href="http://docs.aws.amazon.com/lambda/latest/dg/welcome.html"><img src="images/lambda.png"/><br/><br/>AWS Lambda</a></td>
+<td width="12%"><center><a target="_blank" style="target-new: tab;" href="http://docs.aws.amazon.com/step-functions/latest/dg/welcome.html"><img src="images/step-functions.png"/><br/>AWS <br/>Step Functions</a></center></td>
+<td width="12%"><a target="_blank" style="target-new: tab;" href="http://docs.aws.amazon.com/amazondynamodb/latest/gettingstartedguide/Welcome.html"><img src="images/dynamodb.png"/><br/>Amazon <br/>DynamoDB</a></td>
+<td width="12%"><a target="_blank" style="target-new: tab;" href="http://docs.aws.amazon.com/cognito/latest/developerguide/what-is-amazon-cognito.html"><img src="images/cognito.png"/><br/>Amazon <br/>Cognito</a></td>
+<td width="12%"><a target="_blank" style="target-new: tab;" href="http://docs.aws.amazon.com/IAM/latest/UserGuide/"><img src="images/iam.png"/><br/><a href="http://docs.aws.amazon.com/IAM/latest/UserGuide/">AWS IAM</a></td>
+<td width="12%"><a target="_blank" style="target-new: tab;" href="https://vuejs.org/"><img src="images/vue.png"/><br/>Vue.js</a></td>
+</tr>
+</table></listing>
+<listing class="pretext">The AWS Serverless workshop is series of Labs that intend to provide familiarity with AWS Serverless Concepts and Services, as well as provide hands-on skills to navigate the various services and build solutions on your own.
+
+The Workshop is laid out as follows:
+
+<img src="images/bullet.png"> There is some Account Setup and Pre-Requisites for the users, especially if you plan to run the workshop at scale. Please see the <a href="serverless_prerequisites.html">Pre-Requisite Instructions</a> for guidance.
+
+<img src="images/bullet.png"> For those not familiar with Serverless Concepts and Terminology, please see the <a href="serverless.html">Serverless Overview</a> for guidance. This page also provides more context on what we will be building so you may want to check it out regardless.
+
+<img src="images/bullet.png"> From there, there are a series of Labs that need to be ran in order.  We start with a simple static website, and then introduce dynamic components, add in an Amazon Lex Chatbot, and continue our journey from there. Please start your journey with the <a href="serverless-static-website.html">Serverless Static Website</a>, navigating the labs either through the fix navigation bar at the top or through internal ToCs. There is also a link to the next lab at the bottom of each page.
+
+</listing>
+
+</div>
+</body>
+</html>

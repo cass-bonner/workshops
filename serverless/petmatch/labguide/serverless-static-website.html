@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Bootstrap Example</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <link rel="stylesheet" type="text/css" href="serverless.css" />
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<body background="images/background.png">
+<script src="js/clipboard.js-master/dist/clipboard.min.js"></script>
+
+    <script>
+    var clipboard = new Clipboard('.btn');
+    clipboard.on('success', function(e) {
+        console.log(e);
+    });
+    clipboard.on('error', function(e) {
+        console.log(e);
+    });
+    var shiftWindow = function() { scrollBy(0, -100) };
+if (location.hash) shiftWindow();
+window.addEventListener("hashchange", shiftWindow);
+
+
+$(document).ready(function () {
+        $('ul.nav > li').click(function (e) {
+    //        e.preventDefault();
+            $('ul.nav > li').removeClass('active');
+            $(this).addClass('active');                
+        });            
+    });
+    </script>
+<nav class="navbar navbar-inverse navbar-fixed-top">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>                        
+      </button>
+      <a class="navbar-brand" href="https://aws.amazon.com">  <img src="images/aws_icon.png"/></a>
+    </div>
+    <div class="collapse navbar-collapse" id="myNavbar">
+      <ul class="nav navbar-nav">
+        <li><a href="index.html#">AWS Serverless <br/>PetMatch Workshop</a></li>
+        <li class="dropdown">
+          <a class="dropdown-toggle" data-toggle="dropdown" href="serverless_prerequisites.html#">Setup & Serverless Overview<span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li><a href="serverless_prerequisites.html">Setup & Serverless Overview</a></li> 
+            <li><a href="serverless_prerequisites.html#account_setup"><img src="images/bullet.png"/> Account Setup</a></li>
+            <li><a href="serverless_prerequisites.html#students"><img src="images/bullet.png"/> Participants Pre-Reqs</a></li>
+            <li><a href="serverless.html"><img src="images/bullet.png"/> Serverless Overview</a></li>
+          </ul>
+        </li>
+        <li class="dropdown">
+          <a class="dropdown-toggle" data-toggle="dropdown" href="serverless-static-website.html#">Lab 1: Static Site<span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li><a href="serverless-static-website.html#">Lab1: Serverless Static Website</a></li>
+            <li><a href="serverless-static-website.html#overview"><img src="images/bullet.png"/> Overview</a></li>
+            <li><a href="serverless-static-website.html#vue"><img src="images/bullet.png"/> Vue.js</a></li>
+            <li><a href="serverless-static-website.html#s3"><img src="images/bullet.png"/> Amazon S3</a></li>
+          </ul>
+        </li>
+        <li class="dropdown">
+          <a class="dropdown-toggle" data-toggle="dropdown" href="serverless-dynamic-website.html#">Lab 2: Dynamic Site<span class="caret"></span></a>
+          <ol type="1" class="dropdown-menu">
+                  <li><a href="serverless-dynamic-website.html#">Lab 2: Serverless Dynamic Website</a></li>
+                  <li><a href="serverless-dynamic-website.html#overview"><img src="images/bullet.png"/> Overview</a></li>
+                  <li><a href="serverless-dynamic-website.html#usecase"><img src="images/bullet.png"/> Use Case (Pet Type Match)</a></li>
+                  <li><a href="serverless-dynamic-website.html#apigsetup"><img src="images/bullet.png"/> Amazon API Gateway - Define API</a></li>
+                  <li><a href="serverless-dynamic-website.html#steplogic"><img src="images/bullet.png"/> AWS Step Functions - Coordinate Logic</a></li>
+                  <li><a href="serverless-dynamic-website.html#ddbcreate"><img src="images/bullet.png"/> Amazon DynamoDB - Create PetMatchType Tabl</a></li>
+                  <li><a href="serverless-dynamic-website.html#lamprime"><img src="images/bullet.png"/> AWS Lambda - Prime PetMatchType Table</a></li>
+                  <li><a href="serverless-dynamic-website.html#ddbverify"><img src="images/bullet.png"/> Amazon DynamoDB - Verify Table</a></li>
+                  <li><a href="serverless-dynamic-website.html#ddbquery"><img src="images/bullet.png"/> AWS Lambda - Query PetMatchType Table</a></li>
+                  <li><a href="serverless-dynamic-website.html#sfnupd"><img src="images/bullet.png"/> AWS Step Functions - Update State Machine w/ Lambda</a></li>
+                  <li><a href="serverless-dynamic-website.html#invstate"><img src="images/bullet.png"/> AWS Lambda - Step Functions: Start & Describe Execution</a></li>
+                  <li><a href="serverless-dynamic-website.html#apiginteg"><img src="images/bullet.png"/> Amazon API Gateway - Integrate API to Lambda</a></li>
+                  <li><a href="serverless-dynamic-website.html#cognito"><img src="images/bullet.png"/> Amazon Cognito - Establish Identity Pool & Permissions</a></li>
+                  <li><a href="serverless-dynamic-website.html#updwebcog"><img src="images/bullet.png"/> webapp - Update with Cognito</a></li>
+                  <li><a href="serverless-dynamic-website.html#apigunauth"><img src="images/bullet.png"/> Amazon API Gateway - Activate IAM (unauthenticated identity)</a></li>
+          </ol>
+        </li>
+        <li class="dropdown">
+          <a class="dropdown-toggle" data-toggle="dropdown" href="serverless-chatbot.html#">Lab 3: Chatbot<span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li><a href="serverless-chatbot.html#">Lab 3: Serverless Chatbot</a></li>
+            <li><a href="serverless-chatbot.html#overview"><img src="images/bullet.png"/> Overview</a></li>
+            <li><a href="serverless-chatbot.html#createbot"><img src="images/bullet.png"/> Create Amazon Lex Bot</a></li>
+            <li><a href="serverless-chatbot.html#lamfulfill"><img src="images/bullet.png"/> AWS Lambda Fulfillment Function</a></li>
+            <li><a href="serverless-chatbot.html#awslcfn"><img src="images/bullet.png"/> awslabs &amp; Cloudformation</a></li>
+            <li><a href="serverless-chatbot.html#update_bot_config"><img src="images/bullet.png"/> Update Lex Bot Configuration</a></li>
+            <li><a href="serverless-chatbot.html#configure_setup"><img src="images/bullet.png"/> Configuring and Setup for your CI/CD Pipeline</a></li>
+            <li><a href="serverless-chatbot.html#modify_bot"><img src="images/bullet.png"/> Modifying the webapp Bot</a></li>
+            <li><a href="serverless-chatbot.html#include_bot"><img src="images/bullet.png"/> Incorporating the Amazon Lex Bot to our webapp</a></li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+  
+<div class="container">
+<h1 align="center">Serverless static website on AWS</h1>
+<listing class="pretext">
+<table cellpadding="20px"  align="center">
+<tr>
+<td width="50%"><a href="http://docs.aws.amazon.com/AmazonS3/latest/gsg/GetStartedWithS3.html"><img src="images/s3.png"/><br/>Amazon S3</a></td>
+<td width="50%"><a href="https://vuejs.org/"><img src="images/vue.png"/><br/>Vue.js</a></td>
+</tr>
+</table>
+
+</listing>
+
+<h4>Overview</h4>
+<listing class="pretext">Serverless has many use cases as we have discussed, but is a great fit for building a webite. After all what do you need:
+
+    <img src="images/serverless-arch.png" />
+
+</listing>
+<listing class="pretext">
+We minimally need:
+<ul>
+<li> A User Interface (UI). Of course, the solution will be different whether you want to build a traditional website intended for a browser, a native app for mobile phones, etc. For this workshop, we'll just build basic html/javascript for a traditional website but the design would not vary significantly.  We will use <a target="_blank" style="target-new: tab;" href="http://docs.aws.amazon.com/AmazonS3/latest/dev/Welcome.html">S3 (Simple Storage Service)</a> to serve our static file requests. In practice, you'd likely want to include a <a target="_blank" style="target-new: tab;" href="http://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/Introduction.html">Content Delivery Network (CDN)</a> such as AWS Cloud Front to serve the static files from Edge locations to provide better performance for the users. 
+<li> Dynamic Components. The static files come from S3, but few websites only need static content. We might need to post data to our backend, or query data specific to a given user, or their particular request. We will use <a target="_blank" style="target-new: tab;" href="http://docs.aws.amazon.com/apigateway/latest/developerguide/welcome.html">Amazon API Gateway</a> to define the various dynamic use cases (APIs) for which we need to serve our pages in the next section of this workshop. We will use <a target="_blank" style="target-new: tab;" href="http://docs.aws.amazon.com/lambda/latest/dg/welcome.html">AWS Lambda</a> to run the dynamic logic/code to fulfil our requests, which does not require you to provision or manage servers, and manages resiliency and scale on your behalf.  We use <a target="_blank" style="target-new: tab;" href="http://docs.aws.amazon.com/step-functions/latest/dg/welcome.html">AWS Step Functions</a> to coordinate the components of distributed applications and microservices using visual workflows. 
+
+  Enough reading, let's get started!
+</listing>
+
+
+<h4 id="vue">vue.js & setup</h4>
+<listing class="pretext">Let's start by setting up a project in your local IDE (or you're welcome to work directly with an editor).</listing>
+<ol type="1"><li><listing class="pretext">Navigate to the aws-serverless-workshop directory that you created in the <a href="serverless-prerequisites.html"> Prerequisites</a> - OR - setup a project pointing to this directory in your IDE.</li></listing>
+<li><listing class="pretext">Let's start up the Vue dev mode server so that we can see our application. From directly within the aws-serverless-workshop, type:
+  <button class="btn btn-outline-secondary btn-sm" data-clipboard-target="#startdev">Copy</button>
+<pre><span id="startdev">
+
+npm run dev
+
+</span></pre>
+This should start the Vue server and launch a Hello World Vue webapp that you saw when you performed the pre-requisites.  But let's brand our site and bring in some css that's more in line with what we want our website to look like. 
+</li></listing>
+
+
+<li><listing class="pretext">From a command prompt or terminal shell, ensure you are in the aws-serverless-workshop directory. Let's first back up some files that we are about to overwrite so that we can understand what's changed:
+<br/>
+  <button class="btn btn-outline-secondary btn-sm" data-clipboard-target="#backup">Copy</button>
+<pre><span id="backup">
+cp index.html index.html.bak
+cp src/App.vue src/App.vue.bak
+cp src/components/Hello.vue src/components/Hello.vue.bak
+cp src/router/index.js src/router/index.js.bak
+</span></pre>
+</li></listing>
+<li><listing class="pretext">Now, run the following commands which will copy some updates to those two files as well as bring in some additional resources.
+
+PLEASE ensure you are inside the aws-serverless-workshop when you run this command!
+
+  <button class="btn btn-outline-secondary btn-sm" data-clipboard-target="#awscp">Copy</button>
+<pre><span id="awscp">
+aws s3 cp s3://aws-serverless-workshop/PetMatch/resources/index.html index.html 
+aws s3 cp s3://aws-serverless-workshop/PetMatch/resources/App.vue src/App.vue
+aws s3 cp s3://aws-serverless-workshop/PetMatch/resources/components/Hello.vue src/components/Hello.vue
+aws s3 cp s3://aws-serverless-workshop/PetMatch/resources/router/index.js src/router/index.js
+aws s3 cp s3://aws-serverless-workshop/PetMatch/resources/components/PetMatch.vue src/components/PetMatch.vue
+aws s3 cp s3://aws-serverless-workshop/PetMatch/resources/components/PetMatch.vue.withApig src/components/PetMatch.vue.withApig
+aws s3 cp s3://aws-serverless-workshop/PetMatch/resources/components/PetMatch.vue.withCognito src/components/PetMatch.vue.withCognito
+aws s3 cp s3://aws-serverless-workshop/PetMatch/resources/components/config.json src/components/config.json
+aws s3 cp s3://aws-serverless-workshop/PetMatch/resources/assets/app.css src/assets
+aws s3 cp --recursive s3://aws-serverless-workshop/PetMatch/resources/static static 
+</span></pre>
+</listing>
+<li><listing class="pretext">
+Optional: Now let's diff the files to see what's changed. (if on Windows try FC instead of diff and DEL instead of rm) 
+
+ <button class="btn btn-outline-secondary btn-sm" data-clipboard-target="#diff">Copy</button>
+<pre><span id="diff">
+diff index.html index.html.bak
+diff src/App.vue src/App.vue.bak
+diff src/components/Hello.vue src/components/Hello.vue.bak
+diff src/router/index.js src/router/index.js.bak
+rm index.html.bak
+rm src/App.vue.bak 
+rm src/components/Hello.vue.bak
+rm src/router/index.js.bak
+</span></pre>
+</listing></li>
+
+<h4 id="s3">Amazon S3</h4>
+<li><listing class="pretext">Now we have a simple static webapp utilizing a progressive framework that will help as we continue to build it out. Let's host our website on s3 now so it becomes a proper website not something running off our local drive.:) 
+
+First, we create an S3 bucket called [your unique id]-aws-serverless-workshop. You can do this via the AWS console or with the following CLI commands - but <font class="redc">be sure to CHANGE</font> [your unique id] with your login id at work (or another unique identifier). You should probably open a text editor to replace your name as a number of the commands will require replacement. If you do this via the console be sure to configure it as a website with the index document as index.html and the error document as error.html.
+
+Because we are going to host this in an S3 Bucket, we are using a cli command to setup our s3 bucket as a website. This will modify the properties tab on your bucket. Once you run this command navigate to your S3 bucket and check out the properties tab to see the effect.
+
+NB: Ensure the region in your ~/.aws/config is set to the region in which you will be working. Recommendation is us-east
+
+<br/>
+ <button class="btn btn-outline-secondary btn-sm" data-clipboard-target="#mkbucket">Copy</button>
+<pre><span id="mkbucket">
+
+aws s3 mb s3://[your unique id]-aws-serverless-workshop
+aws s3 website s3://[your unique id]-aws-serverless-workshop/ --index-document index.html --error-document error.html
+
+</span></pre>
+</listing></li>
+
+<li><listing class="pretext">You may remember that we are running Vue.js in dev mode at this point. We need to convert it to prod mode before we deploy it. 
+
+<b>Navigate directly inside the 'aws-serverless-workshop' directory</b>. With the next command we use 'npm run build' to build our Vue app in prod mode, and then we push it to our S3 bucket. <font class="redc">Be sure to CHANGE</font> [your unique id] to your actual unique id.
+<br/>
+ <button class="btn btn-outline-secondary btn-sm" data-clipboard-target="#prd">Copy</button>
+<pre><span id="prd">
+
+npm run build && aws s3 sync dist s3://[your unique id]-aws-serverless-workshop --acl public-read
+
+</span></pre>
+</listing></li>
+
+
+<li><listing class="pretext">Now navigate to the console and find your S3 bucket. Refresh the bucket and notice that your files have been uploaded from the previous step.</listing></li>
+
+<li><listing class="pretext">Select your bucket and click on the 'Properties' tab.  Select 'Static Website Hosting' and copy your URL and enter it into a new tab. You should see a page that looks like this:
+
+<img src="images/vue-app-screenshot.png"/>
+
+Note that this technique of deploying via cli is handy for POCs and isolated development but in practice you would commit your changes to source control repository and utilize CI/CD tooling to drive your full build pipeline.
+
+</listing></li>
+</ol>
+<br/>
+<br/>
+
+
+<listing class="pretext">Cool? Well not really as it's not really doing much. So <a href="serverless-dynamic-website.html"/>&nbsp;&nbsp;&nbsp;&lt;Now let's create the dynamic components&gt;</a></listing>
+
+</div>
+</body>
+</html>
+

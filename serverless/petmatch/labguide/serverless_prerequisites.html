@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Bootstrap Example</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <link rel="stylesheet" type="text/css" href="serverless.css" />
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<body background="images/background.png">
+<script src="js/clipboard.js-master/dist/clipboard.min.js"></script>
+
+    <script>
+    var clipboard = new Clipboard('.btn');
+    clipboard.on('success', function(e) {
+        console.log(e);
+    });
+    clipboard.on('error', function(e) {
+        console.log(e);
+    });
+    var shiftWindow = function() { scrollBy(0, -100) };
+if (location.hash) shiftWindow();
+window.addEventListener("hashchange", shiftWindow);
+
+
+$(document).ready(function () {
+        $('ul.nav > li').click(function (e) {
+    //        e.preventDefault();
+            $('ul.nav > li').removeClass('active');
+            $(this).addClass('active');                
+        });            
+    });
+    </script>
+<nav class="navbar navbar-inverse navbar-fixed-top">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>                        
+      </button>
+      <a class="navbar-brand" href="https://aws.amazon.com">  <img src="images/aws_icon.png"/></a>
+    </div>
+    <div class="collapse navbar-collapse" id="myNavbar">
+      <ul class="nav navbar-nav">
+        <li><a href="index.html#">AWS Serverless <br/>PetMatch Workshop</a></li>
+        <li class="dropdown">
+          <a class="dropdown-toggle" data-toggle="dropdown" href="serverless_prerequisites.html#">Setup & Serverless Overview<span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li><a href="serverless_prerequisites.html">Setup & Serverless Overview</a></li> 
+            <li><a href="serverless_prerequisites.html#account_setup"><img src="images/bullet.png"/> Account Setup</a></li>
+            <li><a href="serverless_prerequisites.html#students"><img src="images/bullet.png"/> Participants Pre-Reqs</a></li>
+            <li><a href="serverless.html"><img src="images/bullet.png"/> Serverless Overview</a></li>
+          </ul>
+        </li>
+        <li class="dropdown">
+          <a class="dropdown-toggle" data-toggle="dropdown" href="serverless-static-website.html#">Lab 1: Static Site<span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li><a href="serverless-static-website.html#">Lab1: Serverless Static Website</a></li>
+            <li><a href="serverless-static-website.html#overview"><img src="images/bullet.png"/> Overview</a></li>
+            <li><a href="serverless-static-website.html#vue"><img src="images/bullet.png"/> Vue.js</a></li>
+            <li><a href="serverless-static-website.html#s3"><img src="images/bullet.png"/> Amazon S3</a></li>
+          </ul>
+        </li>
+        <li class="dropdown">
+          <a class="dropdown-toggle" data-toggle="dropdown" href="serverless-dynamic-website.html#">Lab 2: Dynamic Site<span class="caret"></span></a>
+          <ol type="1" class="dropdown-menu">
+                  <li><a href="serverless-dynamic-website.html#">Lab 2: Serverless Dynamic Website</a></li>
+                  <li><a href="serverless-dynamic-website.html#overview"><img src="images/bullet.png"/> Overview</a></li>
+                  <li><a href="serverless-dynamic-website.html#usecase"><img src="images/bullet.png"/> Use Case (Pet Type Match)</a></li>
+                  <li><a href="serverless-dynamic-website.html#apigsetup"><img src="images/bullet.png"/> Amazon API Gateway - Define API</a></li>
+                  <li><a href="serverless-dynamic-website.html#steplogic"><img src="images/bullet.png"/> AWS Step Functions - Coordinate Logic</a></li>
+                  <li><a href="serverless-dynamic-website.html#ddbcreate"><img src="images/bullet.png"/> Amazon DynamoDB - Create PetMatchType Tabl</a></li>
+                  <li><a href="serverless-dynamic-website.html#lamprime"><img src="images/bullet.png"/> AWS Lambda - Prime PetMatchType Table</a></li>
+                  <li><a href="serverless-dynamic-website.html#ddbverify"><img src="images/bullet.png"/> Amazon DynamoDB - Verify Table</a></li>
+                  <li><a href="serverless-dynamic-website.html#ddbquery"><img src="images/bullet.png"/> AWS Lambda - Query PetMatchType Table</a></li>
+                  <li><a href="serverless-dynamic-website.html#sfnupd"><img src="images/bullet.png"/> AWS Step Functions - Update State Machine w/ Lambda</a></li>
+                  <li><a href="serverless-dynamic-website.html#invstate"><img src="images/bullet.png"/> AWS Lambda - Step Functions: Start & Describe Execution</a></li>
+                  <li><a href="serverless-dynamic-website.html#apiginteg"><img src="images/bullet.png"/> Amazon API Gateway - Integrate API to Lambda</a></li>
+                  <li><a href="serverless-dynamic-website.html#cognito"><img src="images/bullet.png"/> Amazon Cognito - Establish Identity Pool & Permissions</a></li>
+                  <li><a href="serverless-dynamic-website.html#updwebcog"><img src="images/bullet.png"/> webapp - Update with Cognito</a></li>
+                  <li><a href="serverless-dynamic-website.html#apigunauth"><img src="images/bullet.png"/> Amazon API Gateway - Activate IAM (unauthenticated identity)</a></li>
+          </ol>
+        </li>
+        <li class="dropdown">
+          <a class="dropdown-toggle" data-toggle="dropdown" href="serverless-chatbot.html#">Lab 3: Chatbot<span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li><a href="serverless-chatbot.html#">Lab 3: Serverless Chatbot</a></li>
+            <li><a href="serverless-chatbot.html#overview"><img src="images/bullet.png"/> Overview</a></li>
+            <li><a href="serverless-chatbot.html#createbot"><img src="images/bullet.png"/> Create Amazon Lex Bot</a></li>
+            <li><a href="serverless-chatbot.html#lamfulfill"><img src="images/bullet.png"/> AWS Lambda Fulfillment Function</a></li>
+            <li><a href="serverless-chatbot.html#awslcfn"><img src="images/bullet.png"/> awslabs &amp; Cloudformation</a></li>
+            <li><a href="serverless-chatbot.html#update_bot_config"><img src="images/bullet.png"/> Update Lex Bot Configuration</a></li>
+            <li><a href="serverless-chatbot.html#configure_setup"><img src="images/bullet.png"/> Configuring and Setup for your CI/CD Pipeline</a></li>
+            <li><a href="serverless-chatbot.html#modify_bot"><img src="images/bullet.png"/> Modifying the webapp Bot</a></li>
+            <li><a href="serverless-chatbot.html#include_bot"><img src="images/bullet.png"/> Incorporating the Amazon Lex Bot to our webapp</a></li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+  
+<div class="container">
+<h1 align="center">AWS Serverless PetMatch Workshop - Prerequisites</h1>
+<listing class="pretext">
+<img src="images/bullet.png"> <a href="#account_setup">Account Setup Pre-reqs</a>
+<img src="images/bullet.png"> <a href="#students">Pre-reqs for Participants</a>
+</listing>
+<div w3-include-html="toc.html"></div>
+<h4 id="account_setup"> Account Setup</h4>
+<listing class="pretext">
+The account setup for the Serverless Workshop depends upon the context in which you would like run the workshop as follows:
+
+<img src="images/bullet.png"/>Single Account per Participant. If you have your own account, or are planning to run the workshop with a number of participants, who all have their own account, then you will simply need the valid permissions for your users to create all the relevant services utilized by the workshop. If you have admin access to your account, you will have all required access but if you don't you can either request admin access or request the two policies on the adminForUser the permissions which you will require (see below).
+
+<img src="images/bullet.png"/>QwikLab Accounts. If you are coordinating this workshop with AWS, you may be able to leverage a QwikLabs environment for the lab. With this approach, you will not be able to explore the workshop after the lab but if this is acceptable to you, then please coordinate with AWS on this approach.
+
+<img src="images/bullet.png"/>If neither of the two above approaches work, you may want to run a workshop in one account shared by many participants. You may hit some AWS limits utilizing a default AWS account with this approach, but if you can get the limits increased or are willing to wait a bit to pass some throttling limits this should work fine.
+
+<ol> 
+TODO HERE - add in information about IAM users with linke TODO
+
+<li>Create an IAM user for every participant, and give them a password as well as a set of AWS Access Keys and give these to the participants. Assign them a role with the appropriate permissions. 
+<li> The IAM Users should be assigned to a group, and ideally the group policies should apply least privileges policy (only grant access as required). In a hackathon account, one way to do this would be to constrain access to required services for policies where the user can only write (in addition to read actions) for resources named with their username. Perform the following steps to setup the group for the users. 
+<ul>
+<li>We're going to create Custom Policies which provides access to all APIs, but only for resources with the AWS username in it (where supported).  This can be performed via AWS CLI (command line interface), SDKs or via console. The console instructions are provided here.
+
+<li>Navigate to  <a target="_blank" style="target-new: tab;" href="https://console.aws.amazon.com/iam/">IAM in the console</a>, and then select the 'Policies' in the left Navigation Bar. We're going to create two new custom policies for our Group which we will create in a moment.
+<li>Select 'Create Policy', and then 'Create Your Own Policy'.   
+<li>For Policy Name, enter adminForUsername-P1, and then copy the policy below and enter it into the 'Policy Document'. Please be sure to <font class="redc">substitute your account number</font> for the XXXXXXXXX blocks.
+
+    <button class="btn btn-outline-secondary btn-sm" data-clipboard-target="#username-policy-1">Copy</button>
+<pre>
+<span id="username-policy-1">{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "usernamePolicy1",
+            "Effect": "Allow",
+            "Action": [
+                "*"
+            ],
+            "Resource": [
+                "arn:aws:dynamodb:*:XXXXXXXXX:table/*${aws:username}*",
+                "arn:aws:sts::XXXXXXXXX:federated-user/*${aws:username}*",
+                "arn:aws:sts::XXXXXXXXX:assumed-role/*${aws:username}*/*${aws:username}*",
+                "arn:aws:lex:*::bot:*${aws:username}*:*",
+                "arn:aws:lex:*::intent:*${aws:username}*:*",
+                "arn:aws:lex:*::slottype:*${aws:username}*:*",
+                "arn:aws:lambda:*:XXXXXXXXX:function:*${aws:username}*",
+                "arn:aws:lambda:*:XXXXXXXXX:function:*${aws:username}*/*",
+                "arn:aws:lambda:*:XXXXXXXXX:event-source-mappings:*",
+                "arn:aws:cloudformation:us-east-1:XXXXXXXXX:stack/*${aws:username}*/*",
+                "arn:aws:cloudsearch:us-east-1:XXXXXXXXX:domain/*${aws:username}*",
+                "arn:aws:cloudtrail:us-east-1:XXXXXXXXX:trail/*${aws:username}*",
+                "arn:aws:events:us-east-1:XXXXXXXXX:rule/*${aws:username}*",
+                "arn:aws:logs:us-east-1:*:*",
+                "arn:aws:codebuild:us-east-1:XXXXXXXXX:project/*${aws:username}*",
+                "arn:aws:codebuild:us-east-1:XXXXXXXXX:build/*${aws:username}*:*",
+                "arn:aws:codecommit:us-east-1:XXXXXXXXX:*${aws:username}*",
+                "arn:aws:codedeploy:us-east-1:XXXXXXXXX:application:*${aws:username}*",
+                "arn:aws:codedeploy:us-east-1:XXXXXXXXX:instance/*${aws:username}*",
+                "arn:aws:config:us-east-1:XXXXXXXXX:config-rule/*${aws:username}*",
+                "arn:aws:codepipeline:us-east-1:XXXXXXXXX:*${aws:username}*",
+                "arn:aws:codestar:us-east-1:XXXXXXXXX:*${aws:username}*",
+                "arn:aws:ecr:us-east-1:XXXXXXXXX:repository/*${aws:username}*",
+                "arn:aws:ecs:us-east-1:XXXXXXXXX:cluster/*${aws:username}*",
+                "arn:aws:ecs:us-east-1:XXXXXXXXX:container-instance/*",
+                "arn:aws:ecs:us-east-1:XXXXXXXXX:task-definition/*${aws:username}*:*",
+                "arn:aws:ecs:us-east-1:XXXXXXXXX:service/*${aws:username}*",
+                "arn:aws:ecs:us-east-1:XXXXXXXXX:task/*",
+                "arn:aws:ecs:us-east-1:XXXXXXXXX:container/*"
+            ]
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "logs:CreateLogGroup",
+                "logs:CreateLogStream",
+                "logs:PutLogEvents"
+            ],
+            "Resource": "*"
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "cloudwatch:GetMetricStatistics",
+                "cloudwatch:DescribeAlarms",
+                "cloudwatch:DescribeAlarmsForMetric",
+                "kms:DescribeKey",
+                "kms:ListAliases",
+                "lambda:GetPolicy",
+                "lambda:ListFunctions",
+                "lex:*",
+                "polly:DescribeVoices",
+                "polly:SynthesizeSpeech"
+            ],
+            "Resource": [
+                "*"
+            ]
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "lambda:AddPermission",
+                "lambda:RemovePermission"
+            ],
+            "Resource": "*",
+            "Condition": {
+                "StringLike": {
+                    "lambda:Principal": "lex.amazonaws.com"
+                }
+            }
+        }
+    ]
+}
+
+</span>
+</pre>
+
+<li>Save that policy and create another policy with the same process, only using the Policy Name adminForUsername-P2 this time.
+    <button class="btn btn-outline-secondary btn-sm" data-clipboard-target="#username-policy-2">Copy</button>
+<pre>
+<span id="username-policy-2">{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "usernamePolicy2",
+            "Effect": "Allow",
+            "Action": [
+                "*"
+            ],
+            "Resource": [
+                "arn:aws:apigateway:*::/*",
+                "arn:aws:apigateway:*::*:/*",
+                "arn:aws:apigateway:*::/restapis/*",
+                "arn:aws:apigateway:*::/restapis/*/*",
+                "arn:aws:states:*:XXXXXXXXX:activity:*${aws:username}*",
+                "arn:aws:states:*:XXXXXXXXX:stateMachine:*",
+                "arn:aws:states:*:XXXXXXXXX:execution:*${aws:username}*:*",
+                "arn:aws:s3:::*${aws:username}*/*",
+                "arn:aws:s3:::*${aws:username}*",
+                "arn:aws:autoscaling:us-east-1:XXXXXXXXX:scalingPolicy:*"
+            ]
+        },
+        {
+            "Effect": "Allow",
+            "Action": "iam:*",
+            "Resource": "*"
+        },
+        {
+            "Effect": "Allow",
+            "Action": "states:*",
+            "Resource": "*"
+        },
+        {
+            "Effect": "Allow",
+            "Action": "lambda:ListFunctions",
+            "Resource": "*"
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "cognito-identity:*",
+                "cognito-idp:*",
+                "cognito-sync:*",
+                "iam:ListRoles",
+                "iam:ListOpenIdConnectProviders",
+                "sns:ListPlatformApplications"
+            ],
+            "Resource": "*"
+        }
+    ]
+}
+</span>
+</pre>
+
+<li>Once both policies are create, navigate to IAM -> Groups -> and select 'Create New Group'. Use adminForUsername as the group name. Click 'Next Step'
+<li>In the 'Attach Policy' screen, to the right of the 'Filter' select 'No Filter' and ensure that the Filter displays 'All Types'. 
+<li>In the filter search box, enter 'ReadOnlyAccess' then tick the checkbox to select this policy.
+<li>Replace the 'ReadOnlyAccess' filter with 'adminForUsername' and then tick both the checkboxes to select the two policies we just created in the previous step.
+<li>Select 'Next Step' and then 'Create Group'.
+<li> Add <font class="redc">all required users</font> to this group.
+</ul>
+
+<li> There are four service roles required for the Serverless Workshop that either can be created manually (via script or console) or we can supply a <a href="http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/Welcome.html">CloudFormation template</a>. We recommend the team or users create them as a learning experience. For context, the roles include:
+
+a) Role to provide trust to lambda to invoke Amazon DynamoDB APIs that support querying a table which includes the user's name <br/>
+b) Role to provide trust to lambda to invoke Amazon DynamoDB APIs that support writing (batch) to a table which includes the user's name <br/>
+c) Role to provide trust to lambda to invoke another Lambda function which will be used within our Amazon Lex Bot<br/>
+d) Role to provide trust to lambda to invoke AWS Step Functions APIs for start-execution & describe-execution which are named as a particular user.
+
+Because the service roles are not running as a particular user, we can not use the IAM policy variable as we can for the policies created for the users, so the username will need to be static if we go with this approach. You can also grant less granular policies but it is not recommended. 
+
+If you use the below samples please be sure to change the userid to the static name of the userid. This can be done via a script or we can ask each participant to defines the roles. Create a customer policy with the below definition and then Create a role and attach it as a custom policy.
+
+<ul>
+<li>Lamda Trust Role (+policies): [userid]-lambda-write-ddb
+    <button class="btn btn-outline-secondary btn-sm" data-clipboard-target="#Lambda-policy-write">Copy</button>
+<pre>
+<span id="Lambda-policy-write">{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "[userid]LambdaWriteDdb",
+            "Effect": "Allow",
+            "Action": [
+                "dynamodb:PutItem",
+                "dynamodb:UpdateItem",
+                "dynamodb:DeleteItem",
+                "dynamodb:BatchWriteItem"
+            ],
+            "Resource": [
+                "arn:aws:dynamodb:*:XXXXX:table/*INSERT_STATIC_USERNAME_HERE*"
+            ]
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "logs:CreateLogGroup",
+                "logs:CreateLogStream",
+                "logs:PutLogEvents"
+            ],
+            "Resource": "*"
+        }
+    ]
+}
+
+</pre></span>
+
+<li> Lambda Trust Role (+DynamoDB Read): [userid]-lambda-read-ddb
+    <button class="btn btn-outline-secondary btn-sm" data-clipboard-target="#Lambda-policy-read">Copy</button>
+<pre><span id="Lambda-policy-read">{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "[insert-userid]LambdaReadDdb",
+            "Effect": "Allow",
+            "Action": [
+                "dynamodb:GetItem",
+                "dynamodb:BatchGetItem",
+                "dynamodb:Query"
+            ],
+            "Resource": [
+                "arn:aws:dynamodb:*:*:table/*INSERT_STATIC_USERNAME_HERE*"
+            ]
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "logs:CreateLogGroup",
+                "logs:CreateLogStream",
+                "logs:PutLogEvents"
+            ],
+            "Resource": "*"
+        }
+    ]
+}
+</pre></span>
+
+<li> Lambda Trust Role (invoke Other Lambdas): [userid]-lambda-invoke-lambda
+    <button class="btn btn-outline-secondary btn-sm" data-clipboard-target="#Lambda-invoke">Copy</button>
+<pre><span id="Lambda-invoke">{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "[STATIC_NAME]LambdaInvokeLambda",
+            "Effect": "Allow",
+            "Action": [
+                "lambda:InvokeFunction"
+            ],
+            "Resource": [
+                "arn:aws:lambda:*:XXXXX:function:*STATIC_NAME*"
+            ]
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "logs:CreateLogGroup",
+                "logs:CreateLogStream",
+                "logs:PutLogEvents"
+            ],
+            "Resource": "*"
+        }
+    ]
+}
+</pre></span>
+<li>Lamda Trust Role (+policies for StepFunctions APIs): [userid]-lambda-sfn-start-desc-exec
+
+    <button class="btn btn-outline-secondary btn-sm" data-clipboard-target="#lam-sfn">Copy</button>
+<pre>
+<span id="lam-sfn">{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "[userId]SfnStartDescExec",
+            "Effect": "Allow",
+            "Action": [
+                "states:StartExecution",
+                "states:DescribeExecution"
+            ],
+            "Resource": [
+                "arn:aws:states:ap-southeast-2:XXXXX:execution:*[userid]*:*",
+                "arn:aws:states:ap-southeast-2:XXXXX:stateMachine:*[userid]*"
+            ]
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "logs:CreateLogGroup",
+                "logs:CreateLogStream",
+                "logs:PutLogEvents"
+            ],
+            "Resource": "*"
+        }
+    ]
+}
+</pre></span>
+</ul>
+</ul>
+</ul>
+</listing>
+<h4 id="students"> Preparation for Students</h4>
+<listing class="pretext">
+<ol type="1">
+<li>A laptop with access to AWS console
+<li>If using windows, ideally have Cygwin installed.
+<li>The laptop must have the AWS Command Line Interface (CLI) set up on it. Instructions to <a href="http://docs.aws.amazon.com/cli/latest/userguide/installing.html">install the CLI are here</a>.
+<li>The laptop must be configured for the AWS Command Line Interface (CLI). Instructions to <a href="http://docs.aws.amazon.com/cli/latest/userguide/cli-chap-getting-started.html">configure the CLI are here</a>. Each participant should use their own AWS Access Key Pairs provided by the Dev Guild.
+<li>You can either make a directory called aws-workspace (or whatever you'd like to call it) - or you are welcome to work in an existing npm package if that is what you would like. Either way, you need to start working in a directory where npm has been initialized. If you want to start fresh please run the following and except all the defaults for initialization (or fill them in if you prefer):
+
+    <button class="btn btn-outline-secondary btn-sm" data-clipboard-target="#bild">Copy</button>
+<pre>
+<span id="bild">
+mkdir aws-workspace
+cd  aws-workspace
+npm init
+</span></pre>
+</li>
+<h3>Node.js & npm</h3>
+<li>Node must be installed. If you do not have it please download from the <a href="https://nodejs.org/en/download/">Node.js</a> site. 
+<li>npm is included with node, but you should be on a recent version. You can update npm with 'npm install npm@latest -g'</li>
+
+Verify node and npm installation and versions:
+
+    <button class="btn btn-outline-secondary btn-sm" data-clipboard-target="#testnpm">Copy</button>
+<pre>
+<span id="testnpm">
+node -v
+npm -v
+</span></pre>
+</li>
+<li> If npm is not installed, copy and paste the to get started commands or click copy here: 
+    <button class="btn btn-outline-secondary btn-sm" data-clipboard-target="#npminstall">Copy</button>
+<pre>
+<span id="npminstall">
+npm install
+npm run dev
+</span></pre>
+<h3>vue.js</h3>
+<<a href="https://en.wikipedia.org/wiki/Vue.js">From Wikipedia</a>>
+
+Vue.js (commonly referred to as Vue; pronounced /vjuː/, like view) is an open-source progressive JavaScript framework for building user interfaces. Integration into projects that use other JavaScript libraries is made easy with Vue because it is designed to be incrementally adoptable. Vue can also function as a web application framework capable of powering advanced single-page applications.
+
+According to a 2016 JavaScript survey, Vue has an 89% developer satisfaction rating. It accumulates around 95 GitHub stars per day, and is the 10th most starred project on GitHub of all time.</i>
+
+<li>There's not enough javascript frameworks around :) so let's check it out! The process for most modern js frameworks will be similiar to this. Copy the below - you can skil the first two lines if you do have vue installed.
+
+    <button class="btn btn-outline-secondary btn-sm" data-clipboard-target="#setupvue">Copy</button>
+<pre>
+<span id="setupvue">npm install vue
+ npm install --global vue-cli
+ vue init webpack aws-serverless-workshop 
+</pre>
+Hit return for project name taking the default aws-serverless-workshop as well as all the other defaults.
+
+<li>Once the vue init is complete, run these commands:
+
+    <button class="btn btn-outline-secondary btn-sm" data-clipboard-target="#setupvue">Copy</button>
+<pre>
+<span id="setupvue">cd aws-serverless-workshop 
+ npm install
+ npm run dev</span>
+</pre>
+
+
+<li>It should start the dev server, and open a page in your browser such as this:
+
+<div class="vue-image-blurred-edge"></div>
+<img src="images/vue-screenshot.png"/>
+
+<li>You can kill the vue dev server now.
+</ul>
+<li>Every participant should test their command line access with this command:
+    <script src="js/clipboard.js-master/dist/clipboard.min.js"></script>
+    <script>
+    var clipboard = new Clipboard('.btn');
+    clipboard.on('success', function(e) {
+        console.log(e);
+    });
+    clipboard.on('error', function(e) {
+        console.log(e);
+    });
+    </script>
+    <button class="btn btn-outline-secondary btn-sm" data-clipboard-target="#role">Copy</button>
+<pre> <span id="role">aws iam get-role --role-name [userid]-lambda-read-ddb</span> </pre>
+<li>You should see something such as:
+<div class="black-background"><pre class="black-background">
+labguide: bonnerca$ aws iam get-role --role-name -lambda-read-ddb 
+   {
+    "Role": {
+        "AssumeRolePolicyDocument": {
+            "Version": "2012-10-17", 
+            "Statement": [
+                {
+                    "Action": "sts:AssumeRole", 
+                    "Effect": "Allow", 
+                    "Principal": {
+                        "Service": "lambda.amazonaws.com"
+                    }
+                }
+            ]
+        }, 
+        "RoleId": "XXXXX", 
+        "CreateDate": "2017-06-16T05:51:15Z", 
+        "RoleName": "userid-lambda-read-ddb", 
+        "Path": "/", 
+        "Arn": "arn:aws:iam::XXXXXXXX:role/userid-lambda-read-ddb"
+    }
+}
+
+</pre>
+<li>An IAM role is similar to a user, in that it is an AWS identity with permission policies that determine what the identity can and cannot do in AWS. However, instead of being uniquely associated with one person, a role is intended to be assumable by anyone who needs it. Also, a role does not have any credentials (password or access keys) associated with it. Instead, if a user is assigned to a role, access keys are created dynamically and provided to the user.
+
+You can use roles to delegate access to users, applications, or services that don't normally have access to your AWS resources. For example, you might want to grant users in your AWS account access to resources they don't usually have, or grant users in one AWS account access to resources in another account. Or you might want to allow a mobile app to use AWS resources, but not want to embed AWS keys within the app (where they can be difficult to rotate and where users can potentially extract them). Sometimes you want to give AWS access to users who already have identities defined outside of AWS, such as in your corporate directory. Or, you might want to grant access to your account to third parties so that they can perform an audit on your resources.
+
+For these scenarios, you can delegate access to AWS resources using an IAM role. This section introduces roles and the different ways you can use them, when and how to choose among approaches, and how to create, manage, switch to (or assume), and delete roles.
+
+<li>This role was created as part of the setup to the lab. It allows AWS Lambda (you'll learn more about that in the lab) to assume a role and when it is invoked. The role has an inline policy which looks like this:
+
+<pre><span id="Lambda-policy-read">
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "[userid]LambdaWriteDdb",
+            "Effect": "Allow",
+            "Action": [
+                "dynamodb:GetItem",
+                "dynamodb:BatchGetItem",
+                "dynamodb:Query"
+            ],
+            "Resource": [
+                "arn:aws:dynamodb:*:*:table/*userid*"
+            ]
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "logs:CreateLogGroup",
+                "logs:CreateLogStream",
+                "logs:PutLogEvents"
+            ],
+            "Resource": "*"
+        }
+    ]
+}
+</pre></span>
+
+<li>This policy statement says to allow the ability to invoke three APIs to DynamoDB: getItem, BatchGetItem, and Query.  And the resource on which they are allows to invoke those APIs is for a table that contains the user's id (yours should display your id).  Therefore, it only allows the running Lambda function to query only tables with your user id.  The second statement allows the Lambda Function to write to AWS CloudWatch Logs,  which allows you to monitor, store, and access your log files from Amazon Elastic Compute Cloud (Amazon EC2) instances, AWS CloudTrail, and other sources. You can then retrieve the associated log data from CloudWatch Logs.
+
+This is in line with the AWS IAM Best Practices as you only want to give access to the resources required. We will be defining a Lambda function that only needs to read from Amazon DynamoDB (a fully managed NoSQL database service - more on this in the Labs), as well as another Lambda function that can write to DynamoDB. The write policy for the Lambda that needs to write looks like this:
+<pre>
+<span id="Lambda-policy-write">
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "[userid]LambdaWriteDdb",
+            "Effect": "Allow",
+            "Action": [
+                "dynamodb:PutItem",
+                "dynamodb:UpdateItem",
+                "dynamodb:DeleteItem",
+                "dynamodb:BatchWriteItem"
+            ],
+            "Resource": [
+                "arn:aws:dynamodb:*:XXXXX:table/*userid*"
+            ]
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "logs:CreateLogGroup",
+                "logs:CreateLogStream",
+                "logs:PutLogEvents"
+            ],
+            "Resource": "*"
+        }
+    ]
+}
+</span></pre>
+<li>This role ensures that your Lambda function can only write to tables that have your name in it. Note how it grants additional API Invocations for PutItem, BatchWriteItem, etc. This role would only be provided to a Lambda that needs to write. Dynamo DB actually supports fine-grained controls which you can read about <a href="https://aws.amazon.com/blogs/aws/fine-grained-access-control-for-amazon-dynamodb/">here</a>. 
+</ol>
+</div>
+</listing>
+
+ 
+<listing class="pretext">Now that the Pre-Reqs are in order, continue to the <a href="serverless.html"/>&lt;Serverless Workshop&gt;</a></listing>
+
+</font>
+</div>
+
+</body>
+</html>

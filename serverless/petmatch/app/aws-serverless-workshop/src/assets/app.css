@@ -1,0 +1,47 @@
+  html *
+  { 
+     #font-size: 1em ;
+     color: white ;
+     font-family: Calibri, Candara, Segoe, "Segoe UI", Optima, Arial, sans-serif; ;
+     line-height: 150%;
+  }
+  body {
+     margin:20px; padding:20px ;margin-top:20px;margin-left:20px;margin-right:20px;
+     background-color: grey;
+   }
+   p {
+    #padding: 2cm 4cm 3cm 4cm ;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    margin-right: 10px;
+    margin-left: 20px;
+
+  }
+pre {
+  background-color: black;
+  margin:20px; padding:7px ;margin-top:5px;margin-left:20px;margin-right:20px;
+}
+
+button {
+    background-color: grey; 
+    border: 5ps;
+    color: white;
+    padding: 12px 12px;
+    text-align: center;
+    text-decoration: none;
+    font-size: 12px;
+    margin:0px; padding:1px ;margin-top:0px;margin-left:40px;margin-right:0px;
+    border-radius: 8px;
+}
+ 
+li {
+     margin-top:20px;margin-left:20px;margin-right:20px;
+}
+select{
+    background: grey !important;
+    color:#FFF;
+}
+option:not(:checked) { 
+    background-color: white; 
+    color:#000;
+}

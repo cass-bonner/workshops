@@ -1,0 +1,5 @@
+{ 
+"stateMachineArn":"[your ARN]", 
+"input" : "$util.escapeJavaScript($input.json('$'))",
+"name" : "$util.parseJson($input.json('name'))-$context.requestId"
+}
